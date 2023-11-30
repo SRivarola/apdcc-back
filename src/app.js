@@ -36,6 +36,7 @@ const corsOptions = {
     "Custom-Header",
     "Access-Control-Allow-Origin",
   ],
+  AllowedOrigins: ["*"],
   credentials: true, // this allows to send back (to client) cookies
   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
   origin: "https://apdcc.vercel.app"
