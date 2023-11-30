@@ -16,7 +16,7 @@ switch (args.persistance) {
                 retries: 0
             }),
             secret: env.SECRET_SESSION,
-            resave: true,
+            resave: false,
             saveUninitialized: true
         });
         break;
