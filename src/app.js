@@ -40,7 +40,9 @@ const corsOptions = {
   origin: "https://apdcc.vercel.app",
   preflightContinue: false,
 };
-server.use(cors(corsOptions));
+server.options("*", cors(corsOptions));
+
+// server.use(cors(corsOptions));
 server.use(express.json());
 server.use(expressFileUpload())
 server.use(express.static((`${__dirname}/public`)))
