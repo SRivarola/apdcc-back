@@ -53,7 +53,7 @@ export default class AuthRouter extends MyRouter {
                     req.session.mail = req.body.mail;
                     req.session.role = req.user.role;
                     let userData = new loginDto(req.user)
-                    return res.status(200).cookie('token', req.session.token, { maxAge: 60*60*24*7*1000 }).json({
+                    return res.status(200).cookie('token', req.session.token, { maxAge: 60*60*24*7*1000, httpOnly: true, sameSite: 'none' }).json({
                         success: true,
                         user: userData,
                         message: req.session.mail + ' has started session'
