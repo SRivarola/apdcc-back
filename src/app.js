@@ -34,10 +34,11 @@ const corsOptions = {
     "X-Access-Token",
     "Authorization",
     "Custom-Header",
+    "Access-Control-Allow-Origin",
   ],
   credentials: true, // this allows to send back (to client) cookies
   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
-  origin: "https://apdcc.vercel.app/",
+  origin: "https://apdcc.vercel.app/*",
   preflightContinue: false,
 };
 server.use(cors(corsOptions));
