@@ -38,8 +38,7 @@ const corsOptions = {
   ],
   credentials: true, // this allows to send back (to client) cookies
   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
-  origin: "https://apdcc.vercel.app",
-  preflightContinue: false,
+  origin: "https://apdcc.vercel.app"
 };
 server.options("*", cors(corsOptions));
 
