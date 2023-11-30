@@ -29,7 +29,7 @@ const corsOptions = {
   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'X-Access-Token', 'Authorization', "Custom-Header"],
   credentials: true, // this allows to send back (to client) cookies
   methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-  origin: 'http://localhost:3000',
+  origin: 'https://apdcc.onrender.com/',
   preflightContinue: false,
 };
 server.use(cors(corsOptions));
