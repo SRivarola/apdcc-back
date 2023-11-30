@@ -43,7 +43,7 @@ const corsOptions = {
 };
 server.options("*", cors(corsOptions));
 
-server.use(cors());
+// server.use(cors());
 server.use(express.json());
 server.use(expressFileUpload())
 server.use(express.static((`${__dirname}/public`)))
