@@ -85,7 +85,7 @@ export default class AuthRouter extends MyRouter {
             }
         );
 
-        this.get(
+        this.post(
             '/current', 
             ['PUBLIC'], 
             passport.authenticate('current'), 
