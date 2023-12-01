@@ -58,9 +58,8 @@ export default class AuthRouter extends MyRouter {
                       .cookie("token", req.session.token, {
                         maxAge: 60 * 60 * 24 * 7 * 1000,
                         httpOnly: true,
-                        path: "/",
-                        domain: "https://apdcc.vercel.app",
                         sameSite: "none",
+                        secure: true
                       })
                       .json({
                         success: true,
