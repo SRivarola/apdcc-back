@@ -50,10 +50,10 @@ export default class AuthRouter extends MyRouter {
             create_token, 
             async (req, res, next) => {
                 try {
-                    console.log(res.headers)
                     req.session.mail = req.body.mail;
                     req.session.role = req.user.role;
                     let userData = new loginDto(req.user)
+                    console.log(req.session.token);
                     return res.status(200).cookie('token', req.session.token, { maxAge: 60*60*24*7*1000, httpOnly: true, sameSite: 'lax' }).json({
                         success: true,
                         user: userData,
