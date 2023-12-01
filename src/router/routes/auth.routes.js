@@ -50,6 +50,7 @@ export default class AuthRouter extends MyRouter {
             create_token, 
             async (req, res, next) => {
                 try {
+                    console.log(res.headers)
                     req.session.mail = req.body.mail;
                     req.session.role = req.user.role;
                     let userData = new loginDto(req.user)

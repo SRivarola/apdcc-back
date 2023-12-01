@@ -25,23 +25,6 @@ initializePassport();
 server.use(passport.initialize());
 server.use(passport.session());
 server.use(morgan('dev'))
-// const corsOptions = {
-//   allowedHeaders: [
-//     "Origin",
-//     "X-Requested-With",
-//     "Content-Type",
-//     "Accept",
-//     "X-Access-Token",
-//     "Authorization",
-//     "Custom-Header",
-//     "Access-Control-Allow-Origin",
-//   ],
-//   AllowedOrigins: ["*"],
-//   credentials: true, // this allows to send back (to client) cookies
-//   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
-//   origin: "https://apdcc.vercel.app"
-// };
-// server.options("*", cors(corsOptions));
 
 server.use(
   cors({
@@ -59,6 +42,7 @@ server.use(
     credentials: true,
   })
 );
+
 server.use(express.json());
 server.use(expressFileUpload())
 server.use(express.static((`${__dirname}/public`)))
