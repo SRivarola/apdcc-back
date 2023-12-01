@@ -40,7 +40,7 @@ export default class MyRouter {
         if (policies.includes('PUBLIC')) {
             return next();
         } else {
-            const token = req?.cookies['token'] || req?.headers.cookie;
+            const token = req?.headers.token;
             if (!token) {
                 return res.sendNotAuthenticatedError('Unauthenticated');
             } else {
