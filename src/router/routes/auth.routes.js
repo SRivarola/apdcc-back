@@ -59,7 +59,7 @@ export default class AuthRouter extends MyRouter {
                         maxAge: 60 * 60 * 24 * 7 * 1000,
                         httpOnly: true,
                         sameSite: "none",
-                        domain: "https://apdcc.vercel.app",
+                        domain: "https://apdcc.vercel.app/login",
                       })
                       .json({
                         success: true,
