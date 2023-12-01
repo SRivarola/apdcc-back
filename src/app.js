@@ -34,6 +34,7 @@ const corsOptions = {
     "X-Access-Token",
     "Authorization",
     "Custom-Header",
+    "Access-Control-Expose-Headers",
   ],
   credentials: true, // this allows to send back (to client) cookies
   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
