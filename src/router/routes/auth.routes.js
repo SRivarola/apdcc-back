@@ -53,14 +53,12 @@ export default class AuthRouter extends MyRouter {
                     req.session.mail = req.body.mail;
                     req.session.role = req.user.role;
                     let userData = new loginDto(req.user)
-                    console.log(req.session.token);
                     return res
                       .status(200)
                       .cookie("token", req.session.token, {
                         maxAge: 60 * 60 * 24 * 7 * 1000,
                         httpOnly: true,
-                        sameSite: "lax",
-                        domain: "https://apdcc.vercel.app",
+                        sameSite: "none",
                       })
                       .json({
                         success: true,
