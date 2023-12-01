@@ -25,23 +25,33 @@ initializePassport();
 server.use(passport.initialize());
 server.use(passport.session());
 server.use(morgan('dev'))
-const corsOptions = {
-  allowedHeaders: [
-    "Origin",
-    "X-Requested-With",
-    "Content-Type",
-    "Accept",
-    "X-Access-Token",
-    "Authorization",
-    "Custom-Header",
-    "Access-Control-Expose-Headers",
-  ],
-  credentials: true, // this allows to send back (to client) cookies
-  methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
-  origin: "http://localhost:5173",
-  preflightContinue: false,
-};
-server.use(cors(corsOptions));
+// const corsOptions = {
+//   allowedHeaders: [
+//     "Origin",
+//     "X-Requested-With",
+//     "Content-Type",
+//     "Accept",
+//     "X-Access-Token",
+//     "Authorization",
+//     "Custom-Header",
+//     "Access-Control-Expose-Headers",
+//   ],
+//   credentials: true, // this allows to send back (to client) cookies
+//   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
+//   origin: "http://localhost:5173",
+//   preflightContinue: false,
+// };
+// server.use(cors(corsOptions));
+server.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
 server.use(express.json());
 server.use(expressFileUpload())
 server.use(express.static((`${__dirname}/public`)))

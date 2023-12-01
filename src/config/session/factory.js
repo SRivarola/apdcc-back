@@ -17,7 +17,7 @@ switch (args.persistance) {
             }),
             secret: env.SECRET_SESSION,
             resave: true,
-            cookie: { secure: false },
+            // cookie: { secure: false },
             saveUninitialized: true
         });
         break;
@@ -29,7 +29,7 @@ switch (args.persistance) {
             ttl: 60 * 60 * 24 * 7,
           }),
           secret: env.SECRET_SESSION,
-          cookie: { secure: false },
+        //   cookie: { secure: false },
           resave: true,
           saveUninitialized: false,
         });
