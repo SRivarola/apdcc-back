@@ -17,19 +17,21 @@ switch (args.persistance) {
             }),
             secret: env.SECRET_SESSION,
             resave: true,
+            cookie: { secure: false },
             saveUninitialized: true
         });
         break;
 
     default: //MONGO
         sessions = expressSession({
-            store: MongoStore.create({
-                mongoUrl: env.LINK_MDB,
-                ttl: 60 * 60 * 24 * 7,
-            }),
-            secret: env.SECRET_SESSION,
-            resave: true,
-            saveUninitialized: false
+          store: MongoStore.create({
+            mongoUrl: env.LINK_MDB,
+            ttl: 60 * 60 * 24 * 7,
+          }),
+          secret: env.SECRET_SESSION,
+          cookie: { secure: false },
+          resave: true,
+          saveUninitialized: false,
         });
         break;
 }
