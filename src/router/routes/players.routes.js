@@ -94,7 +94,7 @@ export default class PlayersRouter extends MyRouter {
       "/", 
       ["PUBLIC"], 
       async (req, res, next) => {
-        
+
         try {
           const { state, team, page, category } = req.query;
 
@@ -163,7 +163,6 @@ export default class PlayersRouter extends MyRouter {
 
     this.get("/all", ["PUBLIC"], async (req, res, next) => {
       try {
-
         const { state, team, category, genre } = req.query;
 
         let bornYear;
