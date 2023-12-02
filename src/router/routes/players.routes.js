@@ -92,7 +92,7 @@ export default class PlayersRouter extends MyRouter {
 
     this.get(
       "/", 
-      ["ADMIN", "MANAGER"], 
+      ["PUBLIC"], 
       async (req, res, next) => {
         try {
           const { state, team, page, category } = req.query;
@@ -160,7 +160,7 @@ export default class PlayersRouter extends MyRouter {
       }
     );
 
-    this.get("/all", ["ADMIN", "MANAGER"], async (req, res, next) => {
+    this.get("/all", ["PUBLIC"], async (req, res, next) => {
       try {
         const { state, team, category, genre } = req.query;
 
@@ -213,7 +213,7 @@ export default class PlayersRouter extends MyRouter {
       }
     });
 
-    this.get("/:id", ["ADMIN", "MANAGER"], async (req, res, next) => {
+    this.get("/:id", ["PUBLIC"], async (req, res, next) => {
       try {
         let response = await controller.readById(req.params.id);
         if (response) {

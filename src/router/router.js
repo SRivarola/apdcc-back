@@ -41,7 +41,7 @@ export default class MyRouter {
             return next();
         } else {
             console.log(req?.cookies);
-            const token = req?.cookies.apdcc_token;
+            const token = req?.body.token;
             if (!token) {
                 return res.sendNotAuthenticatedError('Unauthenticated');
             } else {
