@@ -56,10 +56,6 @@ export default class AuthRouter extends MyRouter {
                     
                     return res
                         .status(200)
-                        .cookie(
-                            'apdcc_token', req.session.token, 
-                            { maxAge: 60*60*24*7*1000, domain: 'http://localhost:5173', httpOnly: true, sameSite: 'none' }
-                        )
                         .json({
                             success: true,
                             user: userData,
