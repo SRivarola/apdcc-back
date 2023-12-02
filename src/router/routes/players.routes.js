@@ -122,6 +122,7 @@ export default class PlayersRouter extends MyRouter {
                 : {},
               {
                 populate: { path: "country_id", select: "name" },
+                sort: { state: 'asc' },
                 lean: true,
                 limit: 10,
                 page: page ? page : 1,
