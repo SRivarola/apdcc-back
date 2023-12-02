@@ -29,6 +29,7 @@ const corsOptions = {
   allowedHeaders: [
     "Origin",
     "X-Requested-With",
+    "body",
     "Content-Type",
     "Accept",
     "X-Access-Token",

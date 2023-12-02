@@ -38,6 +38,12 @@ export default class MyRouter {
 
     handlePolicies = (policies) => async (req, res, next) => {
         if (policies.includes('PUBLIC')) {
+            if(req.headers.body) {
+                const token = req.headers.body;
+                const payload = jwt.verify(token, env.SECRET_KEY);
+                const user = await User.findOne({ mail: payload.mail }, "mail role country");
+                req.user = user;
+            }
             return next();
         } else {
             const token = req?.body.token;

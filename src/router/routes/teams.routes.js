@@ -34,7 +34,7 @@ export default class TeamsRouter extends MyRouter {
       }
     );
 
-    this.get("/", ["ADMIN", "MANAGER"], async (req, res, next) => {
+    this.get("/", ["PUBLIC"], async (req, res, next) => {
       try {
         const { name, page } = req.query;
         const lookfor = new RegExp(name, "i");
@@ -73,7 +73,7 @@ export default class TeamsRouter extends MyRouter {
       }
     });
 
-    this.get("/all", ["ADMIN"], async (req, res, next) => {
+    this.get("/all", ["PUBLIC"], async (req, res, next) => {
       try {
         const params = req.query;
         console.log(params)
@@ -85,7 +85,7 @@ export default class TeamsRouter extends MyRouter {
       }
     });
 
-    this.get("/:id", ["ADMIN", "MANAGER"], async (req, res, next) => {
+    this.get("/:id", ["PUBLIC"], async (req, res, next) => {
       try {
         const response = await controller.readById(req.params.id);
         if (response) {
