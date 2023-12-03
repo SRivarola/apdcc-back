@@ -40,9 +40,11 @@ export default class MyRouter {
         if (policies.includes('PUBLIC')) {
             if(req.headers.body) {
                 const token = req.headers.body;
-                const payload = jwt.verify(token, env.SECRET_KEY);
-                const user = await User.findOne({ mail: payload.mail }, "mail role country");
-                req.user = user;
+                if(token){
+                    const payload = jwt.verify(token, env.SECRET_KEY);
+                    const user = await User.findOne({ mail: payload.mail }, "mail role country");
+                    req.user = user;
+                }
             }
             return next();
         } else {
