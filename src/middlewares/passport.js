@@ -18,7 +18,7 @@ export default function () {
 
     passport.use('current', new jwt.Strategy(
         {
-            jwtFromRequest: jwt.ExtractJwt.fromExtractors([(req) => req?.body.token]),
+            jwtFromRequest: jwt.ExtractJwt.fromExtractors([(req) => req?.headers.body]),
             secretOrKey: process.env.SECRET_KEY
         },
         async (payload, done) => {
