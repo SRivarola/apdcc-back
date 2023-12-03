@@ -46,7 +46,7 @@ export default class MyRouter {
             }
             return next();
         } else {
-            const token = req?.body.token;
+            const token = req?.headers.body;
             if (!token) {
                 return res.sendNotAuthenticatedError('Unauthenticated');
             } else {
