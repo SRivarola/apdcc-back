@@ -140,10 +140,15 @@ export default class PlayersRouter extends MyRouter {
               //     ? { state, country_id }
               // :
               category && state
-                ? { year: { $gt: bornYear, $lte: bornYear + 2 }, country_id, state }
+                ? {
+                    year: { $gt: bornYear, $lte: bornYear + 2 },
+                    country_id,
+                    state,
+                  }
                 : { country_id },
               {
                 populate: { path: "country_id", select: "name" },
+                sort: { state: "asc" },
                 lean: true,
                 limit: 10,
                 page: page ? page : 1,
@@ -228,55 +233,59 @@ export default class PlayersRouter extends MyRouter {
       }
     });
 
-    this.put("/player/:id", ["ADMIN", "MANAGER"], async (req, res, next) => {
-      try {
-        let id = req.params.id;
-        let data = req.body;
-        const player = await controller.readById(id);
-        
-        if (data.avatar) {
-          await cloudinary.uploader.destroy(player.response.avatar.public_id)
-          const img_avatar_response = await cloudinary.uploader.upload(
-            data.avatar,
-            {
-              folder: "photos",
-              gravity: "auto",
-              width: 300,
-              height: 400,
-              crop: "fill",
-            }
-          );
-          data.avatar = {
-            url: img_avatar_response.secure_url,
-            public_id: img_avatar_response.public_id,
-          };
-        }
-        if (data.dni_photo) {
-          await cloudinary.uploader.destroy(player.response.dni_photo.public_id);
-          const img_dni_response = await cloudinary.uploader.upload(
-            data.dni_photo,
-            {
-              folder: "photos",
-              gravity: "auto",
-              width: 300,
-              height: 400,
-              crop: "fill",
-            }
-          );
-          data.dni_photo = {
-            url: img_dni_response.secure_url,
-            public_id: img_dni_response.public_id,
-          };
-        }
-        let response = await controller.update(id, data);
+    this.put(
+      "/player/:id", 
+      ["ADMIN", "MANAGER"], 
+      async (req, res, next) => {
+        try {
+          let id = req.params.id;
+          let data = req.body;
+          const player = await controller.readById(id);
+          
+          if (data.avatar) {
+            await cloudinary.uploader.destroy(player.response.avatar.public_id)
+            const img_avatar_response = await cloudinary.uploader.upload(
+              data.avatar,
+              {
+                folder: "photos",
+                gravity: "auto",
+                width: 300,
+                height: 400,
+                crop: "fill",
+              }
+            );
+            data.avatar = {
+              url: img_avatar_response.secure_url,
+              public_id: img_avatar_response.public_id,
+            };
+          }
+          if (data.dni_photo) {
+            await cloudinary.uploader.destroy(player.response.dni_photo.public_id);
+            const img_dni_response = await cloudinary.uploader.upload(
+              data.dni_photo,
+              {
+                folder: "photos",
+                gravity: "auto",
+                width: 300,
+                height: 400,
+                crop: "fill",
+              }
+            );
+            data.dni_photo = {
+              url: img_dni_response.secure_url,
+              public_id: img_dni_response.public_id,
+            };
+          }
+          let response = await controller.update(id, data);
 
-        return response
-          ? res.sendSuccess(response)
-          : res.sendNotFound("player");
-      } catch (error) {
-        next(error);
+          return response
+            ? res.sendSuccess(response)
+            : res.sendNotFound("player");
+        } catch (error) {
+          next(error);
+        }
       }
-    });
+    );
 
     this.put(
       "/playerteam/:id",
