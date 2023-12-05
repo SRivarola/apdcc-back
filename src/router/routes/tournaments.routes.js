@@ -4,7 +4,18 @@ import MyRouter from "../router.js";
 import TournamentsController from "../../controllers/tournament.controller.js";
 import TargetsController from "../../controllers/target.controller.js";
 //importacion utils
-import { create4teamsMatches, create5teamsMatches } from "../../utils/createMatches.js";
+import { 
+    create4teamsMatches, 
+    create5teamsMatches, 
+    create6teamsMatches, 
+    create7teamsMatches, 
+    create8teamsMatches, 
+    create9teamsMatches, 
+    create10teamsMatches,
+    create11teamsMatches,
+    create12teamsMatches,
+    create13teamsMatches
+} from "../../utils/createMatches.js";
 //importacion de middlewares
 import moment from 'moment';
 
@@ -55,10 +66,149 @@ export default class TournamentsRouter extends MyRouter {
                     let tournament = await tournament_controller.create({...req.body, ...targets});
                     let matches;
                     if(teams_quantity === 4){
-                        matches = await create4teamsMatches(tournament.response, date, team_1_id, team_2_id, team_3_id, team_4_id)
+                        matches = await create4teamsMatches(
+                            tournament.response, 
+                            date, 
+                            team_1_id, 
+                            team_2_id, 
+                            team_3_id, 
+                            team_4_id
+                        );
                     }
                     if (teams_quantity === 5){
-                        matches = await create5teamsMatches(tournament.response, date, team_1_id, team_2_id, team_3_id, team_4_id, team_5_id)
+                        matches = await create5teamsMatches(
+                            tournament.response, 
+                            date, 
+                            team_1_id, 
+                            team_2_id, 
+                            team_3_id, 
+                            team_4_id, 
+                            team_5_id
+                        );
+                    }
+                    if (teams_quantity === 6) {
+                        matches = await create6teamsMatches(
+                            tournament.response,
+                            date,
+                            team_1_id,
+                            team_2_id,
+                            team_3_id,
+                            team_4_id,
+                            team_5_id,
+                            team_6_id
+                        );
+                    }
+                    if (teams_quantity === 7) {
+                        matches = await create7teamsMatches(
+                            tournament.response,
+                            date,
+                            team_1_id,
+                            team_2_id,
+                            team_3_id,
+                            team_4_id,
+                            team_5_id,
+                            team_6_id,
+                            team_7_id
+                        );
+                    }
+                    if (teams_quantity === 8) {
+                      matches = await create8teamsMatches(
+                        tournament.response,
+                        date,
+                        team_1_id,
+                        team_2_id,
+                        team_3_id,
+                        team_4_id,
+                        team_5_id,
+                        team_6_id,
+                        team_7_id,
+                        team_8_id
+                      );
+                    }
+                    if (teams_quantity === 9) {
+                      matches = await create9teamsMatches(
+                        tournament.response,
+                        date,
+                        team_1_id,
+                        team_2_id,
+                        team_3_id,
+                        team_4_id,
+                        team_5_id,
+                        team_6_id,
+                        team_7_id,
+                        team_8_id,
+                        team_9_id
+                      );
+                    }
+                    if (teams_quantity === 10) {
+                      matches = await create10teamsMatches(
+                        tournament.response,
+                        date,
+                        team_1_id,
+                        team_2_id,
+                        team_3_id,
+                        team_4_id,
+                        team_5_id,
+                        team_6_id,
+                        team_7_id,
+                        team_8_id,
+                        team_9_id,
+                        team_10_id
+                      );
+                    }
+                    if (teams_quantity === 11) {
+                      matches = await create11teamsMatches(
+                        tournament.response,
+                        date,
+                        team_1_id,
+                        team_2_id,
+                        team_3_id,
+                        team_4_id,
+                        team_5_id,
+                        team_6_id,
+                        team_7_id,
+                        team_8_id,
+                        team_9_id,
+                        team_10_id,
+                        team_11_id
+                      );
+                    }
+                    if (teams_quantity === 12) {
+                      matches = await create12teamsMatches(
+                        tournament.response,
+                        date,
+                        team_1_id,
+                        team_2_id,
+                        team_3_id,
+                        team_4_id,
+                        team_5_id,
+                        team_6_id,
+                        team_7_id,
+                        team_8_id,
+                        team_9_id,
+                        team_10_id,
+                        team_11_id,
+                        team_12_id
+                      );
+                    }
+                    if (teams_quantity === 13) {
+                      matches = await create13teamsMatches(
+                        tournament.response,
+                        date,
+                        team_1_id,
+                        team_2_id,
+                        team_3_id,
+                        team_4_id,
+                        team_5_id,
+                        team_6_id,
+                        team_7_id,
+                        team_8_id,
+                        team_9_id,
+                        team_10_id,
+                        team_11_id,
+                        team_12_id,
+                        team_13_id
+                      );
                     }
                     return targets && matches && tournament
                         ?   res.sendSuccessCreate(tournament)
