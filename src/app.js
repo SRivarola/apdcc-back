@@ -39,7 +39,8 @@ const corsOptions = {
   ],
   credentials: true, // this allows to send back (to client) cookies
   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
-  origin: "https://apdcc-app.vercel.app/",
+  // origin: "http://localhost:5173",
+  origin: "https://apdcc.netlify.app/",
   preflightContinue: false,
 };
 server.use(cors(corsOptions));
