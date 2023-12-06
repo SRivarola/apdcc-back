@@ -40,7 +40,7 @@ const corsOptions = {
   credentials: true, // this allows to send back (to client) cookies
   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
   // origin: "http://localhost:5173",
-  origin: "https://apdcc-app.vercel.app/",
+  origin: "https://apdcc-app.vercel.app",
   preflightContinue: false,
 };
 server.use(cors(corsOptions));
