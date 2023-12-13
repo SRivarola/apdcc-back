@@ -11,6 +11,7 @@ const schema = new Schema({
     genre: { type: String, enum: ['MASCULINO', 'FEMENINO'], required: true },
     category_id: { type: Types.ObjectId, ref: 'categories', required: true },
     country_id: { type: Types.ObjectId, ref: 'countries', required: true },
+    state: { type: String, enum: ['PENDING', 'READY'], default: 'PENDING' }
 
 });
 
