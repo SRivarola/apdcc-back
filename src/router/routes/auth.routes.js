@@ -28,13 +28,13 @@ export default class AuthRouter extends MyRouter {
             id_valid_user,
             async (req, res, next) => {
                 try {
-                    let data = req.body
-                    let response = await controller.register(data)
+                    let data = req.body;
+                    let response = await controller.register(data);
                     if(response) {
-                        return res.sendSuccessCreate(response)
+                        return res.sendSuccessCreate(response);
                     } else {
-                        return res.sendNotFound('User')
-                    }
+                        return res.sendNotFound('User');
+                    };
                 } catch (error) {
                     next(error);
                 };
@@ -52,10 +52,11 @@ export default class AuthRouter extends MyRouter {
                 try {
                     req.session.mail = req.body.mail;
                     req.session.role = req.user.role;
+                    console.log(req.session.token)
                     let userData = new loginDto(req.user)
-                    
                     return res
                         .status(200)
+                        .cookie('apdcc_token', req.session.token, { maxAge: 60*60*24*7*1000, httpOnly: true })
                         .json({
                             success: true,
                             user: userData,

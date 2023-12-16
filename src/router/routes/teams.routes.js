@@ -35,27 +35,32 @@ export default class TeamsRouter extends MyRouter {
       }
     );
 
-    this.get("/", ["PUBLIC"], async (req, res, next) => {
+    this.get(
+      "/", 
+      ["PUBLIC"], 
+      async (req, res, next) => {
       try {
-        const { name, page } = req.query;
-        const lookfor = new RegExp(name, "i");
+        const { page } = req.query;
 
+        console.log(query)
         let response;
-
-        if (req.user.role === "ADMIN") {
-          response = await controller.read(name ? { name: lookfor } : {}, {
-            populate: [
-              { path: "country_id", select: "name" },
-              { path: "category_id", select: "name" },
-            ],
-            lean: true,
-            limit: 20,
-            page: page ? page : 1,
-          });
-        } else if (req.user.role === "MANAGER") {
+        if (req.user?.role === "ADMIN") {
+          response = await controller.read(
+            query, 
+            {
+              populate: [
+                { path: "country_id", select: "name" },
+                { path: "category_id", select: "name" },
+              ],
+              lean: true,
+              limit: 20,
+              page: page ? page : 1,
+            }
+          );
+        } else if (req.user?.role === "MANAGER") {
           const country_id = req.user.country;
           response = await controller.read(
-            name ? { name: lookfor, country_id } : { country_id },
+            query,
             {
               populate: [
                 { path: "country_id", select: "name" },
@@ -67,7 +72,6 @@ export default class TeamsRouter extends MyRouter {
             }
           );
         }
-
         return res.sendSuccess(response);
       } catch (error) {
         next(error);
@@ -77,7 +81,6 @@ export default class TeamsRouter extends MyRouter {
     this.get("/all", ["PUBLIC"], async (req, res, next) => {
       try {
         const params = req.query;
-        console.log(params)
         let response = await controller.readAll(params);
 
         return res.sendSuccess(response);

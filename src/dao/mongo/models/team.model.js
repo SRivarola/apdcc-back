@@ -7,11 +7,11 @@ const collection = 'teams';
 
 const schema = new Schema({
     name: { type: String, required: true, unique: true },
-    sport: { type: String, enum: ['HOCKEY', 'FUTBOL'], required: true },
+    sport: { type: String, enum: ['HOCKEY', 'F11', 'F7'], required: true },
     genre: { type: String, enum: ['MASCULINO', 'FEMENINO'], required: true },
     category_id: { type: Types.ObjectId, ref: 'categories', required: true },
-    country_id: { type: Types.ObjectId, ref: 'countries', required: true },
-    state: { type: String, enum: ['PENDING', 'READY'], default: 'PENDING' }
+    country_id: { type: Types.ObjectId, ref: 'countries', required: true }
+    // state: { type: String, enum: ['PENDING', 'READY'], default: 'PENDING' }
 
 });
 
