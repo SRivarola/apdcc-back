@@ -41,15 +41,13 @@ export default class MyRouter {
             let token;
             if(req.headers.body) {
                 token = req.headers.body
-            } else {
-                token = req.cookies.apdcc_token;
+                if(token){
+                    const payload = jwt.verify(token, env.SECRET_KEY);
+                    const user = await User.findOne({ mail: payload.mail }, "mail role country");
+                    req.user = user;
+                }
             }
-            if(token){
-                const payload = jwt.verify(token, env.SECRET_KEY);
-                const user = await User.findOne({ mail: payload.mail }, "mail role country");
-                req.user = user;
-                return next();
-            }
+            return next();
         } else {
             const token = req?.headers.body || req.session.token;
             if (!token) {
