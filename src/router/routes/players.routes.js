@@ -123,7 +123,7 @@ export default class PlayersRouter extends MyRouter {
             const date = new Date().getFullYear();
             const year = Number(name.split("-")[1]);
             bornYear = date - year - 1;
-            data.year = { $lte: bornYear + 2 };
+            data.year = { $gt: bornYear, $lte: bornYear + 2 };
           }
        
           let response;
