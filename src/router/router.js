@@ -38,9 +38,8 @@ export default class MyRouter {
 
     handlePolicies = (policies) => async (req, res, next) => {
         if (policies.includes('PUBLIC')) {
-            let token;
             if(req.headers.body) {
-                token = req.headers.body
+                const token = req.headers.body;
                 if(token){
                     const payload = jwt.verify(token, env.SECRET_KEY);
                     const user = await User.findOne({ mail: payload.mail }, "mail role country");
@@ -49,7 +48,7 @@ export default class MyRouter {
             }
             return next();
         } else {
-            const token = req?.headers.body || req.session.token;
+            const token = req?.headers.body;
             if (!token) {
                 return res.sendNotAuthenticatedError('Unauthenticated');
             } else {

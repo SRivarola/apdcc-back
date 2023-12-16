@@ -41,12 +41,14 @@ export default class TeamsRouter extends MyRouter {
       async (req, res, next) => {
       try {
         const { page } = req.query;
+        const data = req.body;
 
-        console.log(query)
+        console.log(data)
+
         let response;
         if (req.user?.role === "ADMIN") {
           response = await controller.read(
-            query, 
+            data, 
             {
               populate: [
                 { path: "country_id", select: "name" },
@@ -58,9 +60,9 @@ export default class TeamsRouter extends MyRouter {
             }
           );
         } else if (req.user?.role === "MANAGER") {
-          const country_id = req.user.country;
+          data.country_id = req.user.country;
           response = await controller.read(
-            query,
+            data,
             {
               populate: [
                 { path: "country_id", select: "name" },
