@@ -37,8 +37,8 @@ export default class MyRouter {
     };
 
     handlePolicies = (policies) => async (req, res, next) => {
+        let token = req.headers.token || req.cookies.apdcc_token;
         if (policies.includes('PUBLIC')) {
-            let token = req.headers.token || req.cookies.apdcc_token;
             console.log("token",token)
             if (token) {
                 const payload = jwt.verify(token, env.SECRET_KEY);
@@ -50,7 +50,6 @@ export default class MyRouter {
             }
             return next();
         } else {
-            const token = req?.headers.body || req.session.token;
             if (!token) {
                 return res.sendNotAuthenticatedError('Unauthenticated');
             } else {
