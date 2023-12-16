@@ -96,10 +96,11 @@ export default class PlayersRouter extends MyRouter {
       async (req, res, next) => {
 
         try {
-          const { state, team, page, category } = req.query;
-          const data = req.body;
+          const { page } = req.query;
+          
+          const { queries } = req.body;
 
-          const objConValores = Object.entries(data).reduce(
+          const objConValores = Object.entries(JSON.parse(queries)).reduce(
             (acc, [key, value]) => {
               if (value && key !== "token") {
                 acc[key] = value;
@@ -112,24 +113,25 @@ export default class PlayersRouter extends MyRouter {
           console.log(objConValores)
 
           let bornYear;
-          if (category) {
-            const date = new Date().getFullYear();
-            const year = Number(category.split("-")[1]);
-            bornYear = date - year - 1;
-          }
+          // if (category) {
+          //   const date = new Date().getFullYear();
+          //   const year = Number(category.split("-")[1]);
+          //   bornYear = date - year - 1;
+          // }
        
           let response;
           if (req.user.role === "ADMIN") {
             response = await controller.read(
-              team && state && category
-                ? { team, state, year: { $lte: bornYear + 2 } }
-                : team
-                ? { team: lookforTeam }
-                : state
-                ? { state }
-                : category
-                ? { year: { $lte: bornYear + 2 } }
-                : {},
+              data,
+              // team && state && category
+              //   ? { team, state, year: { $lte: bornYear + 2 } }
+              //   : team
+              //   ? { team: lookforTeam }
+              //   : state
+              //   ? { state }
+              //   : category
+              //   ? { year: { $lte: bornYear + 2 } }
+              //   : {},
               {
                 populate: { path: "country_id", select: "name" },
                 sort: { state: 'asc' },
@@ -140,22 +142,16 @@ export default class PlayersRouter extends MyRouter {
               );
             
           } else if (req.user.role === "MANAGER") {
-            const country_id = req.user.country;
+            data.country_id = req.user.country;
             response = await controller.read(
-              // team && state
-              //     ? {team, state, country_id}
-              // : team
-              //     ? { team, country_id }
-              // : state
-              //     ? { state, country_id }
-              // :
-              category && state
-                ? {
-                    year: { $gt: bornYear, $lte: bornYear + 2 },
-                    country_id,
-                    state,
-                  }
-                : { country_id },
+              data,
+              // category && state
+              //   ? {
+              //       year: { $gt: bornYear, $lte: bornYear + 2 },
+              //       country_id,
+              //       state,
+              //     }
+              //   : { country_id },
               {
                 populate: { path: "country_id", select: "name" },
                 sort: { state: "asc" },
