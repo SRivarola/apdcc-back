@@ -39,7 +39,6 @@ export default class MyRouter {
     handlePolicies = (policies) => async (req, res, next) => {
         let token = req.headers.token || req.cookies.apdcc_token;
         if (policies.includes('PUBLIC')) {
-            console.log("token",token)
             if (token) {
                 const payload = jwt.verify(token, env.SECRET_KEY);
                 const user = await User.findOne(

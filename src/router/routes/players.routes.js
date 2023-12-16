@@ -101,7 +101,7 @@ export default class PlayersRouter extends MyRouter {
           const { page } = req.query;
           
           const headers = req.headers.queries;
-          const queries = JSON.parse(headers)
+          let queries = headers ? JSON.parse(headers) : {};
 
           const data = Object.entries(queries).reduce(
             (acc, [key, value]) => {

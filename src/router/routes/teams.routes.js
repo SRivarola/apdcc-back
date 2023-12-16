@@ -41,10 +41,11 @@ export default class TeamsRouter extends MyRouter {
       async (req, res, next) => {
       try {
         const { page } = req.query;
-        const { queries } = req.headers;
+        
+        const headers = req.headers.queries;
+        let queries = headers ? JSON.parse(req.headers) : {};
 
-
-        const data = Object.entries(JSON.parse(queries)).reduce((acc, [key, value]) => {
+        const data = Object.entries(queries).reduce((acc, [key, value]) => {
           if (value !== "") {
             acc[key] = value;
           }
