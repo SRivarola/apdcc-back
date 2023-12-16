@@ -30,6 +30,8 @@ const corsOptions = {
     "Origin",
     "X-Requested-With",
     "body",
+    "token",
+    "queries",
     "Content-Type",
     "Accept",
     "X-Access-Token",

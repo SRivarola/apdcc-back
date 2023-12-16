@@ -97,9 +97,19 @@ export default class PlayersRouter extends MyRouter {
 
         try {
           const { state, team, page, category } = req.query;
+          const data = req.body;
 
-          const lookforState = state && new RegExp(state, "i");
-          const lookforTeam = team && new RegExp(team, "i");
+          const objConValores = Object.entries(data).reduce(
+            (acc, [key, value]) => {
+              if (value && key !== "token") {
+                acc[key] = value;
+              }
+              return acc;
+            },
+            {}
+          );
+
+          console.log(objConValores)
 
           let bornYear;
           if (category) {
@@ -112,7 +122,7 @@ export default class PlayersRouter extends MyRouter {
           if (req.user.role === "ADMIN") {
             response = await controller.read(
               team && state && category
-                ? { team: lookforTeam, state: lookforState }
+                ? { team, state, year: { $lte: bornYear + 2 } }
                 : team
                 ? { team: lookforTeam }
                 : state

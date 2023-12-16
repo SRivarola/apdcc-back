@@ -41,9 +41,17 @@ export default class TeamsRouter extends MyRouter {
       async (req, res, next) => {
       try {
         const { page } = req.query;
-        const data = req.body;
+        const { queries } = req.headers;
 
-        console.log(data)
+
+        const data = Object.entries(JSON.parse(queries)).reduce((acc, [key, value]) => {
+          if (value !== "") {
+            acc[key] = value;
+          }
+          return acc;
+        }, {});
+
+        console.log(data);
 
         let response;
         if (req.user?.role === "ADMIN") {
