@@ -105,7 +105,7 @@ export default class PlayersRouter extends MyRouter {
 
           const data = Object.entries(queries).reduce(
             (acc, [key, value]) => {
-              if (value !== "" && key !== "category_id" && key !== "team") {
+              if (value !== "" && key !== "category_id") {
                 acc[key] = value;
               }
               return acc;
@@ -113,23 +113,16 @@ export default class PlayersRouter extends MyRouter {
             {}
           );
 
-          console.log("data", queries)
-
           let bornYear;
   
           if (queries.category_id) {
-            const { response: { name } } = await catController.readById(queries.category_id);
-            console.log("category", name)
+            const { response: { name } } = await catController.readById(queries.category_id)
             const date = new Date().getFullYear();
             const year = Number(name.split("-")[1]);
             bornYear = date - year - 1;
             data.year = { $gt: bornYear, $lte: bornYear + 2 };
           }
-       
-          if (queries.team) {
-            data.team = [queries.team]
-          }
-
+          
           let response;
           if (req.user.role === "ADMIN") {
             response = await controller.read(
