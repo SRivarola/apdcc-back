@@ -16,23 +16,31 @@ export default function () {
         return done(null, user);
     });
 
-    passport.use('current', new jwt.Strategy(
+    passport.use(
+      "current",
+      new jwt.Strategy(
         {
-            jwtFromRequest: jwt.ExtractJwt.fromExtractors([(req) => req?.headers.body]),
-            secretOrKey: process.env.SECRET_KEY
+          jwtFromRequest: jwt.ExtractJwt.fromExtractors([
+            (req) => {
+                let token = req?.headers.token || req.cookies.apdcc_token;
+                return token
+            }
+          ]),
+          secretOrKey: process.env.SECRET_KEY,
         },
         async (payload, done) => {
-            try {
-                let user = await User.readOne(payload.mail);
-                if (user) {
-                    done(null, user);
-                } else {
-                    done(null);
-                }
-            } catch (error) {
-                done(error);
-            };
+          try {
+            let user = await User.readOne(payload.mail);
+            if (user) {
+              done(null, user);
+            } else {
+              done(null);
+            }
+          } catch (error) {
+            done(error);
+          }
         }
-    ));
+      )
+    );
 
 }
