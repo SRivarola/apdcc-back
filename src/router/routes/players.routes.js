@@ -105,7 +105,7 @@ export default class PlayersRouter extends MyRouter {
 
           const data = Object.entries(queries).reduce(
             (acc, [key, value]) => {
-              if (value !== "" && key !== "category_id") {
+              if (value !== "" && key !== "category_id" && key !== "team") {
                 acc[key] = value;
               }
               return acc;
@@ -126,6 +126,10 @@ export default class PlayersRouter extends MyRouter {
             data.year = { $gt: bornYear, $lte: bornYear + 2 };
           }
        
+          if (queries.team) {
+            data.team = [queries.team]
+          }
+
           let response;
           if (req.user.role === "ADMIN") {
             response = await controller.read(
