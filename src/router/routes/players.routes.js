@@ -2,6 +2,7 @@
 import MyRouter from "../router.js";
 //importacion del controlador
 import PlayersController from "../../controllers/players.controller.js";
+import CategoriesController from "../../controllers/categories.controller.js";
 //importacion de middlewares
 import is_valid_player from "../../middlewares/is_valid_player.js";
 import is_playerForm_ok from "../../middlewares/is_playerForm_ok.js";
@@ -19,6 +20,7 @@ cloudinary.config({
 });
 
 const controller = new PlayersController();
+const catController = new CategoriesController();
 
 export default class PlayersRouter extends MyRouter {
   init() {
@@ -98,11 +100,12 @@ export default class PlayersRouter extends MyRouter {
         try {
           const { page } = req.query;
           
-          const { queries } = req.body;
+          const headers = req.headers.queries;
+          const queries = JSON.parse(headers)
 
-          const data = Object.entries(JSON.parse(queries)).reduce(
+          const data = Object.entries(queries).reduce(
             (acc, [key, value]) => {
-              if (value && key !== "token") {
+              if (value !== "" && key !== "category_id") {
                 acc[key] = value;
               }
               return acc;
@@ -110,28 +113,23 @@ export default class PlayersRouter extends MyRouter {
             {}
           );
 
-          console.log(data)
+          console.log("data", queries)
 
           let bornYear;
-          // if (category) {
-          //   const date = new Date().getFullYear();
-          //   const year = Number(category.split("-")[1]);
-          //   bornYear = date - year - 1;
-          // }
+  
+          if (queries.category_id) {
+            const { response: { name } } = await catController.readById(queries.category_id);
+            console.log("category", name)
+            const date = new Date().getFullYear();
+            const year = Number(name.split("-")[1]);
+            bornYear = date - year - 1;
+            data.year = { $lte: bornYear + 2 };
+          }
        
           let response;
           if (req.user.role === "ADMIN") {
             response = await controller.read(
               data,
-              // team && state && category
-              //   ? { team, state, year: { $lte: bornYear + 2 } }
-              //   : team
-              //   ? { team: lookforTeam }
-              //   : state
-              //   ? { state }
-              //   : category
-              //   ? { year: { $lte: bornYear + 2 } }
-              //   : {},
               {
                 populate: { path: "country_id", select: "name" },
                 sort: { state: 'asc' },
@@ -145,13 +143,6 @@ export default class PlayersRouter extends MyRouter {
             data.country_id = req.user.country;
             response = await controller.read(
               data,
-              // category && state
-              //   ? {
-              //       year: { $gt: bornYear, $lte: bornYear + 2 },
-              //       country_id,
-              //       state,
-              //     }
-              //   : { country_id },
               {
                 populate: { path: "country_id", select: "name" },
                 sort: { state: "asc" },

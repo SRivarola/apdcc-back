@@ -51,8 +51,6 @@ export default class TeamsRouter extends MyRouter {
           return acc;
         }, {});
 
-        console.log(data);
-
         let response;
         if (req.user?.role === "ADMIN") {
           response = await controller.read(
@@ -69,7 +67,7 @@ export default class TeamsRouter extends MyRouter {
           );
         } else if (req.user?.role === "MANAGER") {
           data.country_id = req.user.country;
-          
+
           response = await controller.read(
             data,
             {
