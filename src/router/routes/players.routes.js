@@ -100,7 +100,7 @@ export default class PlayersRouter extends MyRouter {
           
           const { queries } = req.body;
 
-          const objConValores = Object.entries(JSON.parse(queries)).reduce(
+          const data = Object.entries(JSON.parse(queries)).reduce(
             (acc, [key, value]) => {
               if (value && key !== "token") {
                 acc[key] = value;
@@ -110,7 +110,7 @@ export default class PlayersRouter extends MyRouter {
             {}
           );
 
-          console.log(objConValores)
+          console.log(data)
 
           let bornYear;
           // if (category) {
