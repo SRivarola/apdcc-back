@@ -112,10 +112,23 @@ export default class AuthRouter extends MyRouter {
                     if(req.user.role !== 'ADMIN') {
                         return res.sendNotAuthorizedError(); 
                     }
-                    const { title, page } = req.query;
-                    const lookfor = new RegExp(title, 'i');
+                    const { page } = req.query;
+                    let queries = headers ? JSON.parse(headers) : {};
 
-                    const response = await controller.readAll(title ? {title: lookfor} : {}, { populate: { path: 'country', select: 'name' }, lean: true, limit: 10, page: page ? page : 1 });
+                    const data = Object.entries(queries).reduce(
+                    (acc, [key, value]) => {
+                        if (value !== "" && key !== "category_id") {
+                        acc[key] = value;
+                        }
+                        return acc;
+                    },
+                    {}
+                    );
+
+                    const response = await controller.readAll(
+                        data, 
+                        { populate: { path: 'country', select: 'name' }, lean: true, limit: 10, page: page ? page : 1 }
+                    );
             
                     return res.sendSuccess(response) 
                     
