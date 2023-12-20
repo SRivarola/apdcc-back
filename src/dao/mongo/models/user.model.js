@@ -9,7 +9,7 @@ const schema = new Schema({
     mail: { type: String, unique: true, index: true, requied: true },
     password: { type: String, requied: true },
     role: { type: String, enum: ['ADMIN', 'MANAGER', 'JUEZ'], required: true },
-    country: { type: Types.ObjectId, ref: 'countries' }
+    country_id: { type: Types.ObjectId, ref: 'countries' }
 });
 
 schema.plugin(mongoosePaginate)
