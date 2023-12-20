@@ -113,6 +113,7 @@ export default class AuthRouter extends MyRouter {
                         return res.sendNotAuthorizedError(); 
                     }
                     const { page } = req.query;
+                    const headers = req.headers.queries;
                     let queries = headers ? JSON.parse(headers) : {};
 
                     const data = Object.entries(queries).reduce(
