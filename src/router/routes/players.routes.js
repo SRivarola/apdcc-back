@@ -59,8 +59,8 @@ export default class PlayersRouter extends MyRouter {
 
           if (img_avatar_response && img_dni_response) {
             data = {
-              first_name,
-              last_name,
+              first_name: first_name.toLowerCase(),
+              last_name: last_name.toLowerCase(),
               genre,
               dni,
               dni_photo: {
@@ -233,9 +233,7 @@ export default class PlayersRouter extends MyRouter {
         try {
           let id = req.params.id;
           let data = req.body;
-          console.log(id);
-          console.log(data);
-
+          
           if (data.avatar) {
             await cloudinary.uploader.destroy(player.response.avatar.public_id)
             const img_avatar_response = await cloudinary.uploader.upload(
