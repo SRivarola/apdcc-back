@@ -67,7 +67,7 @@ export default class TeamsRouter extends MyRouter {
             }
           );
         } else if (req.user?.role === "MANAGER") {
-          data.country_id = req.user.country;
+          data.country_id = req.user.country_id;
 
           response = await controller.read(
             data,
