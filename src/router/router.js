@@ -43,7 +43,7 @@ export default class MyRouter {
                 const payload = jwt.verify(token, env.SECRET_KEY);
                 const user = await User.findOne(
                 { mail: payload.mail },
-                "mail role country"
+                "mail role country_id"
                 );
                 req.user = user;
             }
@@ -53,7 +53,7 @@ export default class MyRouter {
                 return res.sendNotAuthenticatedError('Unauthenticated');
             } else {
                 const payload = jwt.verify(token, env.SECRET_KEY);
-                const user = await User.findOne({ mail: payload.mail }, 'mail role country');
+                const user = await User.findOne({ mail: payload.mail }, 'mail role country_id');
                 const role = user.role;
                 if (
                     (policies.includes('ADMIN') && role === 'ADMIN') ||

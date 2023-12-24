@@ -73,19 +73,18 @@ export default class PlayersRouter extends MyRouter {
               },
               year,
             };
-
+            
             if (req.user.role === "ADMIN") {
               data.country_id = country_id;
               response = await controller.create(data);
             } else {
-              data.country_id = req.user.country;
+              data.country_id = req.user.country_id;
               response = await controller.create(data);
             }
           }
-
           return response
             ? res.sendSuccessCreate(response)
-            : res.sendNotFound("Country");
+            : res.sendNotFound("player");
         } catch (error) {
           next(error);
         }
@@ -137,7 +136,7 @@ export default class PlayersRouter extends MyRouter {
               );
             
           } else if (req.user.role === "MANAGER") {
-            data.country_id = req.user.country;
+            data.country_id = req.user.country_id;
             response = await controller.read(
               data,
               {
@@ -189,7 +188,7 @@ export default class PlayersRouter extends MyRouter {
           const data = new PlayerAgeDto(response.response);
           response.response = data.arr;
         } else if (req.user.role === "MANAGER") {
-          const country_id = req.user.country;
+          const country_id = req.user.country_id;
           response = await controller.readAll(
             category && state && genre
               ? {
