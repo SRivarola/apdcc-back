@@ -51,7 +51,7 @@ export default class AuthRouter extends MyRouter {
                 try {
                     req.session.mail = req.body.mail;
                     req.session.role = req.user.role;
-                    console.log(req.session.token)
+                    
                     let userData = new loginDto(req.user)
                     return res
                         .status(200)
