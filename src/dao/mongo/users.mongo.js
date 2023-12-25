@@ -35,7 +35,7 @@ export default class AuthMongo {
     }
 
     async readByCountry(id) {
-        let one = await User.findOne({ country: id })
+        let one = await User.findOne({ country_id: id })
         if (one) {
             return one;
         } else {

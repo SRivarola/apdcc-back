@@ -8,7 +8,6 @@ import passport from "passport";
 //importacion de middlewares
 import is_registerForm_ok from "../../middlewares/is_registerForm_ok.js";
 import is_8_char from "../../middlewares/is_8_char.js";
-// import create_hash from "../../middlewares/create_hash.js";
 import is_valid_pass from "../../middlewares/is_valid_pass.js";
 import create_token from "../../middlewares/create_token.js";
 import is_user from "../../middlewares/is_user.js";
