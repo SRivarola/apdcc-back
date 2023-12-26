@@ -11,10 +11,10 @@ const ready = () => {
     console.log("server ready on port: " + PORT)
 };
 
-// if (cluster.isPrimary) {
-//   for (let n = 1; n <= 4; n++) {
-//     cluster.fork();
-//   }
-// } else {
-// }
-server.listen(PORT, ready);
+if (cluster.isPrimary) {
+  for (let n = 1; n <= 4; n++) {
+    cluster.fork();
+  }
+} else {
+    server.listen(PORT, ready);
+}
