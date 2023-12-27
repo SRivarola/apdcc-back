@@ -4,18 +4,7 @@ import MyRouter from "../router.js";
 import TournamentsController from "../../controllers/tournament.controller.js";
 import TargetsController from "../../controllers/target.controller.js";
 //importacion utils
-import { 
-    create4teamsMatches, 
-    create5teamsMatches, 
-    create6teamsMatches, 
-    create7teamsMatches, 
-    create8teamsMatches, 
-    create9teamsMatches, 
-    create10teamsMatches,
-    create11teamsMatches,
-    create12teamsMatches,
-    create13teamsMatches
-} from "../../utils/createMatches.js";
+import { createMatches } from "../../utils/createMatches.js";
 //importacion de middlewares
 import moment from 'moment';
 
@@ -30,189 +19,48 @@ export default class TournamentsRouter extends MyRouter {
             ['ADMIN'],
             async (req, res, next) => {
                 try {
-                    let { 
-                        name, 
-                        teams_quantity, 
-                        category_id,
-                        day,
-                        time,
-                        date,
-                        sport, 
-                        team_1_id, 
-                        team_2_id, 
-                        team_3_id, 
-                        team_4_id, 
-                        team_5_id, 
-                        team_6_id, 
-                        team_7_id, 
-                        team_8_id, 
-                        team_9_id, 
-                        team_10_id, 
-                        team_11_id, 
-                        team_12_id, 
-                        team_13_id
-                    } = req.body;
+                  let body = req.body;
 
-                    let targets = {};
-                    
-                    for (let i = 1; i <= teams_quantity; i++) {
-                        const target = await target_controller.create()
-                        targets = {
-                            ...targets,
-                            [`target_${i}_id`]: target
-                        }
-                    }
+                  const data = Object.entries(body).reduce(
+                    (acc, [key, value]) => {
+                      if (value !== "") {
+                        acc[key] = value;
+                      }
+                      return acc;
+                    },
+                    {}
+                  );
 
-                    let tournament = await tournament_controller.create({...req.body, ...targets});
-                    let matches;
-                    if(teams_quantity === 4){
-                        matches = await create4teamsMatches(
-                            tournament.response, 
-                            date, 
-                            team_1_id, 
-                            team_2_id, 
-                            team_3_id, 
-                            team_4_id
-                        );
-                    }
-                    if (teams_quantity === 5){
-                        matches = await create5teamsMatches(
-                            tournament.response, 
-                            date, 
-                            team_1_id, 
-                            team_2_id, 
-                            team_3_id, 
-                            team_4_id, 
-                            team_5_id
-                        );
-                    }
-                    if (teams_quantity === 6) {
-                        matches = await create6teamsMatches(
-                            tournament.response,
-                            date,
-                            team_1_id,
-                            team_2_id,
-                            team_3_id,
-                            team_4_id,
-                            team_5_id,
-                            team_6_id
-                        );
-                    }
-                    if (teams_quantity === 7) {
-                        matches = await create7teamsMatches(
-                            tournament.response,
-                            date,
-                            team_1_id,
-                            team_2_id,
-                            team_3_id,
-                            team_4_id,
-                            team_5_id,
-                            team_6_id,
-                            team_7_id
-                        );
-                    }
-                    if (teams_quantity === 8) {
-                      matches = await create8teamsMatches(
-                        tournament.response,
-                        date,
-                        team_1_id,
-                        team_2_id,
-                        team_3_id,
-                        team_4_id,
-                        team_5_id,
-                        team_6_id,
-                        team_7_id,
-                        team_8_id
-                      );
-                    }
-                    if (teams_quantity === 9) {
-                      matches = await create9teamsMatches(
-                        tournament.response,
-                        date,
-                        team_1_id,
-                        team_2_id,
-                        team_3_id,
-                        team_4_id,
-                        team_5_id,
-                        team_6_id,
-                        team_7_id,
-                        team_8_id,
-                        team_9_id
-                      );
-                    }
-                    if (teams_quantity === 10) {
-                      matches = await create10teamsMatches(
-                        tournament.response,
-                        date,
-                        team_1_id,
-                        team_2_id,
-                        team_3_id,
-                        team_4_id,
-                        team_5_id,
-                        team_6_id,
-                        team_7_id,
-                        team_8_id,
-                        team_9_id,
-                        team_10_id
-                      );
-                    }
-                    if (teams_quantity === 11) {
-                      matches = await create11teamsMatches(
-                        tournament.response,
-                        date,
-                        team_1_id,
-                        team_2_id,
-                        team_3_id,
-                        team_4_id,
-                        team_5_id,
-                        team_6_id,
-                        team_7_id,
-                        team_8_id,
-                        team_9_id,
-                        team_10_id,
-                        team_11_id
-                      );
-                    }
-                    if (teams_quantity === 12) {
-                      matches = await create12teamsMatches(
-                        tournament.response,
-                        date,
-                        team_1_id,
-                        team_2_id,
-                        team_3_id,
-                        team_4_id,
-                        team_5_id,
-                        team_6_id,
-                        team_7_id,
-                        team_8_id,
-                        team_9_id,
-                        team_10_id,
-                        team_11_id,
-                        team_12_id
-                      );
-                    }
-                    if (teams_quantity === 13) {
-                      matches = await create13teamsMatches(
-                        tournament.response,
-                        date,
-                        team_1_id,
-                        team_2_id,
-                        team_3_id,
-                        team_4_id,
-                        team_5_id,
-                        team_6_id,
-                        team_7_id,
-                        team_8_id,
-                        team_9_id,
-                        team_10_id,
-                        team_11_id,
-                        team_12_id,
-                        team_13_id
-                      );
-                    }
-                    return targets && matches && tournament
-                        ?   res.sendSuccessCreate(tournament)
-                        :   res.sendNotFound('tournament')
+                  for (let i = 1; i <= data.teams_quantity; i++) {
+                    const target = await target_controller.create();
+                    data[`target_${i}_id`] = target;
+                  }
+
+                  let tournament = await tournament_controller.create(data);
+
+                  const matches = await createMatches(
+                    data.teams_quantity, 
+                    tournament.response, 
+                    data.date,
+                    data.team_1_id, 
+                    data.team_2_id, 
+                    data.team_3_id, 
+                    data.team_4_id, 
+                    data?.team_5_id, 
+                    data?.team_6_id,
+                    data?.team_7_id, 
+                    data?.team_8_id, 
+                    data?.team_9_id, 
+                    data?.team_10_id, 
+                    data?.team_10_id, 
+                    data?.team_11_id, 
+                    data?.team_12_id, 
+                    data?.team_13_id
+                  );
+
+                  return targets && matches && tournament
+                      ?   res.sendSuccessCreate(tournament)
+                      :   res.sendNotFound('tournament')
                 } catch (error) {
                     next(error);
                 }

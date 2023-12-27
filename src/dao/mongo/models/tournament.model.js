@@ -9,7 +9,7 @@ const schema = new Schema(
     teams_quantity: { type: Number, required: true },
     time: { type: String, required: true },
     day: { type: String, required: true },
-    sport: { type: String, enum: ["HOCKEY", "FUTBOL"], required: true },
+    sport: { type: String, enum: ["HOCKEY", "F7", "F11"], required: true },
     category_id: { type: Types.ObjectId, ref: "categories", required: true },
     team_1_id: { type: Types.ObjectId, ref: "teams", required: true },
     target_1_id: { type: Types.ObjectId, ref: "targets", required: true },
