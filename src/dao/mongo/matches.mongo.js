@@ -26,4 +26,16 @@ export default class MatchesMongo {
             }
         }
     }
+
+    async updateById(id, data) {
+        let one = await Match.findByIdAndUpdate(id, data, { new: true });
+        if(one) {
+            return {
+                message: 'match uploaded',
+                response: one
+            }
+        } else {
+            return null
+        }
+    }
 }

@@ -29,8 +29,8 @@ export default class TournamentsRouter extends MyRouter {
                       return acc;
                     },
                     {}
-                  );
-
+                    );
+                    
                   for (let i = 1; i <= data.teams_quantity; i++) {
                     const target = await target_controller.create();
                     data[`target_${i}_id`] = target;
@@ -58,7 +58,7 @@ export default class TournamentsRouter extends MyRouter {
                     data?.team_13_id
                   );
 
-                  return targets && matches && tournament
+                  return matches && tournament
                       ?   res.sendSuccessCreate(tournament)
                       :   res.sendNotFound('tournament')
                 } catch (error) {
@@ -91,7 +91,7 @@ export default class TournamentsRouter extends MyRouter {
                     next(error);
                 }
             }
-        )
+        );
 
         this.get(
             '/tournament/:id',
@@ -108,6 +108,7 @@ export default class TournamentsRouter extends MyRouter {
                     next(error)
                 }
             }
-        )
+        );
+
     }
 }
