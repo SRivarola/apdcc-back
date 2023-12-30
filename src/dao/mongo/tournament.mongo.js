@@ -42,38 +42,147 @@ export default class TournamentsMongo {
           { path: "category_id" },
           {
             path: "team_1",
-            populate: [{ path: "team_id" }],
+            populate: [
+              {
+                path: "team_id",
+                model: "teams",
+                populate: [{ path: "country_id" }],
+              },
+              { path: "target_id", model: "targets" },
+            ],
           },
           {
             path: "team_2",
             populate: [
-              { path: "team_id", populate: [{ path: "country_id" }] },
-              { path: "target_id" },
+              {
+                path: "team_id",
+                model: "teams",
+                populate: [{ path: "country_id" }],
+              },
+              { path: "target_id", model: "targets" },
             ],
           },
           {
             path: "team_3",
             populate: [
-              { path: "team_id", populate: [{ path: "country_id" }] },
-              { path: "target_id" },
+              {
+                path: "team_id",
+                model: "teams",
+                populate: [{ path: "country_id" }],
+              },
+              { path: "target_id", model: "targets" },
             ],
           },
           {
             path: "team_4",
             populate: [
-              { path: "team_id", populate: [{ path: "country_id" }] },
-              { path: "target_id" },
+              {
+                path: "team_id",
+                model: "teams",
+                populate: [{ path: "country_id" }],
+              },
+              { path: "target_id", model: "targets" },
             ],
           },
-          { path: "team_5", populate: [{ path: "country_id" }] },
-          { path: "team_6", populate: [{ path: "country_id" }] },
-          { path: "team_7", populate: [{ path: "country_id" }] },
-          { path: "team_8", populate: [{ path: "country_id" }] },
-          { path: "team_9", populate: [{ path: "country_id" }] },
-          { path: "team_10", populate: [{ path: "country_id" }] },
-          { path: "team_11", populate: [{ path: "country_id" }] },
-          { path: "team_12", populate: [{ path: "country_id" }] },
-          { path: "team_13", populate: [{ path: "country_id" }] },
+          {
+            path: "team_5",
+            populate: [
+              {
+                path: "team_id",
+                model: "teams",
+                populate: [{ path: "country_id" }],
+              },
+              { path: "target_id", model: "targets" },
+            ],
+          },
+          {
+            path: "team_6",
+            populate: [
+              {
+                path: "team_id",
+                model: "teams",
+                populate: [{ path: "country_id" }],
+              },
+              { path: "target_id", model: "targets" },
+            ],
+          },
+          {
+            path: "team_7",
+            populate: [
+              {
+                path: "team_id",
+                model: "teams",
+                populate: [{ path: "country_id" }],
+              },
+              { path: "target_id", model: "targets" },
+            ],
+          },
+          {
+            path: "team_8",
+            populate: [
+              {
+                path: "team_id",
+                model: "teams",
+                populate: [{ path: "country_id" }],
+              },
+              { path: "target_id", model: "targets" },
+            ],
+          },
+          {
+            path: "team_9",
+            populate: [
+              {
+                path: "team_id",
+                model: "teams",
+                populate: [{ path: "country_id" }],
+              },
+              { path: "target_id", model: "targets" },
+            ],
+          },
+          {
+            path: "team_10",
+            populate: [
+              {
+                path: "team_id",
+                model: "teams",
+                populate: [{ path: "country_id" }],
+              },
+              { path: "target_id", model: "targets" },
+            ],
+          },
+          {
+            path: "team_11",
+            populate: [
+              {
+                path: "team_id",
+                model: "teams",
+                populate: [{ path: "country_id" }],
+              },
+              { path: "target_id", model: "targets" },
+            ],
+          },
+          {
+            path: "team_12",
+            populate: [
+              {
+                path: "team_id",
+                model: "teams",
+                populate: [{ path: "country_id" }],
+              },
+              { path: "target_id", model: "targets" },
+            ],
+          },
+          {
+            path: "team_13",
+            populate: [
+              {
+                path: "team_id",
+                model: "teams",
+                populate: [{ path: "country_id" }],
+              },
+              { path: "target_id", model: "targets" },
+            ],
+          },
         ]);
 
         if(one) {
