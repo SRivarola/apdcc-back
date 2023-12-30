@@ -10,14 +10,26 @@ export default class MatchesMongo {
 
     async readAll(query) {
         let all = await Match.find(query).populate([
-            { 
-                path: "local", 
-                populate: [{ path: "team_id", model: "teams", populate:[{ path: "country_id" }] }] 
-            },
-            { 
-                path: "visit", 
-                populate: [{ path: "team_id", model: "teams", populate:[{ path: "country_id" }] } 
-            },
+          {
+            path: "local",
+            populate: [
+              {
+                path: "team_id",
+                model: "teams",
+                populate: [{ path: "country_id" }],
+              },
+            ],
+          },
+          {
+            path: "visit",
+            populate: [
+              {
+                path: "team_id",
+                model: "teams",
+                populate: [{ path: "country_id" }],
+              },
+            ],
+          },
         ]);
         
         if(all.length > 0) {
