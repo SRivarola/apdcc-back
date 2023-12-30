@@ -16,5 +16,7 @@ const ready = () => {
 //     cluster.fork();
 //   }
 // } else {
+    // server.listen(PORT, ready);
 // }
+
 server.listen(PORT, ready);

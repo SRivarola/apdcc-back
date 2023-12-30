@@ -33,8 +33,10 @@ export default class TournamentsRouter extends MyRouter {
                     
                   for (let i = 1; i <= data.teams_quantity; i++) {
                     const target = await target_controller.create();
-                    data[`target_${i}_id`] = target;
-                  }
+                    data[`team_${i}`][`target_id`] = target;
+                  };
+
+                  console.log(data)
 
                   let tournament = await tournament_controller.create(data);
 
@@ -42,20 +44,20 @@ export default class TournamentsRouter extends MyRouter {
                     data.teams_quantity, 
                     tournament.response, 
                     data.date,
-                    data.team_1_id, 
-                    data.team_2_id, 
-                    data.team_3_id, 
-                    data.team_4_id, 
-                    data?.team_5_id, 
-                    data?.team_6_id,
-                    data?.team_7_id, 
-                    data?.team_8_id, 
-                    data?.team_9_id, 
-                    data?.team_10_id, 
-                    data?.team_10_id, 
-                    data?.team_11_id, 
-                    data?.team_12_id, 
-                    data?.team_13_id
+                    data.team_1.team_id, 
+                    data.team_2.team_id, 
+                    data.team_3.team_id, 
+                    data.team_4.team_id, 
+                    data?.team_5?.team_id, 
+                    data?.team_6?.team_id,
+                    data?.team_7?.team_id, 
+                    data?.team_8?.team_id, 
+                    data?.team_9?.team_id, 
+                    data?.team_10?.team_id, 
+                    data?.team_10?.team_id, 
+                    data?.team_11?.team_id, 
+                    data?.team_12?.team_id, 
+                    data?.team_13?.team_id
                   );
 
                   return matches && tournament

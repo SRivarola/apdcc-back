@@ -38,36 +38,43 @@ export default class TournamentsMongo {
     }
 
     async readById(id) {
-        const one = await Tournament.findById(id)
-          .populate([
-            { path: "category_id" },
-            { path: "team_1_id", populate: [{ path: "country_id" }] },
-            { path: "team_2_id", populate: [{ path: "country_id" }] },
-            { path: "team_3_id", populate: [{ path: "country_id" }] },
-            { path: "team_4_id", populate: [{ path: "country_id" }] },
-            { path: "team_5_id", populate: [{ path: "country_id" }] },
-            { path: "team_6_id", populate: [{ path: "country_id" }] },
-            { path: "team_7_id", populate: [{ path: "country_id" }] },
-            { path: "team_8_id", populate: [{ path: "country_id" }] },
-            { path: "team_9_id", populate: [{ path: "country_id" }] },
-            { path: "team_10_id", populate: [{ path: "country_id" }] },
-            { path: "team_11_id", populate: [{ path: "country_id" }] },
-            { path: "team_12_id", populate: [{ path: "country_id" }] },
-            { path: "team_13_id", populate: [{ path: "country_id" }] },
-            { path: "target_1_id" },
-            { path: "target_2_id" },
-            { path: "target_3_id" },
-            { path: "target_4_id" },
-            { path: "target_5_id" },
-            { path: "target_6_id" },
-            { path: "target_7_id" },
-            { path: "target_8_id" },
-            { path: "target_9_id" },
-            { path: "target_10_id" },
-            { path: "target_11_id" },
-            { path: "target_12_id" },
-            { path: "target_13_id" },
-          ]);
+        const one = await Tournament.findById(id).populate([
+          { path: "category_id" },
+          {
+            path: "team_1",
+            populate: [{ path: "team_id" }],
+          },
+          {
+            path: "team_2",
+            populate: [
+              { path: "team_id", populate: [{ path: "country_id" }] },
+              { path: "target_id" },
+            ],
+          },
+          {
+            path: "team_3",
+            populate: [
+              { path: "team_id", populate: [{ path: "country_id" }] },
+              { path: "target_id" },
+            ],
+          },
+          {
+            path: "team_4",
+            populate: [
+              { path: "team_id", populate: [{ path: "country_id" }] },
+              { path: "target_id" },
+            ],
+          },
+          { path: "team_5", populate: [{ path: "country_id" }] },
+          { path: "team_6", populate: [{ path: "country_id" }] },
+          { path: "team_7", populate: [{ path: "country_id" }] },
+          { path: "team_8", populate: [{ path: "country_id" }] },
+          { path: "team_9", populate: [{ path: "country_id" }] },
+          { path: "team_10", populate: [{ path: "country_id" }] },
+          { path: "team_11", populate: [{ path: "country_id" }] },
+          { path: "team_12", populate: [{ path: "country_id" }] },
+          { path: "team_13", populate: [{ path: "country_id" }] },
+        ]);
 
         if(one) {
             return {
