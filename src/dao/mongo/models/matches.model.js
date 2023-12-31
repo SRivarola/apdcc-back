@@ -7,17 +7,17 @@ const schema = new Schema({
   local: {
     team_id: { type: Types.ObjectId, ref: "teams", required: true },
     target_id: { type: Types.ObjectId, ref: "teams", required: true },
-    res: { type: Number },
     type: Object,
     required: true
   },
+  res_local: { type: Number },
   visit: {
     team_id: { type: Types.ObjectId, ref: "teams", required: true },
     target_id: { type: Types.ObjectId, ref: "teams", required: true },
-    res: { type: Number },
     type: Object,
     required: true
   },
+  res_visit: { type: Number },
   round: { type: Number, required: true },
   date: { type: String, required: true },
 });

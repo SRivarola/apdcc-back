@@ -2,9 +2,11 @@
 import MyRouter from "../router.js";
 //importacion de controladores
 import MatchesController from "../../controllers/matches.controller.js";
+import TargetsController from "../../controllers/target.controller.js";
 import moment from "moment";
 
 const controller = new MatchesController();
+const target_controller = new TargetsController();
 
 export default class MatchesRouter extends MyRouter {
     init() {
@@ -75,7 +77,75 @@ export default class MatchesRouter extends MyRouter {
                     next(error);
                 }
             }
-        )
+        );
+
+        this.put("/results/:id", ["ADMIN"], async (req, res, next) => {
+          try {
+            const { id } = req.params;
+            const {
+              results,
+              targetLocal_id,
+              targetVisit_id,
+              targetLocal,
+              targetVisit,
+            } = req.body;
+
+            const { response: local_target } = await target_controller.readById(targetLocal_id);
+            const { response: visit_target } = await target_controller.readById(targetVisit_id);
+
+            //local targets 
+            targetLocal.red_card = targetLocal.red_card + local_target.red_card;
+            targetLocal.yellow_card = targetLocal.yellow_card + local_target.yellow_card;
+            targetLocal.played_matches = 1 + local_target.played_matches;
+
+            //visit targets
+            targetVisit.red_card = targetVisit.red_card + visit_target.red_card;
+            targetVisit.yellow_card = targetVisit.yellow_card + visit_target.yellow_card;
+            targetVisit.played_matches = 1 + visit_target.played_matches;
+            
+            if (results.res_local > results.res_visit) {
+              //local targets
+              targetLocal.points = 3 + local_target.points;
+              targetLocal.wins = 1 + local_target.wins;
+
+              //visit targets
+              targetVisit.losses = 1 + visit_target.losses;
+            }
+            if (results.res_local < results.res_visit) {
+              //local targets
+              targetLocal.losses = 1 + local_target.losses;
+
+              //visit targets
+              targetVisit.wins = 1 + visit_target.wins;
+              targetVisit.points = 3 + visit_target.wins;
+            }
+            if (results.res_local === results.res_visit) {
+              //local targets
+              targetLocal.points = 1 + local_target.points;
+              targetLocal.ties = 1 + local_target.ties;
+
+              //visit targets
+              targetVisit.points = 1 + visit_target.points;
+              targetVisit.ties = 1 + visit_target.ties;
+            }
+
+            const match_response = await controller.updateById(id, results);
+            const target_local_response = await target_controller.update(targetLocal_id, targetLocal);
+            const target_visit_response = await target_controller.update(targetVisit_id, targetVisit)
+
+            return match_response &&
+              target_local_response &&
+              target_visit_response
+              ? res.sendSuccess({
+                  match_response,
+                  target_local_response,
+                  target_visit_response,
+                })
+              : res.sendNotFound("match");
+          } catch (error) {
+            next(error);
+          }
+        });
 
     }
 }

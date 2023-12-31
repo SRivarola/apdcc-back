@@ -9,7 +9,8 @@ const schema = new Schema({
        wins: { type: Number, default: 0 },
        losses: { type: Number, default: 0 },
        ties: { type: Number, default: 0 },
-       played_matches: { type: Number, default: 0 }
+       played_matches: { type: Number, default: 0 },
+       message: { type: String, default: '' }
 });
 
 const Target = model(collection, schema);

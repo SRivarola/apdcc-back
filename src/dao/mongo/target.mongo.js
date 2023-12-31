@@ -9,16 +9,17 @@ export default class TargetsMongo {
     }
 
     async readById(id) {
-        let one = Target.findById(id);
+        let one = await Target.findById(id);
         if(one) {
             return {
                 message: 'target found',
+                response: one
             }
         }
     }
 
     async update(id, data) {
-        let one = await Target.findOneAndUpdate({ team_id: id }, data, { new: true });
+        let one = await Target.findByIdAndUpdate(id, data, { new: true });
         if(one){
             return {
                 message: 'target updated',
