@@ -8,16 +8,13 @@ const controller = new TargetsController();
 export default class TargetsRouter extends MyRouter {
   init() {
     this.get(
-      "/tournament/:tournament_id/team/:team_id",
+      "/tournament/:tournament_id",
       ["PUBLIC"],
       async (req, res, next) => {
         try {
-          const { tournament_id, team_id } = req.params;
+          const { tournament_id } = req.params;
 
-          const response = await controller.read({
-            tournament_id,
-            team_id,
-          });
+          const response = await controller.read({tournament_id});
 
           return response
             ? res.sendSuccess(response)
