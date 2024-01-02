@@ -26,6 +26,7 @@ export default class MatchesRouter extends MyRouter {
             }
         );
 
+        // actualiza la fecha de todas las rondas desde la que le indiques por body
         this.put(
             "/tournament/:id",
             ["ADMIN"],
@@ -60,6 +61,7 @@ export default class MatchesRouter extends MyRouter {
             }
         );
 
+        // actualiza solo la fecha de ese partido
         this.put(
             '/match/:id',
             ["ADMIN"],
@@ -89,19 +91,6 @@ export default class MatchesRouter extends MyRouter {
               targetLocal,
               targetVisit,
             } = req.body;
-
-            const { response: local_target } = await target_controller.readById(targetLocal_id);
-            const { response: visit_target } = await target_controller.readById(targetVisit_id);
-
-            //local targets 
-            targetLocal.red_card = targetLocal.red_card + local_target.red_card;
-            targetLocal.yellow_card = targetLocal.yellow_card + local_target.yellow_card;
-            targetLocal.played_matches = 1 + local_target.played_matches;
-
-            //visit targets
-            targetVisit.red_card = targetVisit.red_card + visit_target.red_card;
-            targetVisit.yellow_card = targetVisit.yellow_card + visit_target.yellow_card;
-            targetVisit.played_matches = 1 + visit_target.played_matches;
             
             if (results.res_local > results.res_visit) {
               //local targets

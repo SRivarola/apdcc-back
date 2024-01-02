@@ -7,6 +7,7 @@ export default class TargetsService {
     }
 
     create = (data) => this.model.create(data);
+    read = (query) => this.model.read(query);
     readById = (id) => this.model.readById(id);
     update = (id, data) => this.model.update(id, data);
 

@@ -8,6 +8,21 @@ export default class TargetsMongo {
         return one._id
     }
 
+    async read(query) {
+        let all = await Target.find(query);
+        if (all.length) {
+            return {
+                message: 'Targets found',
+                response: all
+            }
+        } else {
+            return {
+                message: 'Targets not found',
+                response: []
+            }
+        }
+    }
+
     async readById(id) {
         let one = await Target.findById(id);
         if(one) {

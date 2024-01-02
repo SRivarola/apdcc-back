@@ -6,6 +6,7 @@ import PlayersRouter from "./routes/players.routes.js";
 import TeamsRouter from "./routes/teams.routes.js";
 import TournamentsRouter from "./routes/tournaments.routes.js";
 import MatchesRouter from "./routes/matches.routes.js";
+import TargetsRouter from "./routes/targets.routes.js";
 
 const auth = new AuthRouter();
 const countries = new CountriesRouter();
@@ -14,6 +15,7 @@ const players = new PlayersRouter();
 const teams = new TeamsRouter();
 const tournaments = new TournamentsRouter();
 const matches = new MatchesRouter();
+const targets = new TargetsRouter();
 
 export default class IndexRouter extends MyRouter {
     init() {
@@ -25,5 +27,6 @@ export default class IndexRouter extends MyRouter {
         this.use('/teams', teams.getRouter());
         this.use('/tournaments', tournaments.getRouter());
         this.use('/matches', matches.getRouter());
+        this.use('/targets', targets.getRouter());
     }
 }

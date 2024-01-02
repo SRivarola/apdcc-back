@@ -7,6 +7,7 @@ export default class TargetsController {
     }
 
     create = (data) => this.service.create(data);
+    read = (query) => this.service.read(query);
     readById = (id) => this.service.readById(id);
     update = (id, data) => this.service.update(id, data);
 
