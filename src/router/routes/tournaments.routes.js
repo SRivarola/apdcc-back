@@ -31,12 +31,10 @@ export default class TournamentsRouter extends MyRouter {
                     {}
                     );
                     
-                  for (let i = 1; i <= data.teams_quantity; i++) {
-                    const target = await target_controller.create();
-                    data[`team_${i}`][`target_id`] = target;
-                  };
-
-                  console.log(data)
+                  // for (let i = 1; i <= data.teams_quantity; i++) {
+                  //   const target = await target_controller.create();
+                  //   data[`team_${i}`][`target_id`] = target;
+                  // };
 
                   let tournament = await tournament_controller.create(data);
 

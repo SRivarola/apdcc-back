@@ -6,14 +6,14 @@ const schema = new Schema({
   tournament_id: { type: Types.ObjectId, ref: "tournaments", required: true },
   local: {
     team_id: { type: Types.ObjectId, ref: "teams", required: true },
-    target_id: { type: Types.ObjectId, ref: "teams", required: true },
+    target_id: { type: Types.ObjectId, ref: "targets", required: true },
     type: Object,
     required: true
   },
   res_local: { type: Number },
   visit: {
     team_id: { type: Types.ObjectId, ref: "teams", required: true },
-    target_id: { type: Types.ObjectId, ref: "teams", required: true },
+    target_id: { type: Types.ObjectId, ref: "targets", required: true },
     type: Object,
     required: true
   },
