@@ -94,28 +94,28 @@ export default class MatchesRouter extends MyRouter {
             
             if (results.res_local > results.res_visit) {
               //local targets
-              targetLocal.points = 3 + local_target.points;
-              targetLocal.wins = 1 + local_target.wins;
+              targetLocal.points = 3;
+              targetLocal.wins = 1;
 
               //visit targets
-              targetVisit.losses = 1 + visit_target.losses;
+              targetVisit.losses = 1;
             }
             if (results.res_local < results.res_visit) {
               //local targets
-              targetLocal.losses = 1 + local_target.losses;
+              targetLocal.losses = 1;
 
               //visit targets
-              targetVisit.wins = 1 + visit_target.wins;
-              targetVisit.points = 3 + visit_target.wins;
+              targetVisit.wins = 1;
+              targetVisit.points = 3;
             }
             if (results.res_local === results.res_visit) {
               //local targets
-              targetLocal.points = 1 + local_target.points;
-              targetLocal.ties = 1 + local_target.ties;
+              targetLocal.points = 1;
+              targetLocal.ties = 1;
 
               //visit targets
-              targetVisit.points = 1 + visit_target.points;
-              targetVisit.ties = 1 + visit_target.ties;
+              targetVisit.points = 1;
+              targetVisit.ties = 1;
             }
 
             const match_response = await controller.updateById(id, results);
