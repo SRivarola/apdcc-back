@@ -26,15 +26,14 @@ export default class TargetsRouter extends MyRouter {
     );
 
     this.get(
-      "/tournament/:tournament_id/match/:match_id/team/:team_id", 
+      "/tournament/:tournament_id/match/:match_id", 
       ["PUBLIC"], 
       async (req, res, next) => {
         try {
-          const { tournament_id, team_id, match_id } = req.params;
+          const { tournament_id, match_id } = req.params;
 
           const response = await controller.read({
             tournament_id,
-            team_id,
             match_id
           });
 
