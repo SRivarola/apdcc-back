@@ -22,7 +22,7 @@ export default class PopupsMongo {
         };
     };
 
-    async udpate(id, data) {
+    async update(id, data) {
         const one = await Popup.findByIdAndUpdate(id, data, { new: true});
         if (one) {
             return {

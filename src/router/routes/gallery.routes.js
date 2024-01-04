@@ -21,7 +21,7 @@ export default class CloudinaryRouter extends MyRouter {
                 try {
                     const { folders } = await cloudinary.api.root_folders();
 
-                    const { resources: images} = await cloudinary.search
+                    const { resources: images } = await cloudinary.search
                       .expression("resource_type: image AND -folder: photos")
                       .sort_by("public_id", "desc")
                       .max_results(150)
