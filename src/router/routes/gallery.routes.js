@@ -21,10 +21,19 @@ export default class CloudinaryRouter extends MyRouter {
                 try {
                     const { folders } = await cloudinary.api.root_folders();
 
+                    const { resources: images} = await cloudinary.search
+                      .expression("resource_type: image AND -folder: photos")
+                      .sort_by("public_id", "desc")
+                      .max_results(150)
+                      .execute();
+
                     return folders 
                         ? res.sendSuccess({
                             message: 'Folders found!',
-                            response: folders
+                            response: {
+                                folders,
+                                images
+                            }
                         })
                         : res.sendNotFound('folders');
                 } catch (error) {
