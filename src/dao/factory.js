@@ -21,6 +21,7 @@ switch (args.persistance) {
         const { default: TournamentsMongo } = await import('./mongo/tournament.mongo.js');
         const { default: TargetsMongo } = await import('./mongo/target.mongo.js');
         const { default: MatchesMongo } = await import('./mongo/matches.mongo.js');
+        const { default: PopupsMongo } = await import('./mongo/popups.mongo.js');
 
         dao = { 
             User: AuthMongo, 
@@ -30,7 +31,8 @@ switch (args.persistance) {
             Category: CategoriesMongo, 
             Tournament: TournamentsMongo,
             Target: TargetsMongo,
-            Match: MatchesMongo
+            Match: MatchesMongo,
+            Popup: PopupsMongo
         };
         break;
 }
