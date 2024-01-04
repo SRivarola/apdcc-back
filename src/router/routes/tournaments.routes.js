@@ -35,6 +35,7 @@ export default class TournamentsRouter extends MyRouter {
 
                   const matches = await createMatches(
                     data.teams_quantity, 
+                    data.genre,
                     tournament.response, 
                     data.date,
                     data.team_1, 
