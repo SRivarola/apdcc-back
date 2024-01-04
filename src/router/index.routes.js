@@ -7,6 +7,7 @@ import TeamsRouter from "./routes/teams.routes.js";
 import TournamentsRouter from "./routes/tournaments.routes.js";
 import MatchesRouter from "./routes/matches.routes.js";
 import TargetsRouter from "./routes/targets.routes.js";
+import CloudinaryRouter from "./routes/gallery.routes.js";
 
 const auth = new AuthRouter();
 const countries = new CountriesRouter();
@@ -16,6 +17,7 @@ const teams = new TeamsRouter();
 const tournaments = new TournamentsRouter();
 const matches = new MatchesRouter();
 const targets = new TargetsRouter();
+const cloudinary = new CloudinaryRouter();
 
 export default class IndexRouter extends MyRouter {
     init() {
@@ -28,5 +30,6 @@ export default class IndexRouter extends MyRouter {
         this.use('/tournaments', tournaments.getRouter());
         this.use('/matches', matches.getRouter());
         this.use('/targets', targets.getRouter());
+        this.use('/cloudinary', cloudinary.getRouter());
     }
 }
