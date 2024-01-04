@@ -11,6 +11,7 @@ const schema = new Schema(
     day: { type: String, required: true },
     sport: { type: String, enum: ["HOCKEY", "F7", "F11"], required: true },
     category_id: { type: Types.ObjectId, ref: "categories", required: true },
+    genre: { type: String, enum: ["MASCULINO", "FEMENINO"], required: true },
     team_1: {
       team_id: { type: Types.ObjectId, ref: "teams", required: true },
       target_id: { type: Types.ObjectId, ref: "targets", required: true },
