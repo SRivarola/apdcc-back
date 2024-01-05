@@ -49,13 +49,13 @@ export default class PopupsRouter extends MyRouter {
 
         if (body.active) data.active = true;
         if (body.image) {
-          const img_response = await cloudinary.uploader.upload(
-            body.image,
-            {
-              folder: "photos",
-              gravity: "auto",
-            }
-          );
+          const img_response = await cloudinary.uploader.upload(body.image, {
+            folder: "photos",
+            gravity: "auto",
+            width: 300,
+            height: 400,
+            crop: "fill",
+          });
           data.image = {
             url: img_response.secure_url,
             public_id: img_response.public_id
