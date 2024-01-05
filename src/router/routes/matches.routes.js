@@ -118,6 +118,9 @@ export default class MatchesRouter extends MyRouter {
               targetVisit.ties = 1;
             }
 
+            targetLocal.played_matches = 1
+            targetVisit.played_matches = 1
+
             const match_response = await controller.updateById(id, results);
             const target_local_response = await target_controller.update(targetLocal_id, targetLocal);
             const target_visit_response = await target_controller.update(targetVisit_id, targetVisit)
