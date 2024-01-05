@@ -49,6 +49,9 @@ export default class PopupsRouter extends MyRouter {
 
         if (body.active) data.active = true;
         if (body.image) {
+          const lastPic = await controller.readById("65970367237c9ea284380054");
+          if (lastPic?.response?.image?.public_id) await cloudinary.uploader.destroy(lastPic.response.image.public_id);
+
           const img_response = await cloudinary.uploader.upload(body.image, {
             folder: "photos",
           });
