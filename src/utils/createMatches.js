@@ -44,7 +44,7 @@ async function create4teamsMatches(tournament_id, date, team1, team2, team3, tea
     return {...matches};
 }
 
-async function create5teamsMatches(tournament_id, team1, team2, team3, team4, team5) {
+async function create5teamsMatches(tournament_id, date, team1, team2, team3, team4, team5) {
     let round = 1;
     matches.match1 = await matches_targets(tournament_id, round, date, team5, team3);
     matches.match2 = await matches_targets(tournament_id, round, date, team4, team2);
@@ -69,7 +69,7 @@ async function create5teamsMatches(tournament_id, team1, team2, team3, team4, te
     return {...matches}
 }
 
-async function create6teamsMatches(tournament_id, team1, team2, team3, team4, team5, team6) {
+async function create6teamsMatches(tournament_id, date, team1, team2, team3, team4, team5, team6) {
     let round = 1
     matches.match1 = await matches_targets(tournament_id, round, date, team1, team6);
     matches.match2 = await matches_targets(tournament_id, round, date, team5, team3);
@@ -94,7 +94,7 @@ async function create6teamsMatches(tournament_id, team1, team2, team3, team4, te
     return {...matches}
 }
 
-async function create7teamsMatches(tournament_id, team1, team2, team3, team4, team5, team6, team7) {
+async function create7teamsMatches(tournament_id, date, team1, team2, team3, team4, team5, team6, team7) {
     let round = 1;
     matches.match1 = await matches_targets(tournament_id, round, date, team7, team4);
     matches.match2 = await matches_targets(tournament_id, round, date, team6, team3);
@@ -134,7 +134,7 @@ async function create7teamsMatches(tournament_id, team1, team2, team3, team4, te
     return {...matches}
 }
 
-async function create8teamsMatches(tournament_id, team1, team2, team3, team4, team5, team6, team7, team8) {
+async function create8teamsMatches(tournament_id, date, team1, team2, team3, team4, team5, team6, team7, team8) {
     let round = 1;
     matches.match1 = await matches_targets(tournament_id, round, date, team1, team8);
     matches.match2 = await matches_targets(tournament_id, round, date, team7, team4);
@@ -174,7 +174,7 @@ async function create8teamsMatches(tournament_id, team1, team2, team3, team4, te
     return {...matches}
 }
 
-async function create9teamsMatches(tournament_id, team1, team2, team3, team4, team5, team6, team7, team8, team9) {
+async function create9teamsMatches(tournament_id, date, team1, team2, team3, team4, team5, team6, team7, team8, team9) {
     let round = 1;
     matches.match1 = await matches_targets(tournament_id, round, date, team9, team5);
     matches.match2 = await matches_targets(tournament_id, round, date, team8, team4);
@@ -232,7 +232,7 @@ async function create9teamsMatches(tournament_id, team1, team2, team3, team4, te
     return {...matches}
 }
 
-async function create10teamsMatches(tournament_id, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10) {
+async function create10teamsMatches(tournament_id, date, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10) {
     let round = 1;
     matches.match1 = await matches_targets(tournament_id, round, date, team1, team10);
     matches.match2 = await matches_targets(tournament_id, round, date, team9, team5);
@@ -291,7 +291,7 @@ async function create10teamsMatches(tournament_id, team1, team2, team3, team4, t
     return {...matches}
 }
 
-async function create11teamsMatches(tournament_id, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10, team11) {
+async function create11teamsMatches(tournament_id, date, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10, team11) {
     let round = 1
     matches.match1 = await matches_targets(tournament_id, round, date, team11, team6);
     matches.match2 = await matches_targets(tournament_id, round, date, team10, team5);
@@ -373,7 +373,7 @@ async function create11teamsMatches(tournament_id, team1, team2, team3, team4, t
     return {...matches}
 }
 
-async function create12teamsMatches(tournament_id, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10, team11, team12) {
+async function create12teamsMatches(tournament_id, date, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10, team11, team12) {
     let round = 1;
     matches.match1 = await matches_targets(tournament_id, round, date, team1, team12);
     matches.match2 = await matches_targets(tournament_id, round, date, team11, team6);
@@ -455,7 +455,7 @@ async function create12teamsMatches(tournament_id, team1, team2, team3, team4, t
     return {...matches}
 }
 
-async function create13teamsMatches(tournament_id, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10, team11, team12, team13) {
+async function create13teamsMatches(tournament_id, date, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10, team11, team12, team13) {
     let round = 1;
     matches.match1 = await matches_targets(tournament_id, round, date, team13, team7);
     matches.match2 = await matches_targets(tournament_id, round, date, team12, team6);

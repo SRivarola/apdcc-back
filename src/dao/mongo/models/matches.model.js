@@ -12,10 +12,9 @@ const schema = new Schema({
   },
   res_local: { type: Number },
   visit: {
-    team_id: { type: Types.ObjectId, ref: "teams", required: true },
-    target_id: { type: Types.ObjectId, ref: "targets", required: true },
-    type: Object,
-    required: true
+    team_id: { type: Types.ObjectId, ref: "teams" },
+    target_id: { type: Types.ObjectId, ref: "targets" },
+    type: Object || null
   },
   res_visit: { type: Number },
   round: { type: Number, required: true },
