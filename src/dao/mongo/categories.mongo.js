@@ -12,8 +12,8 @@ export default class CategoriesMongo {
         };
     };
 
-    async readAll() {
-        const all = await Category.find();
+    async readAll(query) {
+        const all = await Category.find(query);
         if(all.length > 0) {
             return {
                 message: "Categories found",

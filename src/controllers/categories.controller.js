@@ -6,7 +6,7 @@ export default class CategoriesController {
     };
 
     create = (data) => this.service.create(data);
-    readAll = () => this.service.readAll();
+    readAll = (query) => this.service.readAll(query);
     readOne = (name) => this.service.readOne(name);
     readById = (id) => this.service.readById(id);
     update = (id, data) => this.service.update(id, data);
