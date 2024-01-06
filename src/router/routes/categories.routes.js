@@ -34,7 +34,9 @@ export default class CategoriesRouter extends MyRouter {
             ['PUBLIC'],
             async (req, res, next) => {
                 try {
-                    const response = await controller.readAll();
+                    const query = req.query;
+                    
+                    const response = await controller.readAll(query);
 
                     res.sendSuccess(response)
                 } catch (error) {
