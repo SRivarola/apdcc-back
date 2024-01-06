@@ -101,53 +101,42 @@ export default class PlayersRouter extends MyRouter {
           
           const headers = req.headers.queries;
           let queries = headers ? JSON.parse(headers) : {};
-
-          const data = Object.entries(queries).reduce(
-            (acc, [key, value]) => {
-              if (value !== "" && key !== "category_id") {
-                acc[key] = value;
-              }
-              return acc;
-            },
-            {}
-          );
-
+          const data = Object.entries(queries).reduce((acc, [key, value]) => {
+            if (value !== "" && key !== "category_id") {
+              acc[key] = value;
+            }
+            return acc;
+          }, {});
           let bornYear;
-  
           if (queries.category_id) {
-            const { response: { name } } = await catController.readById(queries.category_id)
+            const {
+              response: { name },
+            } = await catController.readById(queries.category_id);
             const date = new Date().getFullYear();
-            const year = Number(name.split("-")[1]);
-            bornYear = date - year - 1;
-            data.year = { $gt: bornYear, $lte: bornYear + 2 };
+            if (name === "+30") {
+              const year = Number(name);
+              bornYear = date - year;
+              data.year = { $lte: bornYear + 3 };
+              console.log(bornYear);
+            } else {
+              const year = Number(name.split("-")[1]);
+              bornYear = date - year;
+              data.year = { $gte: bornYear, $lte: bornYear + 2 };
+            }
           }
           
-          let response;
-          if (req.user.role === "ADMIN") {
-            response = await controller.read(
-              data,
-              {
-                populate: { path: "country_id", select: "name" },
-                sort: { state: 'asc' },
-                lean: true,
-                limit: 10,
-                page: page ? page : 1,
-              }
-              );
-            
-          } else if (req.user.role === "MANAGER") {
-            data.country_id = req.user.country_id;
-            response = await controller.read(
-              data,
-              {
-                populate: { path: "country_id", select: "name" },
-                sort: { state: "asc" },
-                lean: true,
-                limit: 10,
-                page: page ? page : 1,
-              }
-            );
-          }
+          if (req.user.role === "MANAGER") data.country_id = req.user.country_id;
+
+          let response = await controller.read(
+            data,
+            {
+              populate: { path: "country_id", select: "name" },
+              sort: { state: "asc" },
+              lean: true,
+              limit: 10,
+              page: page ? page : 1,
+            }
+          );
 
           if (response) {
             return res.sendSuccess(response);
@@ -162,45 +151,36 @@ export default class PlayersRouter extends MyRouter {
 
     this.get("/all", ["PUBLIC"], async (req, res, next) => {
       try {
-        const { state, team, category, genre } = req.query;
+        const queries = req.query;
 
-        let bornYear;
-        if (category) {
-          const date = new Date().getFullYear();
-          const year = Number(category.split("-")[1]);
-          console.log(year)
-          bornYear = date - year;
+        const data = Object.entries(queries).reduce((acc, [key, value]) => {
+          if (value !== "" && key !== "category") {
+            acc[key] = value;
+          }
+          return acc;
+        }, {});
+
+        const date = new Date().getFullYear();
+        if (queries.category !== +30) {
+          const year = Number(queries.category.split("-")[1]);
+          let bornYear = date - year;
+          data.year = { $gte: bornYear, $lte: bornYear + 2 };
+        } else {
+          year = Number(queries.category);
+          let bornYear = date - year;
+          data.year = { $lte: bornYear + 3 };
         }
-        console.log(bornYear)
+
         let response;
         if (req.user.role === "ADMIN") {
-          response = await controller.readAll(
-            // team && state && category
-            //   ? { team , state }
-            //   : team
-            //   ? { team }
-            //   : state
-            //   ? { state }
-            //   : category
-            //   ? { year: { $gte: bornYear, $lte: bornYear + 2 } }
-            { year: { $gte: bornYear, $lte: bornYear + 2 }, state }
-          );
-          const data = new PlayerAgeDto(response.response);
-          response.response = data.arr;
+          response = await controller.readAll(data);
+          const player_data = new PlayerAgeDto(response.response);
+          response.response = player_data.arr;
         } else if (req.user.role === "MANAGER") {
-          const country_id = req.user.country_id;
-          response = await controller.readAll(
-            category && state && genre
-              ? {
-                  year: { $gte: bornYear, $lte: bornYear + 2 },
-                  country_id,
-                  state,
-                  genre,
-                }
-              : { country_id }
-          );
-          const data = new PlayerAgeDto(response.response);
-          response.response = data.arr;
+          data.country_id = req.user.country_id;
+          response = await controller.readAll(data);
+          const player_data = new PlayerAgeDto(response.response);
+          response.response = player_data.arr;
         }
 
         if (response) {
