@@ -171,17 +171,11 @@ export default class PlayersRouter extends MyRouter {
           data.year = { $lte: bornYear + 3 };
         }
 
-        let response;
-        if (req.user.role === "ADMIN") {
-          response = await controller.readAll(data);
-          const player_data = new PlayerAgeDto(response.response);
-          response.response = player_data.arr;
-        } else if (req.user.role === "MANAGER") {
-          data.country_id = req.user.country_id;
-          response = await controller.readAll(data);
-          const player_data = new PlayerAgeDto(response.response);
-          response.response = player_data.arr;
-        }
+        if (req.user.role === "MANAGER") data.country_id = req.user.country_id;
+
+        const response = await controller.readAll(data);
+        const player_data = new PlayerAgeDto(response.response);
+        response.response = player_data.arr;
 
         if (response) {
           return res.sendSuccess(response);
