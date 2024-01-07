@@ -12,6 +12,5 @@ export default {
     SECRET_SESSION: process.env.SECRET_SESSION,
     CLOUD_NAME: process.env.CLOUD_NAME,
     CLOUD_KEY: process.env.CLOUD_KEY,
-    CLOUD_KEY_SECRET: process.env.CLOUD_KEY_SECRET,
-    MAILING_KEY: process.env.MAILING_KEY
+    CLOUD_KEY_SECRET: process.env.CLOUD_KEY_SECRET
 }
