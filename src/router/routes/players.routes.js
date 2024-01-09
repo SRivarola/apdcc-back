@@ -168,7 +168,7 @@ export default class PlayersRouter extends MyRouter {
         } else {
           year = Number(queries.category);
           let bornYear = date - year;
-          data.year = { $lte: bornYear + 3 };
+          data.year = { $gte: bornYear, $lte: bornYear + 3 };
         }
 
         if (req.user.role === "MANAGER") data.country_id = req.user.country_id;
@@ -176,7 +176,7 @@ export default class PlayersRouter extends MyRouter {
         const response = await controller.readAll(data);
         const player_data = new PlayerAgeDto(response.response);
         response.response = player_data.arr;
-
+        console.log(response)
         if (response) {
           return res.sendSuccess(response);
         } else {
