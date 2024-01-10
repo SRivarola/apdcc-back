@@ -33,7 +33,7 @@ export default class MatchesRouter extends MyRouter {
             async (req, res, next) => {
                 try {
                     const { id } = req.params;
-                    const { round } = req.body;
+                    const { round } = JSON.parse(req.headers.body);
     
                     const { response: matches } = await controller.readAll({ 
                         tournament_id: id,
