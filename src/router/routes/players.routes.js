@@ -161,14 +161,17 @@ export default class PlayersRouter extends MyRouter {
         }, {});
 
         const date = new Date().getFullYear();
-        if (queries.category !== +30) {
-          const year = Number(queries.category.split("-")[1]);
-          let bornYear = date - year;
-          data.year = { $gte: bornYear, $lte: bornYear + 2 };
-        } else {
-          year = Number(queries.category);
-          let bornYear = date - year;
-          data.year = { $gte: bornYear, $lte: bornYear + 3 };
+        
+        if(queries.category) {
+          if (queries.category !== +30) {
+            const year = Number(queries.category.split("-")[1]);
+            let bornYear = date - year;
+            data.year = { $gte: bornYear, $lte: bornYear + 2 };
+          } else {
+            year = Number(queries.category);
+            let bornYear = date - year;
+            data.year = { $gte: bornYear, $lte: bornYear + 3 };
+          }
         }
 
         if (req.user.role === "MANAGER") data.country_id = req.user.country_id;
@@ -176,7 +179,7 @@ export default class PlayersRouter extends MyRouter {
         const response = await controller.readAll(data);
         const player_data = new PlayerAgeDto(response.response);
         response.response = player_data.arr;
-        console.log(response)
+        
         if (response) {
           return res.sendSuccess(response);
         } else {
