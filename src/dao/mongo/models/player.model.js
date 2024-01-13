@@ -21,7 +21,8 @@ const schema = new Schema({
     year: { type: Number, required: true },
     country_id: { type: Types.ObjectId, ref: 'countries', required: true },
     state: { type: String, enum: ['PENDING', 'READY'], default: 'PENDING' },
-    team: [{ type: Types.ObjectId, ref: 'teams' }]
+    team: [{ type: Types.ObjectId, ref: 'teams' }],
+    red_cards: { type: Number, required:true, default: 0 }
 })
 
 schema.plugin(mongoosePaginate);
