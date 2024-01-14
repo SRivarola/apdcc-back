@@ -107,7 +107,6 @@ export default class PlayersRouter extends MyRouter {
             }
             return acc;
           }, {});
-          let bornYear;
           if (queries.category_id) {
             const {
               response: { name },
@@ -115,13 +114,13 @@ export default class PlayersRouter extends MyRouter {
             const date = new Date().getFullYear();
             if (name === "+30") {
               const year = Number(name);
-              bornYear = date - year;
+              const bornYear = date - year;
               data.year = { $lte: bornYear + 3 };
-              console.log(bornYear);
             } else {
-              const year = Number(name.split("-")[1]);
-              bornYear = date - year;
-              data.year = { $gte: bornYear, $lte: bornYear - 2 };
+              const year = name.split("-");
+              const bornYear1 = date - Number(year[1]);
+              const bornYear2 = date - Number(year[0]);
+              data.year = { $gte: bornYear1, $lte: bornYear2 + 1 };
             }
           }
           
@@ -168,7 +167,7 @@ export default class PlayersRouter extends MyRouter {
             const year = queries.category.split("-");
             let bornYear1 = date - Number(year[1]);
             let bornYear2 = date - Number(year[0]);
-            data.year = { $gte: bornYear1 - 1, $lte: bornYear2};
+            data.year = { $gte: bornYear1 , $lte: bornYear2 + 1};
           } else {
             const year = Number(queries.category);
             let bornYear = date - year;
