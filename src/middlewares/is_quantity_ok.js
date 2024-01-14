@@ -14,7 +14,7 @@ export default async function (req, res, next) {
         return res.status(400).json({
             method: req.method,
             path: req.url,
-            message: "Invalid user",
+            message: "No se puede ingresar más de 35 jugadores",
             response: null,
         });
         

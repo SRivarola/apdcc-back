@@ -8,6 +8,7 @@ import is_valid_player from "../../middlewares/is_valid_player.js";
 import is_playerForm_ok from "../../middlewares/is_playerForm_ok.js";
 import PlayerAgeDto from "../../dto/playerAge.dto.js";
 import is_quantity_ok from "../../middlewares/is_quantity_ok.js";
+import out_of_category_ok from "../../middlewares/out_of_category_ok.js";
 //import cloudinary
 import { v2 as cloudinary } from "cloudinary";
 import env from "../../config/env.js";
@@ -95,7 +96,6 @@ export default class PlayersRouter extends MyRouter {
       "/", 
       ["ADMIN", "MANAGER"], 
       async (req, res, next) => {
-
         try {
           const { page } = req.query;
           
@@ -121,7 +121,7 @@ export default class PlayersRouter extends MyRouter {
             } else {
               const year = Number(name.split("-")[1]);
               bornYear = date - year;
-              data.year = { $gte: bornYear, $lte: bornYear + 2 };
+              data.year = { $gte: bornYear, $lte: bornYear - 2 };
             }
           }
           
@@ -164,14 +164,15 @@ export default class PlayersRouter extends MyRouter {
         const date = new Date().getFullYear();
         
         if(queries.category) {
-          if (queries.category !== +30) {
-            const year = Number(queries.category.split("-")[1]);
-            let bornYear = date - year;
-            data.year = { $gte: bornYear, $lte: bornYear + 2 };
+          if (queries.category != +30) {
+            const year = queries.category.split("-");
+            let bornYear1 = date - Number(year[1]);
+            let bornYear2 = date - Number(year[0]);
+            data.year = { $gte: bornYear1 - 1, $lte: bornYear2};
           } else {
-            year = Number(queries.category);
+            const year = Number(queries.category);
             let bornYear = date - year;
-            data.year = { $gte: bornYear, $lte: bornYear + 3 };
+            data.year = { $lte: bornYear + 3 };
           }
         }
 
@@ -263,6 +264,7 @@ export default class PlayersRouter extends MyRouter {
       "/playerteam/:id",
       ["ADMIN", "MANAGER"],
       is_quantity_ok,
+      out_of_category_ok,
       async (req, res, next) => {
         try {
           let { team, action } = req.body;

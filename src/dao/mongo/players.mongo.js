@@ -20,19 +20,19 @@ export default class PlayersMongo {
             }
         } else {
             return {
-                message: "Countries not found",
-                response: {
-                    "docs": [],
-                    "totalDocs": 0,
-                    "limit": 10,
-                    "totalPages": 0,
-                    "page": 0,
-                    "pagingCounter": 0,
-                    "hasPrevPage": false,
-                    "hasNextPage": false,
-                    "prevPage": null,
-                    "nextPage": null
-                }
+              message: "players not found",
+              response: {
+                docs: [],
+                totalDocs: 0,
+                limit: 10,
+                totalPages: 0,
+                page: 0,
+                pagingCounter: 0,
+                hasPrevPage: false,
+                hasNextPage: false,
+                prevPage: null,
+                nextPage: null,
+              },
             };
         }
     }
