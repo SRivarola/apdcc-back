@@ -93,7 +93,7 @@ export default class PlayersRouter extends MyRouter {
 
     this.get(
       "/", 
-      ["PUBLIC"], 
+      ["ADMIN", "MANAGER"], 
       async (req, res, next) => {
 
         try {
@@ -149,7 +149,7 @@ export default class PlayersRouter extends MyRouter {
       }
     );
 
-    this.get("/all", ["PUBLIC"], async (req, res, next) => {
+    this.get("/all", ["ADMIN", "MANAGER"], async (req, res, next) => {
       try {
         const queries = req.query;
 
@@ -159,6 +159,7 @@ export default class PlayersRouter extends MyRouter {
           }
           return acc;
         }, {});
+
 
         const date = new Date().getFullYear();
         
@@ -175,7 +176,7 @@ export default class PlayersRouter extends MyRouter {
         }
 
         if (req.user.role === "MANAGER") data.country_id = req.user.country_id;
-
+        
         const response = await controller.readAll(data);
         const player_data = new PlayerAgeDto(response.response);
         response.response = player_data.arr;
