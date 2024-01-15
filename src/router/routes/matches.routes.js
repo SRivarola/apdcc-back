@@ -3,10 +3,12 @@ import MyRouter from "../router.js";
 //importacion de controladores
 import MatchesController from "../../controllers/matches.controller.js";
 import TargetsController from "../../controllers/target.controller.js";
+import PlayersController from "../../controllers/players.controller.js";
 import moment from "moment";
 
 const controller = new MatchesController();
 const target_controller = new TargetsController();
+const players_controller = new PlayersController();
 
 export default class MatchesRouter extends MyRouter {
     init() {
@@ -90,6 +92,7 @@ export default class MatchesRouter extends MyRouter {
               targetVisit_id,
               targetLocal,
               targetVisit,
+              redCards
             } = req.body;
             
             if (results.res_local > results.res_visit) {
@@ -120,6 +123,29 @@ export default class MatchesRouter extends MyRouter {
 
             targetLocal.played_matches = 1
             targetVisit.played_matches = 1
+
+            if (redCards.localPlayersWithRedCards.length) {
+                const players = redCards.localPlayersWithRedCards;
+                for (let i = 0; i < players.length; i++) {
+                    const playerId = players[i];
+                    const { response } = await players_controller.readById(playerId);
+                    const red_cards = response.red_cards + 1;
+                    await players_controller.update(playerId, { red_cards });
+                }
+            }
+
+            if (redCards.visitPlayersWithRedCards.length) {
+                const players = redCards.visitPlayersWithRedCards;
+                for (let i = 0; i < players.length; i++) {
+                  const playerId = players[i];
+                  const { response } = await players_controller.readById(
+                    playerId
+                  );
+                  const red_cards = response.red_cards + 1;
+                  await players_controller.update(playerId, { red_cards });
+                }
+            }
+
 
             const match_response = await controller.updateById(id, results);
             const target_local_response = await target_controller.update(targetLocal_id, targetLocal);
