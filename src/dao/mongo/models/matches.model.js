@@ -18,7 +18,7 @@ const schema = new Schema({
   },
   res_visit: { type: Number },
   round: { type: Number, required: true },
-  date: { type: String, required: true },
+  date: { type: Date, required: true },
   time: { type: String, required: true }
 });
 

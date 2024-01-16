@@ -292,6 +292,28 @@ export default class PlayersRouter extends MyRouter {
       }
     );
 
+    // ACTUALIZAR BASE DE DATOS DE PLAYERS
+    this.put(
+      '/actualizarDB',
+      ["ADMIN"],
+      async (req, res, next) => {
+        try {
+          const data = req.body;
+          const { response } = await controller.readAll();
+  
+          console.log(response)
+          for (let i = 0; i < response.length; i++) {
+            const element = response[i];
+            const player = await controller.update(element._id, data)
+            console.log(player)
+          }
+          res.sendSuccess(response)
+        } catch (error) {
+          next(error)
+        }
+      }
+    );
+
     this.delete("/:id", ["ADMIN", "MANAGER"], async (req, res, next) => {
       try {
         let response = await controller.delete(req.params.id);

@@ -8,16 +8,19 @@ const target_controller = new TargetsController();
 let matches = {}
 
 async function matches_targets(tournament_id, round, date, local, visit, time) {
+    const thisRound = (round - 1) * 7
+    const newDate = moment(date).add(thisRound, 'days');
+
     const match = await controller.create({
-        tournament_id,
-        date: moment(new Date(date)).day((round - 1) * 7).format('MM/DD/YYYY'),
-        time,
-        local,
-        visit,
-        round
+      tournament_id,
+      date: newDate,
+      time,
+      local,
+      visit,
+      round,
     });
     if(local && visit){
-        await target_controller.create({
+        await target_controller.create({ 
             tournament_id,
             team_id: local.team_id,
             match_id: match
