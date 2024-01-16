@@ -148,7 +148,7 @@ export default class PlayersRouter extends MyRouter {
       }
     );
 
-    this.get("/all", ["PUBLIC"], async (req, res, next) => {
+    this.get("/all", ["ADMIN", "MANAGER", "JUEZ"], async (req, res, next) => {
       try {
         const queries = req.query;
 
