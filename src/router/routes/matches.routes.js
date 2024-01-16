@@ -19,8 +19,20 @@ export default class MatchesRouter extends MyRouter {
             async (req, res, next) => {
                 try {
                     const query = req.query;
-                    const response = await controller.readAll(query);
 
+                    const data = Object.entries(query).reduce(
+                      (acc, [key, value]) => {
+                        if (key === "date") {
+                          acc[key] = moment(value)
+                        } else if (value !== "") {
+                          acc[key] = value;
+                        }
+                        return acc;
+                      },
+                      {}
+                    );
+                    
+                    const response = await controller.readAll(data);
                     return res.sendSuccess(response)
                 } catch (error) {
                     next(error);
