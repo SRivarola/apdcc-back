@@ -44,7 +44,8 @@ export default class MatchesRouter extends MyRouter {
     
                     for (let i= 0; i < matches.length; i++) {
                         const { date, _id } = matches[i];
-                        const newDate = moment(new Date(date)).day(+7).format("MM/DD/YYYY");
+                        const newDate = moment(date).add(8, 'days');
+                        
                         const data = { date: newDate }
                         const res = await controller.updateById(_id, data);
 
