@@ -46,7 +46,7 @@ export default class PlayersMongo {
             }
         } else {
             return {
-                message: "Countries not found",
+                message: "Players not found",
                 response: []
             }
         }
