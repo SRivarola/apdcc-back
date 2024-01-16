@@ -11,12 +11,13 @@ export default async function (req, res, next) {
 
         const { response: teamRes } = await teamsController.readById(team);
 
-        if(teamRes.category_id.name != '+30') next();
+        if(teamRes.category_id.name != '+30') return next();
 
         const playersController = new PlayersController();
 
         const date = new Date().getFullYear();
         const bornYear = date - Number(teamRes.category_id.name)
+        // console.log(teamRes.category_id.name);
 
         const { response } = await playersController.readAll({ team, year: { $gt: bornYear, $lte: bornYear + 3 } });
         

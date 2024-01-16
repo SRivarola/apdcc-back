@@ -47,6 +47,8 @@ export default class PopupsRouter extends MyRouter {
         const body = req.body;
         const data = { active: false };
 
+        console.log(body)
+
         if (body.active) data.active = true;
         if (body.image) {
           const lastPic = await controller.readById("65970367237c9ea284380054");

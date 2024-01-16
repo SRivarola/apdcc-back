@@ -7,9 +7,9 @@ export default async function (req, res, next) {
         if(action === 'remove') return next();
         
         const controller = new PlayersController();
-        const all = await controller.readAll({team})
+        const { response } = await controller.readAll({team})
 
-        if(all.response.length < 35) return next();
+        if(response.length < 35) return next();
         
         return res.status(400).json({
             method: req.method,
