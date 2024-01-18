@@ -96,7 +96,7 @@ export default class MatchesRouter extends MyRouter {
             }
         );
 
-        this.put("/results/:id", ["ADMIN"], async (req, res, next) => {
+        this.put("/results/:id", ["ADMIN", "JUEZ"], async (req, res, next) => {
           try {
             const { id } = req.params;
             const {
