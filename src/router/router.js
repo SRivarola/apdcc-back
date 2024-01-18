@@ -44,7 +44,7 @@ export default class MyRouter {
                 const user = await User.findOne(
                 { mail: payload.mail },
                 "mail role country_id"
-                );
+                ); 
                 req.user = user;
             }
             return next();
@@ -59,7 +59,7 @@ export default class MyRouter {
                     (policies.includes('ADMIN') && role === 'ADMIN') ||
                     (policies.includes('MANAGER') && role === 'MANAGER') ||
                     (policies.includes('JUEZ') && role === 'JUEZ')
-                ) {
+                ) {  
                     req.user = user;
                     return next();
                 } else {
