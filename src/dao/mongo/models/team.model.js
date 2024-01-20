@@ -10,7 +10,8 @@ const schema = new Schema({
     sport: { type: String, enum: ['HOCKEY', 'F11', 'F7'], required: true },
     genre: { type: String, enum: ['MASCULINO', 'FEMENINO'], required: true },
     category_id: { type: Types.ObjectId, ref: 'categories', required: true },
-    country_id: { type: Types.ObjectId, ref: 'countries', required: true }
+    country_id: { type: Types.ObjectId, ref: 'countries', required: true },
+    players_qtty: { type: Number, required: true, default: 0 }
 });
 
 schema.plugin(mongoosePaginate)

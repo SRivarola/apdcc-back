@@ -3,6 +3,7 @@ import MyRouter from "../router.js";
 //importacion del controlador
 import PlayersController from "../../controllers/players.controller.js";
 import CategoriesController from "../../controllers/categories.controller.js";
+import TeamsController from "../../controllers/teams.controller.js";
 //importacion de middlewares
 import is_valid_player from "../../middlewares/is_valid_player.js";
 import is_playerForm_ok from "../../middlewares/is_playerForm_ok.js";
@@ -22,6 +23,7 @@ cloudinary.config({
 
 const controller = new PlayersController();
 const catController = new CategoriesController();
+const teamsController = new TeamsController();
 
 export default class PlayersRouter extends MyRouter {
   init() {
@@ -272,6 +274,11 @@ export default class PlayersRouter extends MyRouter {
           if (action === "add") {
             teams.push(team);
             response = await controller.update(req.params.id, { team: teams });
+            if(response){
+              const { response: data } = await teamsController.readById(team);
+              const players_qtty = data.players_qtty + 1;
+              await teamsController.update(data._id, { players_qtty });
+            }
           }
 
           if (action === "remove") {
@@ -279,6 +286,11 @@ export default class PlayersRouter extends MyRouter {
             response = await controller.update(req.params.id, {
               team: newTeams,
             });
+            if(response){
+              const { response: data } = await teamsController.readById(team);
+              const players_qtty = data.players_qtty - 1;
+              await teamsController.update(data._id, { players_qtty });
+            }
           }
 
           return response
