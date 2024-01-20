@@ -211,9 +211,9 @@ export default class PlayersRouter extends MyRouter {
         try {
           let id = req.params.id;
           let data = req.body;
-          
+          let player = await controller.readById(id);
           if (data.avatar) {
-            await cloudinary.uploader.destroy(player.response.avatar.public_id)
+            if (player.response.avatar.public_id) await cloudinary.uploader.destroy(player.response.avatar.public_id);
             const img_avatar_response = await cloudinary.uploader.upload(
               data.avatar,
               {
@@ -231,14 +231,12 @@ export default class PlayersRouter extends MyRouter {
           };
 
           if (data.dni_photo) {
-            await cloudinary.uploader.destroy(player.response.dni_photo.public_id);
+            if(player.response.dni_photo.public_id) await cloudinary.uploader.destroy(player.response.dni_photo.public_id);
             const img_dni_response = await cloudinary.uploader.upload(
               data.dni_photo,
               {
                 folder: "photos",
                 gravity: "auto",
-                width: 300,
-                height: 400,
                 crop: "fill",
               }
             );
