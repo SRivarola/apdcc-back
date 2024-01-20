@@ -22,7 +22,7 @@ export default function () {
         {
           jwtFromRequest: jwt.ExtractJwt.fromExtractors([
             (req) => {
-                let token = req?.headers.token || req.cookies.apdcc_token;
+                let token = req.cookies.apdcc_token;
                 return token
             }
           ]),

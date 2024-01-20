@@ -77,9 +77,9 @@ export default class AuthRouter extends MyRouter {
         req.session.destroy();
         let response = await controller.signout();
         if (response) {
-          return res.clearCookie("token").sendSuccess(response);
+          return res.clearCookie("apdcc_token").sendSuccess(response);
         } else {
-          return res.clearCookie("token").sendNotFound("user");
+          return res.clearCookie("apdcc_token").sendNotFound("user");
         }
       } catch (error) {
         next(error);
@@ -167,7 +167,13 @@ export default class AuthRouter extends MyRouter {
     this.put("/:id", ["ADMIN"], async (req, res, next) => {
       try {
         let { id } = req.params;
-        let data = req.body;
+        let body = req.body;
+        const data = Object.entries(body).reduce((acc, [key, value]) => {
+          if (value !== "") {
+            acc[key] = value;
+          }
+          return acc;
+        }, {});
         let response = await controller.update(id, data);
         return response ? res.sendSuccess(response) : res.sendNotFound("user");
       } catch (error) {
