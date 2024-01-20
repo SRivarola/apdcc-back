@@ -1,0 +1,1 @@
+import{a2 as d,aP as x,ab as p,j as u,a0 as i}from"./index-_S5NMAtM.js";var s=d((a,e)=>{const{as:t,children:r,className:l,...f}=a,{slots:m,classNames:o}=x(),n=p(e),c=t||"footer";return u.jsx(c,{ref:n,className:m.footer({class:i(o==null?void 0:o.footer,l)}),...f,children:r})});s.displayName="NextUI.ModalFooter";var M=s;export{M as m};
