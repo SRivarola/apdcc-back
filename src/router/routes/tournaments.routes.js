@@ -62,17 +62,20 @@ export default class TournamentsRouter extends MyRouter {
         let queries = headers ? JSON.parse(headers) : {};
 
         const data = Object.entries(queries).reduce((acc, [key, value]) => {
-          if (value !== "") {
+          if (key === "name") {
+            acc[key] = new RegExp(value, 'i');
+          } else if (value !== "") {
             acc[key] = value;
           }
           return acc;
         }, {});
-
+        
         const response = await tournament_controller.read(data, {
           populate: [{ path: "category_id", select: "name" }],
           lean: true,
           limit: 10,
           page: page ? page : 1,
+          sort: { 'createdAt' : -1 }
         });
 
         return res.sendSuccess(response);

@@ -15,7 +15,7 @@ export default async function (req, res, next) {
             status: 401,
             method: req.method,
             path: req.url,
-            response: 'Invalid credentials'
+            response: 'Email y/o Contraseña incorrectas. ¡Intentelo nuevamente!'
         });
     };
 }

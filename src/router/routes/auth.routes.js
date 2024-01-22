@@ -29,6 +29,7 @@ export default class AuthRouter extends MyRouter {
       async (req, res, next) => {
         try {
           let data = req.body;
+          console.log(data)
           let response = await controller.register(data);
           if (response) {
             return res.sendSuccessCreate(response);

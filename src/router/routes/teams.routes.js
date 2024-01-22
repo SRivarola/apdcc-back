@@ -61,7 +61,7 @@ export default class TeamsRouter extends MyRouter {
                 { path: "category_id", select: "name" },
               ],
               lean: true,
-              limit: 20,
+              limit: 10,
               page: page ? page : 1,
             }
           );

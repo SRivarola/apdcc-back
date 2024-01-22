@@ -7,6 +7,6 @@ export default class {
         this.mail = obj.mail;
         this.password = bcrypt.hashSync(obj.password, bcrypt.genSaltSync(10));
         this.role = obj.role;
-        this.country = obj.country;
+        this.country_id = obj.country_id;
     }
 }
