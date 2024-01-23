@@ -248,6 +248,10 @@ export default class PlayersRouter extends MyRouter {
             };
           };
 
+          if(data.state === "PENDING") {
+            data.team = []
+          }
+
           let response = await controller.update(id, data);
 
           return response
