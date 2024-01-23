@@ -8,7 +8,7 @@ export default class PlayersService {
 
     create = (data) => this.model.create(data);
     read = (query, data) => this.model.read(query, data);
-    readAll = (query) => this.model.readAll(query);
+    readAll = (data) => this.model.readAll(data);
     readById = (id) => this.model.readById(id);
     readOne = (data) => this.model.readOne(data);
     update = (id, data) => this.model.update(id, data);

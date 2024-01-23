@@ -37,8 +37,8 @@ export default class PlayersMongo {
         }
     }
 
-    async readAll(query) {
-        let all = await Player.find(query);
+    async readAll(data) {
+        let all = await Player.find(data);
         if(all.length > 0) {
             return {
                 message: "players found",

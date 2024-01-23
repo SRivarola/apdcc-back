@@ -306,6 +306,24 @@ export default class PlayersRouter extends MyRouter {
       }
     );
 
+    this.put('/cleanAllteams', ["ADMIN"], async (req, res, next) => {
+      try {
+        const { response } = await controller.readAll();
+
+        for (let i = 0; i < response.length; i++) {
+          const { _id } = response[i];
+          await controller.update(_id, { team: []});
+        }
+
+        res.sendSuccess({
+          message: "Equipos vaciados correctamente",
+          response: true
+        })
+      } catch (error) {
+        next(error);
+      }
+    });
+
     // ACTUALIZAR BASE DE DATOS DE PLAYERS
     // this.put(
     //   '/actualizarDB',

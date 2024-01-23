@@ -8,7 +8,7 @@ export default class PlayersController {
 
     create = (data) => this.service.create(data);
     read = (query, data) => this.service.read(query, data);
-    readAll = (query) => this.service.readAll(query)
+    readAll = (data) => this.service.readAll(data)
     readById = (id) => this.service.readById(id);
     readOne = (data) => this.service.readOne(data);
     update = (id, data) => this.service.update(id, data);
