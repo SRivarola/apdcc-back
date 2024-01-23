@@ -19,7 +19,9 @@ const schema = new Schema({
   res_visit: { type: Number },
   round: { type: Number, required: true },
   date: { type: Date, required: true },
-  time: { type: String, required: true }
+  time: { type: String, required: true },
+  fair_play: { type: Types.ObjectId, ref: "players" },
+  best_player: { type: Types.ObjectId, ref: "players" }
 });
 
 const Match = model(collection, schema);
