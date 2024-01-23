@@ -8,5 +8,6 @@ export default class {
         this.password = bcrypt.hashSync(obj.password, bcrypt.genSaltSync(10));
         this.role = obj.role;
         this.country_id = obj.country_id;
+        this.phone = obj.phone;
     }
 }

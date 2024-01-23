@@ -17,7 +17,6 @@ export default async function (req, res, next) {
 
         const date = new Date().getFullYear();
         const bornYear = date - Number(teamRes.category_id.name)
-        // console.log(teamRes.category_id.name);
 
         const { response } = await playersController.readAll({ team, year: { $gt: bornYear, $lte: bornYear + 3 } });
         

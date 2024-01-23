@@ -311,11 +311,9 @@ export default class PlayersRouter extends MyRouter {
     //       const data = req.body;
     //       const { response } = await controller.readAll();
   
-    //       console.log(response)
     //       for (let i = 0; i < response.length; i++) {
     //         const element = response[i];
     //         const player = await controller.update(element._id, data)
-    //         console.log(player)
     //       }
     //       res.sendSuccess(response)
     //     } catch (error) {
