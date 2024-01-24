@@ -128,16 +128,13 @@ export default class PlayersRouter extends MyRouter {
           
           if (req.user.role === "MANAGER") data.country_id = req.user.country_id;
 
-          let response = await controller.read(
-            data,
-            {
-              populate: { path: "country_id", select: "name" },
-              sort: { state: "asc" },
-              lean: true,
-              limit: 10,
-              page: page ? page : 1,
-            }
-          );
+          let response = await controller.read(data, {
+            populate: { path: "country_id", select: "name" },
+            sort: req.user.role === "ADMIN" ? { state: "asc" } : { last_name: 1 },
+            lean: true,
+            limit: 10,
+            page: page ? page : 1,
+          });
 
           if (response) {
             return res.sendSuccess(response);
