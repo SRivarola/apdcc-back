@@ -103,11 +103,9 @@ export default class AuthRouter extends MyRouter {
       }
     );
 
-    this.get("/all", ["PUBLIC"], async (req, res, next) => {
+    this.get("/all", ["ADMIN"], async (req, res, next) => {
       try {
-        if (req.user.role !== "ADMIN") {
-          return res.sendNotAuthorizedError();
-        }
+
         const { page } = req.query;
         const headers = req.headers.queries;
         let queries = headers ? JSON.parse(headers) : {};
