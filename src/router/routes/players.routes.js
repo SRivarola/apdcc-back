@@ -303,7 +303,7 @@ export default class PlayersRouter extends MyRouter {
       }
     );
 
-    this.put('/cleanAllteams', ["ADMIN"], async (req, res, next) => {
+    this.put('/cleanallteams', ["ADMIN"], async (req, res, next) => {
       try {
         const { response } = await controller.readAll();
 
