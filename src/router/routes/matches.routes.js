@@ -49,11 +49,23 @@ export default class MatchesRouter extends MyRouter {
       try {
         const { id: tournament_id } = req.params;
         const { response: matches } = await controller.readAll({ tournament_id });
-        const { response: tournament } = await tournaments_controller.readById(tournament_id);
+        // const { response: tournament } = await tournaments_controller.readById(tournament_id);
 
-        // const 
+        // const teamsQtty = tournament.teams_quantity;
+
+        const teams = []
+
+        matches.forEach(match => {
+          if (!teams.includes(match.local.team_id._id)) {
+            teams.push(match.local.team_id._id);
+          } 
+          if(!teams.includes(match.visit.team_id._id)) {
+             teams.push(match.visit.team_id._id);
+          }
+        });
+
+        console.log(teams);
         // console.log(matches);
-        // console.log(tournament);
       } catch (error) {
         next(error);
       }
