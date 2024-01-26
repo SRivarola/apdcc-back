@@ -4,11 +4,13 @@ import MyRouter from "../router.js";
 import MatchesController from "../../controllers/matches.controller.js";
 import TargetsController from "../../controllers/target.controller.js";
 import PlayersController from "../../controllers/players.controller.js";
+import TournamentsController from "../../controllers/tournament.controller.js"
 import moment from "moment";
 
 const controller = new MatchesController();
 const target_controller = new TargetsController();
 const players_controller = new PlayersController();
+const tournaments_controller = new TournamentsController();
 
 export default class MatchesRouter extends MyRouter {
   init() {
@@ -27,6 +29,29 @@ export default class MatchesRouter extends MyRouter {
 
         const response = await controller.readAll(data);
         return res.sendSuccess(response);
+      } catch (error) {
+        next(error);
+      }
+    });
+
+    this.get("/:id", ["ADMIN"], async (req, res, next) => {
+      try {
+        const { id } = req.params;
+        const response = await controller.readById(id);
+
+        return response ? res.sendSuccess(response) : res.sendNotFound("match");
+      } catch (error) {
+        next(error);
+      }
+    })
+
+    this.get("/tournament/:id", ["ADMIN"], async (req, res, next) => {
+      try {
+        const { id: tournament_id } = req.params;
+        const { response: matches } = await controller.readAll({ tournament_id });
+        const { response: tournament } = await tournaments_controller.readById(tournament_id);
+        console.log(matches);
+        console.log(tournament);
       } catch (error) {
         next(error);
       }
@@ -133,7 +158,7 @@ export default class MatchesRouter extends MyRouter {
           targetLocal_id,
           targetLocal
         );
-        console.log(target_local_response)
+        console.log(target_local_response);
         targetVisit.played_matches = 1;
         targetVisit.red_cards = redCards.visitPlayersWithRedCards;
 
@@ -167,8 +192,8 @@ export default class MatchesRouter extends MyRouter {
 
         console.log(match_response);
 
-        return match_response && target_local_response && target_visit_response ?
-            res.sendSuccess({
+        return match_response && target_local_response && target_visit_response
+          ? res.sendSuccess({
               match_response,
               target_local_response,
               target_visit_response,

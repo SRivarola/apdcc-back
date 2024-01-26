@@ -45,6 +45,16 @@ export default class MatchesMongo {
         }
     }
 
+    async readById(id){
+      let one = await Match.findById(id);
+      if (one) {
+        return {
+          message: "match found",
+          response: one
+        }
+      }
+    }
+
     async updateById(id, data) {
         let one = await Match.findByIdAndUpdate(id, data, { new: true });
         if(one) {
