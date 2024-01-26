@@ -50,8 +50,10 @@ export default class MatchesRouter extends MyRouter {
         const { id: tournament_id } = req.params;
         const { response: matches } = await controller.readAll({ tournament_id });
         const { response: tournament } = await tournaments_controller.readById(tournament_id);
-        console.log(matches);
-        console.log(tournament);
+
+        // const 
+        // console.log(matches);
+        // console.log(tournament);
       } catch (error) {
         next(error);
       }

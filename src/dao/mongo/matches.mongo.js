@@ -46,7 +46,21 @@ export default class MatchesMongo {
     }
 
     async readById(id){
-      let one = await Match.findById(id);
+      let one = await Match.findById(id)
+        .populate({
+          path: "local",
+          populate: {
+            path: "team_id",
+            model: "teams",
+          },
+        })
+        .populate({
+          path: "visit",
+          populate: {
+            path: "team_id",
+            model: "teams",
+          },
+        }).populate('tournament_id');
       if (one) {
         return {
           message: "match found",
