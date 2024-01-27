@@ -52,8 +52,8 @@ export default class MatchesRouter extends MyRouter {
         });
         const matchsresults = [];
         const teams = [];
-        let fair_play_arr = [];
-        let best_player_arr = [];
+        const fair_play_arr = [];
+        const best_player_arr = [];
 
         async function createTeamsArray(teams, matches) {
           for (let i = 0; i < matches.length; i++) {
@@ -194,8 +194,46 @@ export default class MatchesRouter extends MyRouter {
         const fair_play = await getMost(fair_play_arr);
         const best_player = await getMost(best_player_arr);
 
+        async function createPlayersWithRedCards(matches) {
+          const playersWithRedCardsArr = [];
+          const { response: targets } = await target_controller.read({
+            tournament_id,
+          });
+          for (let i = 0; i < targets.length; i++) {
+            const { red_cards } = targets[i];
+            if (red_cards.length) {
+              playersWithRedCardsArr.push(...red_cards);
+            }
+          }
+          // Objeto para almacenar la cantidad de repeticiones de cada ID
+          let contadorIds = {};
+          // Contar la cantidad de repeticiones de cada ID
+          playersWithRedCardsArr.forEach((id) => {
+            let idString = id.toString(); // Convertir ObjectId a String
+            contadorIds[idString] = (contadorIds[idString] || 0) + 1;
+          });
+          // Crear el nuevo array con la estructura deseada
+          let playerWRC = Object.keys(contadorIds).map((id) => {
+            return { id: id, cantidad: contadorIds[id] };
+          }).sort((a, b) => b.cantidad - a.cantidad );
+
+          for (let i = 0; i < playerWRC.length; i++) {
+            const element = playerWRC[i];
+            const { response: player } = await players_controller.readById(element.id);
+            element.player = player
+          }
+          return playerWRC
+        }
+
+        const red_cards_players = await createPlayersWithRedCards(matches);
+
         return matches
-          ? res.sendSuccess({ matchsresults, fair_play, best_player })
+          ? res.sendSuccess({
+              matchsresults,
+              fair_play,
+              best_player,
+              red_cards_players,
+            })
           : res.sendNotFound("match");
       } catch (error) {
         next(error);
