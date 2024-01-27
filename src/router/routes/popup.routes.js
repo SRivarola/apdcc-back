@@ -45,11 +45,8 @@ export default class PopupsRouter extends MyRouter {
     this.put("/", ["ADMIN"], async (req, res, next) => {
       try {
         const body = req.body;
-        const data = { active: false };
+        const data = {};
 
-        console.log(body)
-
-        if (body.active) data.active = true;
         if (body.image) {
           const lastPic = await controller.readById("65970367237c9ea284380054");
           if (lastPic?.response?.image?.public_id) await cloudinary.uploader.destroy(lastPic.response.image.public_id);
@@ -62,6 +59,8 @@ export default class PopupsRouter extends MyRouter {
             public_id: img_response.public_id
           }
         }
+        if (body.active == "true") data.active = true;
+        if (body.active == "false") data.active = false;
 
         const response = await controller.update("65970367237c9ea284380054", data);
 
