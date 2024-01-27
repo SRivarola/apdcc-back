@@ -9,7 +9,11 @@ export default class TargetsMongo {
     }
 
     async read(query) {
-        let all = await Target.find(query).populate('team_id');
+        let all = await Target.find(query).populate({
+            path: 'team_id'
+        }).populate({
+            path: 'red_cards'
+        });
         if (all.length) {
             return {
                 message: 'Targets found',
