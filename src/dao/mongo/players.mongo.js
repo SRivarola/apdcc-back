@@ -53,7 +53,9 @@ export default class PlayersMongo {
     }
 
     async readById(id) {
-        let one = await Player.findById(id);
+        let one = await Player.findById(id).populate({
+            path: 'country_id'
+        });
         if(one) {
             return {
                 message: "player found",
