@@ -60,7 +60,20 @@ export default class MatchesMongo {
             path: "team_id",
             model: "teams",
           },
-        }).populate('tournament_id best_player fair_play');
+        })
+        .populate({
+          path: "best_player",
+          populate: {
+            path: "country_id",
+          },
+        })
+        .populate({
+          path: "fair_play",
+          populate: {
+            path: "country_id",
+          },
+        })
+        .populate("tournament_id");
       if (one) {
         return {
           message: "match found",
