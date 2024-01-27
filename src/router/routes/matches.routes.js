@@ -9,6 +9,7 @@ import moment from "moment";
 
 const controller = new MatchesController();
 const target_controller = new TargetsController();
+const players_controller = new PlayersController();
 
 export default class MatchesRouter extends MyRouter {
   init() {
@@ -49,28 +50,33 @@ export default class MatchesRouter extends MyRouter {
         const { response: matches } = await controller.readAll({
           tournament_id,
         });
-        const matchsresults = []
+        const matchsresults = [];
         const teams = [];
+        let fair_play_arr = [];
+        let best_player_arr = [];
 
-        async function createTeamsArray(teams, matches){
+        async function createTeamsArray(teams, matches) {
           for (let i = 0; i < matches.length; i++) {
             const match = matches[i];
-            if (
-              !teams.includes(match.local.team_id._id)
-            ) {
+            if (!teams.includes(match.local.team_id._id)) {
               teams.push(match.local.team_id._id);
             }
+            if (match?.fair_play) {
+              fair_play_arr.push(match.fair_play);
+            }
+            if (match?.best_player) {
+              best_player_arr.push(match.best_player);
+            }
           }
-          return matches;
         }
 
         async function matchesLocalTargets(teamMatchesLocal, target, team) {
           for (let i = 0; i < teamMatchesLocal.length; i++) {
             const element = teamMatchesLocal[i];
-            if(!element?.res_local) {
+            if (!element?.res_local) {
               continue;
             }
-            if(element.res_local > element.res_visit) {
+            if (element.res_local > element.res_visit) {
               target.points = target.points + 3;
               target.wins++;
             } else if (element.res_local == element.res_visit) {
@@ -82,8 +88,8 @@ export default class MatchesRouter extends MyRouter {
             target.played_matches++;
             const { response } = await target_controller.read({
               team_id: team,
-              match_id: element._id
-            })
+              match_id: element._id,
+            });
             target.yellow_cards = target.yellow_cards + response[0].yellow_card;
             target.red_cards = target.red_cards + response[0].red_cards.length;
           }
@@ -107,26 +113,25 @@ export default class MatchesRouter extends MyRouter {
             target.played_matches++;
             const { response } = await target_controller.read({
               team_id: team,
-              match_id: element._id
-            })
+              match_id: element._id,
+            });
             target.yellow_cards = target.yellow_cards + response[0].yellow_card;
             target.red_cards = target.red_cards + response[0].red_cards.length;
-
           }
         }
 
-        async function createMatchResults(teams, matches){
+        async function createMatchResults(teams, matches) {
           await createTeamsArray(teams, matches);
 
           for (let i = 0; i < teams.length; i++) {
             const team = teams[i].toString();
             const teamMatchesLocal = matches.filter(
-              (match) =>  match.local.team_id._id.toString() == team
+              (match) => match.local.team_id._id.toString() == team
             );
             const teamMatchesVisit = matches.filter(
               (match) => match.visit.team_id._id.toString() == team
             );
-  
+
             let target = {
               points: 0,
               wins: 0,
@@ -134,15 +139,19 @@ export default class MatchesRouter extends MyRouter {
               losses: 0,
               played_matches: 0,
               yellow_cards: 0,
-              red_cards: 0
-            }
+              red_cards: 0,
+            };
 
             await matchesLocalTargets(teamMatchesLocal, target, team);
-  
+
             await matchesVisitTargets(teamMatchesVisit, target, team);
-          
-            const { local: { team_id: { _id, name } } } = matches.find( m => m.local.team_id._id == team );
-  
+
+            const {
+              local: {
+                team_id: { _id, name },
+              },
+            } = matches.find((m) => m.local.team_id._id == team);
+
             matchsresults.push({
               _id,
               name,
@@ -152,11 +161,42 @@ export default class MatchesRouter extends MyRouter {
         }
 
         await createMatchResults(teams, matches);
-          
-        return matches 
-          ? res.sendSuccess(matchsresults) 
-          : res.sendNotFound("match");
 
+        async function getMost(array) {
+          // Crear un objeto para almacenar la frecuencia de cada ID
+          const frequencyMap = {};
+          // Contar la frecuencia de cada ID
+          array.forEach((id) => {
+            frequencyMap[id] = (frequencyMap[id] || 0) + 1;
+          });
+          // Contar la frecuencia de cada ID
+          let mostRepeatedId = null;
+          let maxFrequency = 0;
+  
+          for (const id in frequencyMap) {
+            if (frequencyMap[id] > maxFrequency) {
+              mostRepeatedId = id;
+              maxFrequency = frequencyMap[id];
+            }
+          }
+
+          const { response: player } = await players_controller.readById(mostRepeatedId);
+
+          // Crear el objeto final
+          const mostPlayer = {
+            player,
+            cantidad: maxFrequency,
+          };
+  
+          return mostPlayer;
+        }
+
+        const fair_play = await getMost(fair_play_arr);
+        const best_player = await getMost(best_player_arr);
+
+        return matches
+          ? res.sendSuccess({ matchsresults, fair_play, best_player })
+          : res.sendNotFound("match");
       } catch (error) {
         next(error);
       }
