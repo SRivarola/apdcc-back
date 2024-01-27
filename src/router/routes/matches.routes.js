@@ -4,13 +4,11 @@ import MyRouter from "../router.js";
 import MatchesController from "../../controllers/matches.controller.js";
 import TargetsController from "../../controllers/target.controller.js";
 import PlayersController from "../../controllers/players.controller.js";
-import TournamentsController from "../../controllers/tournament.controller.js"
+import TournamentsController from "../../controllers/tournament.controller.js";
 import moment from "moment";
 
 const controller = new MatchesController();
 const target_controller = new TargetsController();
-const players_controller = new PlayersController();
-const tournaments_controller = new TournamentsController();
 
 export default class MatchesRouter extends MyRouter {
   init() {
@@ -43,29 +41,122 @@ export default class MatchesRouter extends MyRouter {
       } catch (error) {
         next(error);
       }
-    })
+    });
 
     this.get("/tournament/:id", ["ADMIN"], async (req, res, next) => {
       try {
         const { id: tournament_id } = req.params;
-        const { response: matches } = await controller.readAll({ tournament_id });
-        // const { response: tournament } = await tournaments_controller.readById(tournament_id);
-
-        // const teamsQtty = tournament.teams_quantity;
-
-        const teams = []
-
-        matches.forEach(match => {
-          if (!teams.includes(match.local.team_id._id)) {
-            teams.push(match.local.team_id._id);
-          } 
-          if(!teams.includes(match.visit.team_id._id)) {
-             teams.push(match.visit.team_id._id);
-          }
+        const { response: matches } = await controller.readAll({
+          tournament_id,
         });
+        const matchsresults = []
+        const teams = [];
 
-        console.log(teams);
-        // console.log(matches);
+        async function createTeamsArray(teams, matches){
+          for (let i = 0; i < matches.length; i++) {
+            const match = matches[i];
+            if (
+              !teams.includes(match.local.team_id._id)
+            ) {
+              teams.push(match.local.team_id._id);
+            }
+          }
+          return matches;
+        }
+
+        async function matchesLocalTargets(teamMatchesLocal, target, team) {
+          for (let i = 0; i < teamMatchesLocal.length; i++) {
+            const element = teamMatchesLocal[i];
+            if(!element?.res_local) {
+              continue;
+            }
+            if(element.res_local > element.res_visit) {
+              target.points = target.points + 3;
+              target.wins++;
+            } else if (element.res_local == element.res_visit) {
+              target.points++;
+              target.ties++;
+            } else if (element.res_local < element.res_visit) {
+              target.losses++;
+            }
+            target.played_matches++;
+            const { response } = await target_controller.read({
+              team_id: team,
+              match_id: element._id
+            })
+            target.yellow_cards = target.yellow_cards + response[0].yellow_card;
+            target.red_cards = target.red_cards + response[0].red_cards.length;
+          }
+        }
+
+        async function matchesVisitTargets(teamMatchesVisit, target, team) {
+          for (let i = 0; i < teamMatchesVisit.length; i++) {
+            const element = teamMatchesVisit[i];
+            if (!element?.res_visit) {
+              continue;
+            }
+            if (element.res_visit > element.res_local) {
+              target.points = target.points + 3;
+              target.wins++;
+            } else if (element.res_visit == element.res_local) {
+              target.points++;
+              target.ties++;
+            } else if (element.res_visit < element.res_local) {
+              target.losses++;
+            }
+            target.played_matches++;
+            const { response } = await target_controller.read({
+              team_id: team,
+              match_id: element._id
+            })
+            target.yellow_cards = target.yellow_cards + response[0].yellow_card;
+            target.red_cards = target.red_cards + response[0].red_cards.length;
+
+          }
+        }
+
+        async function createMatchResults(teams, matches){
+          await createTeamsArray(teams, matches);
+
+          for (let i = 0; i < teams.length; i++) {
+            const team = teams[i].toString();
+            const teamMatchesLocal = matches.filter(
+              (match) =>  match.local.team_id._id.toString() == team
+            );
+            const teamMatchesVisit = matches.filter(
+              (match) => match.visit.team_id._id.toString() == team
+            );
+  
+            let target = {
+              points: 0,
+              wins: 0,
+              ties: 0,
+              losses: 0,
+              played_matches: 0,
+              yellow_cards: 0,
+              red_cards: 0
+            }
+
+            await matchesLocalTargets(teamMatchesLocal, target, team);
+  
+            await matchesVisitTargets(teamMatchesVisit, target, team);
+          
+            const { local: { team_id: { _id, name } } } = matches.find( m => m.local.team_id._id == team );
+  
+            matchsresults.push({
+              _id,
+              name,
+              ...target,
+            });
+          }
+        }
+
+        await createMatchResults(teams, matches);
+          
+        return matches 
+          ? res.sendSuccess(matchsresults) 
+          : res.sendNotFound("match");
+
       } catch (error) {
         next(error);
       }
@@ -139,72 +230,21 @@ export default class MatchesRouter extends MyRouter {
           best_player,
         };
 
-        // if (results.res_local > results.res_visit) {
-        //   //local targets
-        //   targetLocal.points = 3;
-        //   targetLocal.wins = 1;
-
-        //   //visit targets
-        //   targetVisit.losses = 1;
-        // }
-        // if (results.res_local < results.res_visit) {
-        //   //local targets
-        //   targetLocal.losses = 1;
-
-        //   //visit targets
-        //   targetVisit.wins = 1;
-        //   targetVisit.points = 3;
-        // }
-        // if (results.res_local === results.res_visit) {
-        //   //local targets
-        //   targetLocal.points = 1;
-        //   targetLocal.ties = 1;
-
-        //   //visit targets
-        //   targetVisit.points = 1;
-        //   targetVisit.ties = 1;
-        // }
-
-        targetLocal.played_matches = 1;
         targetLocal.red_cards = redCards.localPlayersWithRedCards;
 
         const target_local_response = await target_controller.update(
           targetLocal_id,
           targetLocal
         );
-        console.log(target_local_response);
-        targetVisit.played_matches = 1;
+
         targetVisit.red_cards = redCards.visitPlayersWithRedCards;
 
         const target_visit_response = await target_controller.update(
           targetVisit_id,
           targetVisit
         );
-        console.log(target_visit_response);
-
-        // if (redCards.localPlayersWithRedCards.length) {
-        //   const players = redCards.localPlayersWithRedCards;
-        //   for (let i = 0; i < players.length; i++) {
-        //     const playerId = players[i];
-        //     const { response } = await players_controller.readById(playerId);
-        //     const red_cards = response.red_cards + 1;
-        //     await players_controller.update(playerId, { red_cards });
-        //   }
-        // }
-
-        // if (redCards.visitPlayersWithRedCards.length) {
-        //   const players = redCards.visitPlayersWithRedCards;
-        //   for (let i = 0; i < players.length; i++) {
-        //     const playerId = players[i];
-        //     const { response } = await players_controller.readById(playerId);
-        //     const red_cards = response.red_cards + 1;
-        //     await players_controller.update(playerId, { red_cards });
-        //   }
-        // }
 
         const match_response = await controller.updateById(id, data);
-
-        console.log(match_response);
 
         return match_response && target_local_response && target_visit_response
           ? res.sendSuccess({
