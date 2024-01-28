@@ -181,7 +181,7 @@ export default class MatchesRouter extends MyRouter {
           }
           
           if(mostRepeatedId) {
-            const { response: player } = await players_controller.readById(mostRepeatedId);
+            const { response: player } = await players_controller.readById(mostRepeatedId.toString());
             // Crear el objeto final
             const mostPlayer = {
               player,
@@ -190,10 +190,7 @@ export default class MatchesRouter extends MyRouter {
     
             return mostPlayer;
           } else {
-            return {
-              player: "",
-              cantidad: 0
-            }
+            return [];
           }
 
         }
@@ -215,15 +212,18 @@ export default class MatchesRouter extends MyRouter {
           // Objeto para almacenar la cantidad de repeticiones de cada ID
           let contadorIds = {};
           // Contar la cantidad de repeticiones de cada ID
+          for (let i = 0; i < playersWithRedCardsArr.length; i++) {
+            const element = playersWithRedCardsArr[i];
+            // console.log(element)
+          }
           playersWithRedCardsArr.forEach((id) => {
-            let idString = id.toString(); // Convertir ObjectId a String
+            let idString = id._id.toString(); // Convertir ObjectId a String
             contadorIds[idString] = (contadorIds[idString] || 0) + 1;
           });
           // Crear el nuevo array con la estructura deseada
           let playerWRC = Object.keys(contadorIds).map((id) => {
             return { id: id, cantidad: contadorIds[id] };
-          }).sort((a, b) => b.cantidad - a.cantidad );
-
+          });
           for (let i = 0; i < playerWRC.length; i++) {
             const element = playerWRC[i];
             const { response: player } = await players_controller.readById(element.id);
@@ -231,8 +231,6 @@ export default class MatchesRouter extends MyRouter {
           }
           return playerWRC
         }
-
-        console.log("estos son los resultados de equipos",matches);
 
         const red_cards_players = await createPlayersWithRedCards(matches);
 
