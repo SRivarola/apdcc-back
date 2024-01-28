@@ -179,16 +179,23 @@ export default class MatchesRouter extends MyRouter {
               maxFrequency = frequencyMap[id];
             }
           }
+          
+          if(mostRepeatedId) {
+            const { response: player } = await players_controller.readById(mostRepeatedId);
+            // Crear el objeto final
+            const mostPlayer = {
+              player,
+              cantidad: maxFrequency,
+            };
+    
+            return mostPlayer;
+          } else {
+            return {
+              player: "",
+              cantidad: 0
+            }
+          }
 
-          const { response: player } = await players_controller.readById(mostRepeatedId);
-
-          // Crear el objeto final
-          const mostPlayer = {
-            player,
-            cantidad: maxFrequency,
-          };
-  
-          return mostPlayer;
         }
 
         const fair_play = await getMost(fair_play_arr);
@@ -224,6 +231,8 @@ export default class MatchesRouter extends MyRouter {
           }
           return playerWRC
         }
+
+        console.log("estos son los resultados de equipos",matches);
 
         const red_cards_players = await createPlayersWithRedCards(matches);
 
