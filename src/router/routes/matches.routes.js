@@ -58,7 +58,7 @@ export default class MatchesRouter extends MyRouter {
         async function createTeamsArray(teams, matches) {
           for (let i = 0; i < matches.length; i++) {
             const match = matches[i];
-            if (!teams.includes(match.local.team_id._id)) {
+            if (!teams.includes(match.local?.team_id?._id)) {
               teams.push(match.local.team_id._id);
             }
             if (match?.fair_play) {
@@ -73,7 +73,8 @@ export default class MatchesRouter extends MyRouter {
         async function matchesLocalTargets(teamMatchesLocal, target, team) {
           for (let i = 0; i < teamMatchesLocal.length; i++) {
             const element = teamMatchesLocal[i];
-            if (!element?.res_local) {
+            console.log(typeof element?.res_local)
+            if (typeof element?.res_local !== "number") {
               continue;
             }
             if (element.res_local > element.res_visit) {
@@ -98,7 +99,7 @@ export default class MatchesRouter extends MyRouter {
         async function matchesVisitTargets(teamMatchesVisit, target, team) {
           for (let i = 0; i < teamMatchesVisit.length; i++) {
             const element = teamMatchesVisit[i];
-            if (!element?.res_visit) {
+            if (typeof element?.res_visit !== "number") {
               continue;
             }
             if (element.res_visit > element.res_local) {
@@ -122,14 +123,13 @@ export default class MatchesRouter extends MyRouter {
 
         async function createMatchResults(teams, matches) {
           await createTeamsArray(teams, matches);
-
           for (let i = 0; i < teams.length; i++) {
             const team = teams[i].toString();
             const teamMatchesLocal = matches.filter(
-              (match) => match.local.team_id._id.toString() == team
+              (match) => match.local?.team_id?._id.toString() == team
             );
             const teamMatchesVisit = matches.filter(
-              (match) => match.visit.team_id._id.toString() == team
+              (match) => match.visit?.team_id?._id.toString() == team
             );
 
             let target = {
