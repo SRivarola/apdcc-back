@@ -16,7 +16,10 @@ export default class MatchesMongo {
               {
                 path: "team_id",
                 model: "teams",
-                populate: [{ path: "country_id" }],
+                populate: [
+                  { path: "country_id" },
+                  { path: "category_id" }
+                ],
               },
             ],
           },
@@ -26,10 +29,17 @@ export default class MatchesMongo {
               {
                 path: "team_id",
                 model: "teams",
-                populate: [{ path: "country_id" }],
+                populate: [
+                  { path: "country_id" },
+                  { path: "category_id"}
+                ],
               },
             ],
           },
+          {
+            path: "tournament_id",
+            model: "tournaments"
+          }
         ]);
         
         if(all.length > 0) {

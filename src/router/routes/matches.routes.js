@@ -33,7 +33,7 @@ export default class MatchesRouter extends MyRouter {
       }
     });
 
-    this.get("/:id", ["ADMIN"], async (req, res, next) => {
+    this.get("/:id", ["ADMIN", "JUEZ"], async (req, res, next) => {
       try {
         const { id } = req.params;
         const response = await controller.readById(id);
