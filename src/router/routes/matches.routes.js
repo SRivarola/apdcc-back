@@ -214,7 +214,6 @@ export default class MatchesRouter extends MyRouter {
           // Contar la cantidad de repeticiones de cada ID
           for (let i = 0; i < playersWithRedCardsArr.length; i++) {
             const element = playersWithRedCardsArr[i];
-            // console.log(element)
           }
           playersWithRedCardsArr.forEach((id) => {
             let idString = id._id.toString(); // Convertir ObjectId a String
