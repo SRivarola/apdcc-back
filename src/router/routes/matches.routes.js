@@ -19,7 +19,7 @@ export default class MatchesRouter extends MyRouter {
 
         const data = Object.entries(query).reduce((acc, [key, value]) => {
           if (key === "date") {
-            acc[key] = moment(value).subtract(1, 'days').format("YYYY-MM-DD");
+            acc[key] = moment(value).format("YYYY-MM-DD");
 
           } else if (value !== "") {
             acc[key] = value;
