@@ -19,8 +19,7 @@ export default class MatchesRouter extends MyRouter {
 
         const data = Object.entries(query).reduce((acc, [key, value]) => {
           if (key === "date") {
-            const regExp = new RegExp(value, 'i')
-            acc[key] = regExp;
+            acc[key] = new Date(value);
 
           } else if (value !== "") {
             acc[key] = value;
