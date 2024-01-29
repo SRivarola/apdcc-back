@@ -29,14 +29,12 @@ export default class MatchesRouter extends MyRouter {
 
         console.log('data: ', data);
 
-        console.log("tipo: ", typeof data);
+        console.log("tipo: ", typeof data.date);
 
-        console.log('fecha: ', new Date(data.date))
+        const response = await controller.readAll({date: { $gte: data.date, $lte: data.date}});
 
+        console.log(response)
 
-
-
-        const response = await controller.readAll(data);
         return res.sendSuccess(response);
       } catch (error) {
         next(error);
