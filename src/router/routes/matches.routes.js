@@ -27,13 +27,7 @@ export default class MatchesRouter extends MyRouter {
           return acc;
         }, {});
 
-        console.log('data: ', data);
-
-        console.log("tipo: ", typeof data.date);
-
         const response = await controller.readAll(data);
-
-        console.log(response)
 
         return res.sendSuccess(response);
       } catch (error) {
