@@ -52,7 +52,6 @@ export default class AuthMongo {
         }
     }
 
-
     async readAll(query, data) {
         let all = await User.paginate(query, data);
         if(all.docs.length > 0) {
@@ -72,6 +71,18 @@ export default class AuthMongo {
                     prevPage: null,
                     nextPage: null
                 }
+            }
+        }
+    }
+
+    async read(query){
+        let all = await User.find(query);
+        if(all.length) {
+            return all;
+        } else {
+            return {
+                message: "Users not found",
+                response: []
             }
         }
     }

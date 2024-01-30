@@ -103,6 +103,20 @@ export default class AuthRouter extends MyRouter {
       }
     );
 
+    this.get('/', ['ADMIN'], async (req, res, next) => {
+      try {
+
+
+        const response = await controller.read()
+
+        console.log(response)
+
+        return res.sendSuccess(response)
+      } catch (error) {
+        next(error);
+      }
+    })
+
     this.get("/all", ["ADMIN"], async (req, res, next) => {
       try {
 

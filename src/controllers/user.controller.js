@@ -20,6 +20,8 @@ export default class AuthController {
 
     readAll = (query, data) => this.service.readAll(query, data)
 
+    read = (query) => this.service.read(query)
+
     update = (id, data) => this.service.update(id, data)
 
     delete = (id) => this.service.delete(id)

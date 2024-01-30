@@ -42,6 +42,18 @@ export default class AuthService {
         return response
     }
 
+    async read(query) {
+        let response = await this.model.read(query);
+        if(response.length) {
+            let dataDto = new userDto(response);
+            response = dataDto.arr
+        }
+        return {
+          message: "Users Found",
+          response: response,
+        }; 
+    }
+
     update = (id, data) => this.model.update(id, data)
 
     delete = (id) => this.model.delete(id)
