@@ -43,7 +43,7 @@ export default class MyRouter {
                 const payload = jwt.verify(token, env.SECRET_KEY);
                 const user = await User.findOne(
                 { mail: payload.mail },
-                "mail role country_id"
+                "mail role country_id _id"
                 ); 
                 req.user = user;
             }

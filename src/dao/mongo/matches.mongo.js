@@ -18,7 +18,8 @@ export default class MatchesMongo {
                 model: "teams",
                 populate: [
                   { path: "country_id" },
-                  { path: "category_id" }
+                  { path: "category_id" },
+                  { path: "manager" }
                 ],
               },
             ],
@@ -31,7 +32,8 @@ export default class MatchesMongo {
                 model: "teams",
                 populate: [
                   { path: "country_id" },
-                  { path: "category_id"}
+                  { path: "category_id"},
+                  { path: "manager" }
                 ],
               },
             ],

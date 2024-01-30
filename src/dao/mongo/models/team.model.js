@@ -11,7 +11,8 @@ const schema = new Schema({
     genre: { type: String, enum: ['MASCULINO', 'FEMENINO'], required: true },
     category_id: { type: Types.ObjectId, ref: 'categories', required: true },
     country_id: { type: Types.ObjectId, ref: 'countries', required: true },
-    players_qtty: { type: Number, required: true, default: 0 }
+    manager: { type: Types.ObjectId, ref: 'users', required: true },
+    players_qtty: { type: Number, required: true, default: 0 },
 });
 
 schema.plugin(mongoosePaginate)

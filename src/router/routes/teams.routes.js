@@ -17,12 +17,12 @@ export default class TeamsRouter extends MyRouter {
         try {
           const data = req.body;
           let response;
-          if (req.user.role === "ADMIN") {
-            response = await controller.create(data);
-          } else {
+          if (req.user.role === "MANAGER") {
             data.country_id = req.user.country_id;
-            response = await controller.create(data);
-          }
+            data.manager = req.user._id
+          } 
+          console.log(req.user)
+          response = await controller.create(data);
           if (response) {
             return res.sendSuccessCreate(response);
           } else {

@@ -38,7 +38,16 @@ export default class TeamsMongo {
   }
 
   async readAll(query) {
-    let all = await Team.find(query).populate('country_id');
+    let all = await Team.find(query).populate([
+      {
+        path: 'country_id',
+        model: 'countries'
+      },
+      {
+        path: 'manager',
+        model: 'users'
+      }
+    ]);
     if (all.length > 0) {
       return {
         message: "Teams found",
