@@ -13,6 +13,7 @@ import create_token from "../../middlewares/create_token.js";
 import is_user from "../../middlewares/is_user.js";
 import id_valid_user from "../../middlewares/id_valid_user.js";
 import loginDto from "../../dto/dataUser.dto.js";
+import isCountryAsigned from "../../middlewares/isCountryAsigned.js";
 
 import bcrypt from "bcryptjs";
 
@@ -26,15 +27,16 @@ export default class AuthRouter extends MyRouter {
       is_registerForm_ok,
       is_8_char,
       id_valid_user,
+      isCountryAsigned,
       async (req, res, next) => {
         try {
           let data = req.body;
+
           let response = await controller.register(data);
-          if (response) {
-            return res.sendSuccessCreate(response);
-          } else {
-            return res.sendNotFound("User");
-          }
+         
+          return response 
+            ? res.sendSuccessCreate(response)
+            : res.sendNotFound("User");
         } catch (error) {
           next(error);
         }
