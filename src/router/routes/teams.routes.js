@@ -75,7 +75,7 @@ export default class TeamsRouter extends MyRouter {
                 { path: "category_id", select: "name" },
               ],
               lean: true,
-              limit: 20,
+              limit: 10,
               page: page ? page : 1,
             }
           );
@@ -86,9 +86,12 @@ export default class TeamsRouter extends MyRouter {
       }
     });
 
-    this.get("/all", ["PUBLIC"], async (req, res, next) => {
+    this.get("/all", ["ADMIN", "MANAGER"], async (req, res, next) => {
       try {
         const params = req.query;
+
+        if(req.user.role === 'MANAGER') params.country_id = req.user.country_id;
+        
         let response = await controller.readAll(params);
 
         return res.sendSuccess(response);
