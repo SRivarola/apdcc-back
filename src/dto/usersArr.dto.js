@@ -12,7 +12,7 @@ export default class {
                   mail,
                   role,
                   country_id,
-                  phone: `${phone_str.slice(0,3)}-${phone_str.slice(3,7)}-${phone_str.slice(7)}`,
+                  phone: `${phone_str.slice(0,2)}-${phone_str.slice(2,6)}-${phone_str.slice(6)}`,
                 };
             } else{
                 newItem = {
