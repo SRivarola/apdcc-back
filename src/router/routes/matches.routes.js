@@ -75,7 +75,6 @@ export default class MatchesRouter extends MyRouter {
         async function matchesLocalTargets(teamMatchesLocal, target, team) {
           for (let i = 0; i < teamMatchesLocal.length; i++) {
             const element = teamMatchesLocal[i];
-            console.log(typeof element?.res_local)
             if (typeof element?.res_local !== "number") {
               continue;
             }

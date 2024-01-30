@@ -21,7 +21,6 @@ export default class TeamsRouter extends MyRouter {
             data.country_id = req.user.country_id;
             data.manager = req.user._id
           } 
-          console.log(req.user)
           response = await controller.create(data);
           if (response) {
             return res.sendSuccessCreate(response);
