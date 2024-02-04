@@ -191,7 +191,7 @@ export default class MatchesRouter extends MyRouter {
     
             return mostPlayer;
           } else {
-            return [];
+            return null;
           }
 
         }
