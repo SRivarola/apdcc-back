@@ -7,9 +7,11 @@ import TargetsController from "../../controllers/target.controller.js";
 import { createMatches } from "../../utils/createMatches.js";
 //importacion de middlewares
 import moment from "moment";
+import MatchesController from "../../controllers/matches.controller.js";
 
 const tournament_controller = new TournamentsController();
 const target_controller = new TargetsController();
+const matches_controller = new MatchesController();
 
 export default class TournamentsRouter extends MyRouter {
   init() {
@@ -95,5 +97,41 @@ export default class TournamentsRouter extends MyRouter {
         next(error);
       }
     });
+
+    this.delete("/:id", ["ADMIN"], async (req, res, next) => {
+      try {
+
+        const { id: tournament_id } = req.params;
+
+        const { response: targetResponse } = await target_controller.read({tournament_id});
+        const { response: matchesResponse } = await matches_controller.readAll({tournament_id});
+
+        if(!targetResponse.length){
+          return sendNotFound('targets');
+        }
+        if(!matchesResponse.length){
+          return sendNotFound('matches');
+        }
+
+        for (let i = 0; i < targetResponse.length; i++) {
+          const element = targetResponse[i];
+          await target_controller.delete(element._id);
+        }
+
+        for (let i = 0; i < matchesResponse.length; i++) {
+          const element = matchesResponse[i];
+          await matches_controller.delete(element._id);
+        }
+
+        const { response } = await tournament_controller.delete(tournament_id);
+
+        return response 
+          ? res.sendSuccess(response)
+          : res.sendNotFound('tournaments')
+        
+      } catch (error) {
+        next(error)
+      }
+    })
   }
 }

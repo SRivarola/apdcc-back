@@ -193,5 +193,17 @@ export default class TournamentsMongo {
         }
         return null;
     }
+
+    async delete(id) {
+      const one = await Tournament.findByIdAndDelete(id);
+      if(one) {
+        return {
+          message: 'Torneo eliminado',
+          response: one
+        }
+      } else {
+        null
+      }
+    }
     
 }

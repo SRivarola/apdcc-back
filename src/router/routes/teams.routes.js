@@ -50,36 +50,21 @@ export default class TeamsRouter extends MyRouter {
           return acc;
         }, {});
 
-        let response;
-        if (req.user?.role === "ADMIN") {
-          response = await controller.read(
-            data, 
-            {
-              populate: [
-                { path: "country_id", select: "name" },
-                { path: "category_id", select: "name" },
-              ],
-              lean: true,
-              limit: 10,
-              page: page ? page : 1,
-            }
-          );
-        } else if (req.user?.role === "MANAGER") {
+        if (req.user?.role === "MANAGER") {
           data.country_id = req.user.country_id;
-
-          response = await controller.read(
-            data,
-            {
-              populate: [
-                { path: "country_id", select: "name" },
-                { path: "category_id", select: "name" },
-              ],
-              lean: true,
-              limit: 10,
-              page: page ? page : 1,
-            }
-          );
         }
+
+        let response = await controller.read(data, {
+          populate: [
+            { path: "country_id", select: "name" },
+            { path: "category_id", select: "name" },
+          ],
+          sort: { name: 1 },
+          lean: true,
+          limit: 10,
+          page: page ? page : 1,
+        });
+
         return res.sendSuccess(response);
       } catch (error) {
         next(error);

@@ -8,5 +8,6 @@ export default class TournamentsService {
     create = (create) => this.model.create(create);
     read = (query, data) => this.model.read(query, data);
     readById = (id) => this.model.readById(id);
+    delete = (id) => this.model.delete(id);
     
 }

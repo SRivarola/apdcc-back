@@ -8,5 +8,6 @@ export default class TournamentsController {
     create = (data) => this.service.create(data);
     read = (query, data) => this.service.read(query, data);
     readById = (id) => this.service.readById(id);
+    delete = (id) => this.service.delete(id);
     
 }

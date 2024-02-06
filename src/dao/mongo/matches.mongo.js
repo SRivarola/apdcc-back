@@ -105,4 +105,16 @@ export default class MatchesMongo {
             return null
         }
     }
+
+    async delete(id) {
+      let one = await Match.findByIdAndDelete(id);
+      if(one){
+        return {
+          message: 'match deleted',
+          response: one
+        }
+      } else {
+        return null;
+      }
+    }
 }

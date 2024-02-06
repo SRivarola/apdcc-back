@@ -46,4 +46,16 @@ export default class TargetsMongo {
             }
         }
     }
+
+    async delete(id) {
+        let one = await Target.findByIdAndDelete(id);
+        if(one){
+            return {
+                message: 'target deleted',
+                response: one
+            }
+        } else {
+            return null
+        }
+    }
 }

@@ -44,6 +44,7 @@ export default class CountriesRouter extends MyRouter {
 
         const response = await controller.read(data, {
           lean: true,
+          sort: { name: 1 },
           limit: 10,
           page: page ? page : 1,
         });

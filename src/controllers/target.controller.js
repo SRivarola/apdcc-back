@@ -10,5 +10,6 @@ export default class TargetsController {
     read = (query) => this.service.read(query);
     readById = (id) => this.service.readById(id);
     update = (id, data) => this.service.update(id, data);
+    delete = (id) => this.service.delete(id);
 
 }
