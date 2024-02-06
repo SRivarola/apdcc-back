@@ -132,6 +132,7 @@ export default class AuthRouter extends MyRouter {
 
         const response = await controller.readAll(data, {
           populate: { path: "country_id", select: "name" },
+          sort: { last_name: 1 },
           lean: true,
           limit: 10,
           page: page ? page : 1,
