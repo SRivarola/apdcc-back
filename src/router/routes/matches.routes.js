@@ -309,6 +309,7 @@ export default class MatchesRouter extends MyRouter {
         } = req.body;
 
         const data = {
+          played: true,
           res_local,
           res_visit,
           fair_play,
