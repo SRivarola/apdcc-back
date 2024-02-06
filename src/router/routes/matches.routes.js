@@ -46,7 +46,7 @@ export default class MatchesRouter extends MyRouter {
       }
     });
 
-    this.get("/tournament/:id", ["ADMIN"], async (req, res, next) => {
+    this.get("/tournament/:id", ["PUBLIC"], async (req, res, next) => {
       try {
         const { id: tournament_id } = req.params;
         const { response: matches } = await controller.readAll({
