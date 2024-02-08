@@ -20,7 +20,13 @@ export default class MatchesRouter extends MyRouter {
         const data = Object.entries(query).reduce((acc, [key, value]) => {
           if (key === "date") {
             acc[key] = moment(value, "YYYY-MM-DD");
-
+          } else if (key === 'played') {
+            if(value === 'true'){
+              acc[key] = true;
+            }
+            if(value === 'false'){
+              acc[key] = false;
+            }
           } else if (value !== "") {
             acc[key] = value;
           }
