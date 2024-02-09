@@ -20,7 +20,8 @@ const schema = new Schema({
     },
     year: { type: Number, required: true },
     country_id: { type: Types.ObjectId, ref: 'countries', required: true },
-    state: { type: String, enum: ['PENDING', 'READY'], default: 'PENDING' },
+    state: { type: String, enum: ['PENDING', 'READY', 'OSUSPENDED'], default: 'PENDING' },
+    reactivated: { type: String || null, default: null, required: true },
     team: [{ type: Types.ObjectId, ref: 'teams' }],
     red_cards: { type: Number, required:true, default: 0 }
 })
