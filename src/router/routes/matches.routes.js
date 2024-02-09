@@ -1,10 +1,11 @@
 //importacion del router generico
 import MyRouter from "../router.js";
+//importacion de middlewares
+import suspended_match from "../../middlewares/suspended_match.js";
 //importacion de controladores
 import MatchesController from "../../controllers/matches.controller.js";
 import TargetsController from "../../controllers/target.controller.js";
 import PlayersController from "../../controllers/players.controller.js";
-import TournamentsController from "../../controllers/tournament.controller.js";
 import moment from "moment";
 
 const controller = new MatchesController();
@@ -20,13 +21,6 @@ export default class MatchesRouter extends MyRouter {
         const data = Object.entries(query).reduce((acc, [key, value]) => {
           if (key === "date") {
             acc[key] = moment(value, "YYYY-MM-DD");
-          } else if (key === 'played') {
-            if(value === 'true'){
-              acc[key] = true;
-            }
-            if(value === 'false'){
-              acc[key] = false;
-            }
           } else if (value !== "") {
             acc[key] = value;
           }
@@ -299,7 +293,8 @@ export default class MatchesRouter extends MyRouter {
       }
     });
 
-    this.put("/results/:id", ["ADMIN", "JUEZ"], async (req, res, next) => {
+    // actualiza el resultado del partido
+    this.put("/results/:id", ["ADMIN", "JUEZ"], suspended_match, async (req, res, next) => {
       try {
         const { id } = req.params;
         const {
@@ -315,7 +310,7 @@ export default class MatchesRouter extends MyRouter {
         } = req.body;
 
         const data = {
-          played: true,
+          played: 'true',
           res_local,
           res_visit,
           fair_play,

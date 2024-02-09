@@ -15,7 +15,7 @@ const schema = new Schema({
     target_id: { type: Types.ObjectId, ref: "targets" },
     type: Object || null
   },
-  played: { type: Boolean, default: false, required: true },
+  played: { type: String, enum: ['false', 'true', 'suspended'], default: 'false', required: true },
   res_local: { type: Number },
   res_visit: { type: Number },
   fair_play: { type: Types.ObjectId, ref: "players" },
