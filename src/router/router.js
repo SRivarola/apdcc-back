@@ -37,7 +37,9 @@ export default class MyRouter {
     };
 
     handlePolicies = (policies) => async (req, res, next) => {
-        let token = req.cookies.apdcc_token;
+        let token = req.headers.token;
+        console.log(token)
+        // let token = req.cookies.apdcc_token;
         if (policies.includes('PUBLIC')) {
             if (token) {
                 const payload = jwt.verify(token, env.SECRET_KEY);
