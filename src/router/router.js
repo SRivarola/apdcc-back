@@ -37,7 +37,7 @@ export default class MyRouter {
     };
 
     handlePolicies = (policies) => async (req, res, next) => {
-        let token = req.headers.token;
+        let token = req.headers.token || null;
         console.log(token)
         // let token = req.cookies.apdcc_token;
         if (policies.includes('PUBLIC')) {
