@@ -38,6 +38,7 @@ const corsOptions = {
     "Authorization",
     "Custom-Header",
     "Access-Control-Expose-Headers",
+    "Acess-Control-Allow-Origin",
   ],
   credentials: true, // this allows to send back (to client) cookies
   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
