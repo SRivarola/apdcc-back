@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import args from "./arguments.js";
 
 const enviroment = args.mode;
-const path = enviroment === "dev" ? "./.env.dev" : "./.env.prod";
+const path = enviroment === "dev" ? "./.env" : "./.env";
 dotenv.config({ path });
 
 export default {

@@ -41,8 +41,9 @@ const corsOptions = {
   ],
   credentials: true, // this allows to send back (to client) cookies
   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
+  origin: "*",
   // origin: "http://localhost:5173",
-  origin: "https://apdcc-deploy.onrender.com",
+  // origin: "https://apdcc-deploy.onrender.com",
   preflightContinue: false,
 };
 server.use(cors(corsOptions));
