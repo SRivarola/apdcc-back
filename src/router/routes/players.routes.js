@@ -79,11 +79,11 @@ export default class PlayersRouter extends MyRouter {
             
             if (req.user.role === "ADMIN") {
               data.country_id = country_id;
-              response = await controller.create(data);
             } else {
               data.country_id = req.user.country_id;
-              response = await controller.create(data);
             }
+
+            response = await controller.create(data);
           }
           return response
             ? res.sendSuccessCreate(response)
