@@ -37,12 +37,12 @@ const corsOptions = {
     "X-Access-Token",
     "Authorization",
     "Custom-Header",
-    "Access-Control-Expose-Headers"
+    "Access-Control-Expose-Headers",
   ],
   credentials: true, // this allows to send back (to client) cookies
   methods: "GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE",
   // origin: "http://localhost:5173",
-  origin: "https://apdcc.com.ar",
+  origin: ["http://apdcc.com.ar", "https://apdcc.com.ar"],
   preflightContinue: false,
 };
 server.use(cors(corsOptions));
