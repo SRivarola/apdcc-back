@@ -12,7 +12,7 @@ export default class TeamsRouter extends MyRouter {
     this.post(
       "/create",
       ["ADMIN", "MANAGER"],
-      is_valid_team,
+      // is_valid_team,
       async (req, res, next) => {
         try {
           const data = req.body;
