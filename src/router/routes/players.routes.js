@@ -267,7 +267,7 @@ export default class PlayersRouter extends MyRouter {
       "/playerteam/:id",
       ["ADMIN", "MANAGER"],
       is_quantity_ok,
-      out_of_category_ok,
+      // out_of_category_ok,
       async (req, res, next) => {
         try {
           let { team, action } = req.body;
