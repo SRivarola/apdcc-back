@@ -285,6 +285,8 @@ export default class MatchesRouter extends MyRouter {
         const { id } = req.params;
         const body = req.body;
 
+        body.date = moment(body.date)
+
         const response = await controller.updateById(id, body);
 
         return response ? res.sendSuccess(response) : res.sendNotFound("match");
