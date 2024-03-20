@@ -20,13 +20,19 @@ export default class MatchesRouter extends MyRouter {
 
         const data = Object.entries(query).reduce((acc, [key, value]) => {
           if (key === "date") {
-            acc[key] = new Date(value);
+            const splitDate = value.split("-");
+            const year = splitDate[0];
+            const month = splitDate[1] - 1;
+            const day = splitDate[2];
+            acc[key] = moment([year, month, day, 3, 0, 0]);
           } else if (value !== "") {
             acc[key] = value;
           }
           return acc;
         }, {});
 
+        console.log(data);
+        
         const response = await controller.readAll(data);
 
         return res.sendSuccess(response);
