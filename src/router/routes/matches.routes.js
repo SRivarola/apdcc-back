@@ -27,8 +27,6 @@ export default class MatchesRouter extends MyRouter {
           return acc;
         }, {});
 
-        console.log(data);
-
         const response = await controller.readAll(data);
 
         return res.sendSuccess(response);
