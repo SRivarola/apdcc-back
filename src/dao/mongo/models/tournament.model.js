@@ -81,6 +81,11 @@ const schema = new Schema(
       target_id: { type: Types.ObjectId, ref: "targets", required: true },
       type: Object,
     },
+    team_14: {
+      team_id: { type: Types.ObjectId, ref: "teams", required: true },
+      target_id: { type: Types.ObjectId, ref: "targets", required: true },
+      type: Object,
+    },
   },
   {
     timestamps: true,

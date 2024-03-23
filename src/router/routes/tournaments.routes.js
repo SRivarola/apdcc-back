@@ -46,7 +46,8 @@ export default class TournamentsRouter extends MyRouter {
           data?.team_10,
           data?.team_11,
           data?.team_12,
-          data?.team_13
+          data?.team_13,
+          data?.team_14
         );
 
         return matches && tournament
