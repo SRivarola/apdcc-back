@@ -34,7 +34,7 @@ async function matches_targets(tournament_id, round, date, local, visit, time) {
     return match
 }
 
-async function create4teamsMatches(tournament_id, date, time, team1, team2, team3, team4) {
+async function create4teamsMatchesGo(tournament_id, date, time, team1, team2, team3, team4) {
     let round = 1;
     matches.match1 = await matches_targets(tournament_id, round, date, team1, team4, time);
     matches.match2 = await matches_targets(tournament_id, round, date, team3, team2, time);
@@ -48,7 +48,33 @@ async function create4teamsMatches(tournament_id, date, time, team1, team2, team
     return {...matches};
 }
 
-async function create5teamsMatches(tournament_id, date, time, team1, team2, team3, team4, team5) {
+async function create4teamsMatchesGoAndBack(tournament_id, date, time, team1, team2, team3, team4) {
+  // GO
+  let round = 1;
+  matches.match1 = await matches_targets(tournament_id, round, date, team1, team4, time);
+  matches.match2 = await matches_targets(tournament_id, round, date, team3, team2, time);
+  round = 2;
+  matches.match3 = await matches_targets(tournament_id, round, date, team3, team1, time);
+  matches.match4 = await matches_targets(tournament_id, round, date, team2, team4, time);
+  round = 3;
+  matches.match5 = await matches_targets(tournament_id, round, date, team1, team2, time);
+  matches.match6 = await matches_targets(tournament_id, round, date, team4, team3, time);
+
+  // BACK
+  round = 4;
+  matches.match7 = await matches_targets(tournament_id, round, date, team4, team1, time);
+  matches.match8 = await matches_targets(tournament_id, round, date, team2, team3, time);
+  round = 5;
+  matches.match9 = await matches_targets(tournament_id, round, date, team1, team3, time);
+  matches.match10 = await matches_targets(tournament_id, round, date, team4, team2, time);
+  round = 6;
+  matches.match11 = await matches_targets(tournament_id, round, date, team2, team1, time);
+  matches.match12 = await matches_targets(tournament_id, round, date, team3, team4, time);
+
+  return {...matches};
+}
+
+async function create5teamsMatchesGo(tournament_id, date, time, team1, team2, team3, team4, team5) {
     let round = 1;
     matches.match1 = await matches_targets(tournament_id, round, date, team5, team3, time);
     matches.match2 = await matches_targets(tournament_id, round, date, team4, team2, time);
@@ -73,7 +99,55 @@ async function create5teamsMatches(tournament_id, date, time, team1, team2, team
     return {...matches}
 }
 
-async function create6teamsMatches(tournament_id, date, time, team1, team2, team3, team4, team5, team6) {
+async function create5teamsMatchesGoAndBack(tournament_id, date, time, team1, team2, team3, team4, team5) {
+  // GO
+  let round = 1;
+  matches.match1 = await matches_targets(tournament_id, round, date, team5, team3, time);
+  matches.match2 = await matches_targets(tournament_id, round, date, team4, team2, time);
+  matches.match3 = await matches_targets(tournament_id, round, date, team1, null, time); 
+  round = 2;
+  matches.match4 = await matches_targets(tournament_id, round, date, team4, team1, time);
+  matches.match5 = await matches_targets(tournament_id, round, date, team2, team5, time);
+  matches.match6 = await matches_targets(tournament_id, round, date, team3, null, time);
+  round = 3;
+  matches.match7 = await matches_targets(tournament_id, round, date, team1, team3, time);
+  matches.match8 = await matches_targets(tournament_id, round, date, team5, team4, time);
+  matches.match9 = await matches_targets(tournament_id, round, date, team2, null, time);
+  round = 4;
+  matches.match10 = await matches_targets(tournament_id, round, date, team5, team1, time);
+  matches.match11 = await matches_targets(tournament_id, round, date, team2, team3, time);
+  matches.match12 = await matches_targets(tournament_id, round, date, team4, null, time);
+  round = 5;
+  matches.match13 = await matches_targets(tournament_id, round, date, team1, team2, time);
+  matches.match14 = await matches_targets(tournament_id, round, date, team3, team4, time);
+  matches.match15 = await matches_targets(tournament_id, round, date, team5, null, time);
+
+  // BACK
+  round = 6;
+  matches.match16 = await matches_targets(tournament_id, round, date, team3, team5, time);
+  matches.match17 = await matches_targets(tournament_id, round, date, team2, team4, time);
+  matches.match18 = await matches_targets(tournament_id, round, date, team1, null, time); 
+  round = 7;
+  matches.match19 = await matches_targets(tournament_id, round, date, team1, team4, time);
+  matches.match20 = await matches_targets(tournament_id, round, date, team5, team2, time);
+  matches.match21 = await matches_targets(tournament_id, round, date, team3, null, time);
+  round = 8;
+  matches.match22 = await matches_targets(tournament_id, round, date, team3, team1, time);
+  matches.match23 = await matches_targets(tournament_id, round, date, team4, team5, time);
+  matches.match24 = await matches_targets(tournament_id, round, date, team2, null, time);
+  round = 9;
+  matches.match25 = await matches_targets(tournament_id, round, date, team1, team5, time);
+  matches.match26 = await matches_targets(tournament_id, round, date, team3, team2, time);
+  matches.match27 = await matches_targets(tournament_id, round, date, team4, null, time);
+  round = 10;
+  matches.match28 = await matches_targets(tournament_id, round, date, team2, team1, time);
+  matches.match29 = await matches_targets(tournament_id, round, date, team4, team3, time);
+  matches.match30 = await matches_targets(tournament_id, round, date, team5, null, time);
+
+  return {...matches}
+}
+
+async function create6teamsMatchesGo(tournament_id, date, time, team1, team2, team3, team4, team5, team6) {
     let round = 1
     matches.match1 = await matches_targets(tournament_id, round, date, team1, team6, time);
     matches.match2 = await matches_targets(tournament_id, round, date, team5, team3, time);
@@ -98,84 +172,287 @@ async function create6teamsMatches(tournament_id, date, time, team1, team2, team
     return {...matches}
 }
 
-async function create7teamsMatches(tournament_id, date, time, team1, team2, team3, team4, team5, team6, team7) {
-    let round = 1;
-    matches.match1 = await matches_targets(tournament_id, round, date, team7, team4, time);
-    matches.match2 = await matches_targets(tournament_id, round, date, team6, team3, time);
-    matches.match3 = await matches_targets(tournament_id, round, date, team5, team2, time);
-    matches.match4 = await matches_targets(tournament_id, round, date, team1, null, time);
-    round = round + 1;
-    matches.match5 = await matches_targets(tournament_id, round, date, team5, team1, time);
-    matches.match6 = await matches_targets(tournament_id, round, date, team2, team6, time);
-    matches.match7 = await matches_targets(tournament_id, round, date, team3, team7, time);
-    matches.match8 = await matches_targets(tournament_id, round, date, team4, null, time);
-    round = round + 1;
-    matches.match9 = await matches_targets(tournament_id, round, date, team1, team4, time);
-    matches.match10 = await matches_targets(tournament_id, round, date, team7, team2, time);
-    matches.match11 = await matches_targets(tournament_id, round, date, team6, team5, time);
-    matches.match12 = await matches_targets(tournament_id, round, date, team3, null, time);
-    round = round + 1;
-    matches.match13 = await matches_targets(tournament_id, round, date, team6, team1, time);
-    matches.match14 = await matches_targets(tournament_id, round, date, team5, team7, time);
-    matches.match15 = await matches_targets(tournament_id, round, date, team3, team4, time);
-    matches.match16 = await matches_targets(tournament_id, round, date, team2, null, time);
-    round = round + 1;
-    matches.match17 = await matches_targets(tournament_id, round, date, team1, team3, time);
-    matches.match18 = await matches_targets(tournament_id, round, date, team4, team2, time);
-    matches.match19 = await matches_targets(tournament_id, round, date, team7, team6, time);
-    matches.match20 = await matches_targets(tournament_id, round, date, team5, null, time);
-    round = round + 1;
-    matches.match21 = await matches_targets(tournament_id, round, date, team7, team1, time);
-    matches.match22 = await matches_targets(tournament_id, round, date, team5, team4, time);
-    matches.match23 = await matches_targets(tournament_id, round, date, team2, team3, time);
-    matches.match24 = await matches_targets(tournament_id, round, date, team6, null, time);
-    round = round + 1;
-    matches.match25 = await matches_targets(tournament_id, round, date, team1, team2, time);
-    matches.match26 = await matches_targets(tournament_id, round, date, team3, team5, time);
-    matches.match27 = await matches_targets(tournament_id, round, date, team4, team6, time);
-    matches.match28 = await matches_targets(tournament_id, round, date, team7, null, time);
+async function create6teamsMatchesGoAndBack(tournament_id, date, time, team1, team2, team3, team4, team5, team6) {
+  // GO
+  let round = 1
+  matches.match1 = await matches_targets(tournament_id, round, date, team1, team6, time);
+  matches.match2 = await matches_targets(tournament_id, round, date, team5, team3, time);
+  matches.match3 = await matches_targets(tournament_id, round, date, team4, team2, time);
+  round = 2;
+  matches.match4 = await matches_targets(tournament_id, round, date, team4, team1, time);
+  matches.match5 = await matches_targets(tournament_id, round, date, team2, team5, time);
+  matches.match6 = await matches_targets(tournament_id, round, date, team3, team6, time);
+  round = 3;
+  matches.match7 = await matches_targets(tournament_id, round, date, team1, team3, time);
+  matches.match8 = await matches_targets(tournament_id, round, date, team6, team2, time);
+  matches.match9 = await matches_targets(tournament_id, round, date, team5, team4, time);
+  round = 4;
+  matches.match10 = await matches_targets(tournament_id, round, date, team5, team1, time);
+  matches.match11 = await matches_targets(tournament_id, round, date, team4, team6, time);
+  matches.match12 = await matches_targets(tournament_id, round, date, team2, team3, time);
+  round = 5;
+  matches.match13 = await matches_targets(tournament_id, round, date, team1, team2, time);
+  matches.match14 = await matches_targets(tournament_id, round, date, team3, team4, time);
+  matches.match15 = await matches_targets(tournament_id, round, date, team6, team5, time);
 
-    return {...matches}
+  // BACK
+  round = 6
+  matches.match16 = await matches_targets(tournament_id, round, date, team6, team1, time);
+  matches.match17 = await matches_targets(tournament_id, round, date, team3, team5, time);
+  matches.match18 = await matches_targets(tournament_id, round, date, team2, team4, time);
+  round = 7;
+  matches.match19 = await matches_targets(tournament_id, round, date, team1, team4, time);
+  matches.match20 = await matches_targets(tournament_id, round, date, team5, team2, time);
+  matches.match21 = await matches_targets(tournament_id, round, date, team6, team3, time);
+  round = 8;
+  matches.match22 = await matches_targets(tournament_id, round, date, team3, team1, time);
+  matches.match23 = await matches_targets(tournament_id, round, date, team2, team6, time);
+  matches.match24 = await matches_targets(tournament_id, round, date, team4, team5, time);
+  round = 9;
+  matches.match25 = await matches_targets(tournament_id, round, date, team1, team5, time);
+  matches.match26 = await matches_targets(tournament_id, round, date, team6, team4, time);
+  matches.match27 = await matches_targets(tournament_id, round, date, team3, team2, time);
+  round = 10;
+  matches.match28 = await matches_targets(tournament_id, round, date, team2, team1, time);
+  matches.match29 = await matches_targets(tournament_id, round, date, team4, team3, time);
+  matches.match30 = await matches_targets(tournament_id, round, date, team5, team6, time);
+  return {...matches}
 }
 
-async function create8teamsMatches(tournament_id, date, time, team1, team2, team3, team4, team5, team6, team7, team8) {
-    let round = 1;
-    matches.match1 = await matches_targets(tournament_id, round, date, team1, team8, time);
-    matches.match2 = await matches_targets(tournament_id, round, date, team7, team4, time);
-    matches.match3 = await matches_targets(tournament_id, round, date, team6, team3, time);
-    matches.match4 = await matches_targets(tournament_id, round, date, team5, team2, time);
-    round = round + 1;
-    matches.match5 = await matches_targets(tournament_id, round, date, team5, team1, time);
-    matches.match6 = await matches_targets(tournament_id, round, date, team2, team6, time);
-    matches.match7 = await matches_targets(tournament_id, round, date, team3, team7, time);
-    matches.match8 = await matches_targets(tournament_id, round, date, team4, team8, time);
-    round = round + 1;
-    matches.match9 = await matches_targets(tournament_id, round, date, team1, team4, time);
-    matches.match10 = await matches_targets(tournament_id, round, date, team8, team3, time);
-    matches.match11 = await matches_targets(tournament_id, round, date, team7, team2, time);
-    matches.match12 = await matches_targets(tournament_id, round, date, team6, team5, time);
-    round = round + 1;
-    matches.match13 = await matches_targets(tournament_id, round, date, team6, team1, time);
-    matches.match14 = await matches_targets(tournament_id, round, date, team5, team7, time);
-    matches.match15 = await matches_targets(tournament_id, round, date, team2, team8, time);
-    matches.match16 = await matches_targets(tournament_id, round, date, team3, team4, time);
-    round = round + 1;
-    matches.match17 = await matches_targets(tournament_id, round, date, team1, team3, time);
-    matches.match18 = await matches_targets(tournament_id, round, date, team4, team2, time);
-    matches.match19 = await matches_targets(tournament_id, round, date, team8, team5, time);
-    matches.match20 = await matches_targets(tournament_id, round, date, team7, team6, time);
-    round = round + 1;
-    matches.match21 = await matches_targets(tournament_id, round, date, team7, team1, time);
-    matches.match22 = await matches_targets(tournament_id, round, date, team6, team8, time);
-    matches.match23 = await matches_targets(tournament_id, round, date, team5, team4, time);
-    matches.match24 = await matches_targets(tournament_id, round, date, team2, team3, time);
-    round = round + 1;
-    matches.match25 = await matches_targets(tournament_id, round, date, team1, team2, time);
-    matches.match26 = await matches_targets(tournament_id, round, date, team3, team5, time);
-    matches.match27 = await matches_targets(tournament_id, round, date, team4, team6, time);
-    matches.match28 = await matches_targets(tournament_id, round, date, team8, team7, time);
-    
-    return {...matches}
+async function create7teamsMatchesGo(tournament_id, date, time, team1, team2, team3, team4, team5, team6, team7) {
+  let round = 1;
+  matches.match1 = await matches_targets(tournament_id, round, date, team7, team4, time);
+  matches.match2 = await matches_targets(tournament_id, round, date, team6, team3, time);
+  matches.match3 = await matches_targets(tournament_id, round, date, team5, team2, time);
+  matches.match4 = await matches_targets(tournament_id, round, date, team1, null, time);
+  round = round + 1;
+  matches.match5 = await matches_targets(tournament_id, round, date, team5, team1, time);
+  matches.match6 = await matches_targets(tournament_id, round, date, team2, team6, time);
+  matches.match7 = await matches_targets(tournament_id, round, date, team3, team7, time);
+  matches.match8 = await matches_targets(tournament_id, round, date, team4, null, time);
+  round = round + 1;
+  matches.match9 = await matches_targets(tournament_id, round, date, team1, team4, time);
+  matches.match10 = await matches_targets(tournament_id, round, date, team7, team2, time);
+  matches.match11 = await matches_targets(tournament_id, round, date, team6, team5, time);
+  matches.match12 = await matches_targets(tournament_id, round, date, team3, null, time);
+  round = round + 1;
+  matches.match13 = await matches_targets(tournament_id, round, date, team6, team1, time);
+  matches.match14 = await matches_targets(tournament_id, round, date, team5, team7, time);
+  matches.match15 = await matches_targets(tournament_id, round, date, team3, team4, time);
+  matches.match16 = await matches_targets(tournament_id, round, date, team2, null, time);
+  round = round + 1;
+  matches.match17 = await matches_targets(tournament_id, round, date, team1, team3, time);
+  matches.match18 = await matches_targets(tournament_id, round, date, team4, team2, time);
+  matches.match19 = await matches_targets(tournament_id, round, date, team7, team6, time);
+  matches.match20 = await matches_targets(tournament_id, round, date, team5, null, time);
+  round = round + 1;
+  matches.match21 = await matches_targets(tournament_id, round, date, team7, team1, time);
+  matches.match22 = await matches_targets(tournament_id, round, date, team5, team4, time);
+  matches.match23 = await matches_targets(tournament_id, round, date, team2, team3, time);
+  matches.match24 = await matches_targets(tournament_id, round, date, team6, null, time);
+  round = round + 1;
+  matches.match25 = await matches_targets(tournament_id, round, date, team1, team2, time);
+  matches.match26 = await matches_targets(tournament_id, round, date, team3, team5, time);
+  matches.match27 = await matches_targets(tournament_id, round, date, team4, team6, time);
+  matches.match28 = await matches_targets(tournament_id, round, date, team7, null, time);
+
+  return {...matches}
+}
+
+async function create7teamsMatchesGoAndBack(tournament_id, date, time, team1, team2, team3, team4, team5, team6, team7) {
+  // GO
+  let round = 1;
+  matches.match1 = await matches_targets(tournament_id, round, date, team7, team4, time);
+  matches.match2 = await matches_targets(tournament_id, round, date, team6, team3, time);
+  matches.match3 = await matches_targets(tournament_id, round, date, team5, team2, time);
+  matches.match4 = await matches_targets(tournament_id, round, date, team1, null, time);
+  round = 2;
+  matches.match5 = await matches_targets(tournament_id, round, date, team5, team1, time);
+  matches.match6 = await matches_targets(tournament_id, round, date, team2, team6, time);
+  matches.match7 = await matches_targets(tournament_id, round, date, team3, team7, time);
+  matches.match8 = await matches_targets(tournament_id, round, date, team4, null, time);
+  round = 3;
+  matches.match9 = await matches_targets(tournament_id, round, date, team1, team4, time);
+  matches.match10 = await matches_targets(tournament_id, round, date, team7, team2, time);
+  matches.match11 = await matches_targets(tournament_id, round, date, team6, team5, time);
+  matches.match12 = await matches_targets(tournament_id, round, date, team3, null, time);
+  round = 4;
+  matches.match13 = await matches_targets(tournament_id, round, date, team6, team1, time);
+  matches.match14 = await matches_targets(tournament_id, round, date, team5, team7, time);
+  matches.match15 = await matches_targets(tournament_id, round, date, team3, team4, time);
+  matches.match16 = await matches_targets(tournament_id, round, date, team2, null, time);
+  round = 5;
+  matches.match17 = await matches_targets(tournament_id, round, date, team1, team3, time);
+  matches.match18 = await matches_targets(tournament_id, round, date, team4, team2, time);
+  matches.match19 = await matches_targets(tournament_id, round, date, team7, team6, time);
+  matches.match20 = await matches_targets(tournament_id, round, date, team5, null, time);
+  round = 6;
+  matches.match21 = await matches_targets(tournament_id, round, date, team7, team1, time);
+  matches.match22 = await matches_targets(tournament_id, round, date, team5, team4, time);
+  matches.match23 = await matches_targets(tournament_id, round, date, team2, team3, time);
+  matches.match24 = await matches_targets(tournament_id, round, date, team6, null, time);
+  round = 7;
+  matches.match25 = await matches_targets(tournament_id, round, date, team1, team2, time);
+  matches.match26 = await matches_targets(tournament_id, round, date, team3, team5, time);
+  matches.match27 = await matches_targets(tournament_id, round, date, team4, team6, time);
+  matches.match28 = await matches_targets(tournament_id, round, date, team7, null, time);
+
+  // BACK
+  round = 8;
+  matches.match29 = await matches_targets(tournament_id, round, date, team4, team7, time);
+  matches.match30 = await matches_targets(tournament_id, round, date, team3, team6, time);
+  matches.match31 = await matches_targets(tournament_id, round, date, team2, team5, time);
+  matches.match32 = await matches_targets(tournament_id, round, date, team1, null, time);
+  round = 9;
+  matches.match33 = await matches_targets(tournament_id, round, date, team1, team5, time);
+  matches.match34 = await matches_targets(tournament_id, round, date, team6, team2, time);
+  matches.match35 = await matches_targets(tournament_id, round, date, team7, team3, time);
+  matches.match36 = await matches_targets(tournament_id, round, date, team4, null, time);
+  round = 10;
+  matches.match37 = await matches_targets(tournament_id, round, date, team4, team1, time);
+  matches.match38 = await matches_targets(tournament_id, round, date, team2, team7, time);
+  matches.match39 = await matches_targets(tournament_id, round, date, team5, team6, time);
+  matches.match40 = await matches_targets(tournament_id, round, date, team3, null, time);
+  round = 11;
+  matches.match41 = await matches_targets(tournament_id, round, date, team1, team6, time);
+  matches.match42 = await matches_targets(tournament_id, round, date, team7, team5, time);
+  matches.match43 = await matches_targets(tournament_id, round, date, team4, team3, time);
+  matches.match44 = await matches_targets(tournament_id, round, date, team2, null, time);
+  round = 12;
+  matches.match45 = await matches_targets(tournament_id, round, date, team3, team1, time);
+  matches.match46 = await matches_targets(tournament_id, round, date, team2, team4, time);
+  matches.match47 = await matches_targets(tournament_id, round, date, team6, team7, time);
+  matches.match48 = await matches_targets(tournament_id, round, date, team5, null, time);
+  round = 13;
+  matches.match49 = await matches_targets(tournament_id, round, date, team1, team7, time);
+  matches.match50 = await matches_targets(tournament_id, round, date, team4, team5, time);
+  matches.match51 = await matches_targets(tournament_id, round, date, team3, team2, time);
+  matches.match52 = await matches_targets(tournament_id, round, date, team6, null, time);
+  round = 14;
+  matches.match53 = await matches_targets(tournament_id, round, date, team2, team1, time);
+  matches.match54 = await matches_targets(tournament_id, round, date, team5, team3, time);
+  matches.match55 = await matches_targets(tournament_id, round, date, team6, team4, time);
+  matches.match56 = await matches_targets(tournament_id, round, date, team7, null, time);
+
+  return {...matches}
+}
+
+async function create8teamsMatchesGo(tournament_id, date, time, team1, team2, team3, team4, team5, team6, team7, team8) {
+  let round = 1;
+  matches.match1 = await matches_targets(tournament_id, round, date, team1, team8, time);
+  matches.match2 = await matches_targets(tournament_id, round, date, team7, team4, time);
+  matches.match3 = await matches_targets(tournament_id, round, date, team6, team3, time);
+  matches.match4 = await matches_targets(tournament_id, round, date, team5, team2, time);
+  round = round + 1;
+  matches.match5 = await matches_targets(tournament_id, round, date, team5, team1, time);
+  matches.match6 = await matches_targets(tournament_id, round, date, team2, team6, time);
+  matches.match7 = await matches_targets(tournament_id, round, date, team3, team7, time);
+  matches.match8 = await matches_targets(tournament_id, round, date, team4, team8, time);
+  round = round + 1;
+  matches.match9 = await matches_targets(tournament_id, round, date, team1, team4, time);
+  matches.match10 = await matches_targets(tournament_id, round, date, team8, team3, time);
+  matches.match11 = await matches_targets(tournament_id, round, date, team7, team2, time);
+  matches.match12 = await matches_targets(tournament_id, round, date, team6, team5, time);
+  round = round + 1;
+  matches.match13 = await matches_targets(tournament_id, round, date, team6, team1, time);
+  matches.match14 = await matches_targets(tournament_id, round, date, team5, team7, time);
+  matches.match15 = await matches_targets(tournament_id, round, date, team2, team8, time);
+  matches.match16 = await matches_targets(tournament_id, round, date, team3, team4, time);
+  round = round + 1;
+  matches.match17 = await matches_targets(tournament_id, round, date, team1, team3, time);
+  matches.match18 = await matches_targets(tournament_id, round, date, team4, team2, time);
+  matches.match19 = await matches_targets(tournament_id, round, date, team8, team5, time);
+  matches.match20 = await matches_targets(tournament_id, round, date, team7, team6, time);
+  round = round + 1;
+  matches.match21 = await matches_targets(tournament_id, round, date, team7, team1, time);
+  matches.match22 = await matches_targets(tournament_id, round, date, team6, team8, time);
+  matches.match23 = await matches_targets(tournament_id, round, date, team5, team4, time);
+  matches.match24 = await matches_targets(tournament_id, round, date, team2, team3, time);
+  round = round + 1;
+  matches.match25 = await matches_targets(tournament_id, round, date, team1, team2, time);
+  matches.match26 = await matches_targets(tournament_id, round, date, team3, team5, time);
+  matches.match27 = await matches_targets(tournament_id, round, date, team4, team6, time);
+  matches.match28 = await matches_targets(tournament_id, round, date, team8, team7, time);
+  
+  return {...matches}
+}
+
+async function create8teamsMatchesGoAndBack(tournament_id, date, time, team1, team2, team3, team4, team5, team6, team7, team8) {
+  // GO
+  let round = 1;
+  matches.match1 = await matches_targets(tournament_id, round, date, team1, team8, time);
+  matches.match2 = await matches_targets(tournament_id, round, date, team7, team4, time);
+  matches.match3 = await matches_targets(tournament_id, round, date, team6, team3, time);
+  matches.match4 = await matches_targets(tournament_id, round, date, team5, team2, time);
+  round = 2;
+  matches.match5 = await matches_targets(tournament_id, round, date, team5, team1, time);
+  matches.match6 = await matches_targets(tournament_id, round, date, team2, team6, time);
+  matches.match7 = await matches_targets(tournament_id, round, date, team3, team7, time);
+  matches.match8 = await matches_targets(tournament_id, round, date, team4, team8, time);
+  round = 3;
+  matches.match9 = await matches_targets(tournament_id, round, date, team1, team4, time);
+  matches.match10 = await matches_targets(tournament_id, round, date, team8, team3, time);
+  matches.match11 = await matches_targets(tournament_id, round, date, team7, team2, time);
+  matches.match12 = await matches_targets(tournament_id, round, date, team6, team5, time);
+  round = 4;
+  matches.match13 = await matches_targets(tournament_id, round, date, team6, team1, time);
+  matches.match14 = await matches_targets(tournament_id, round, date, team5, team7, time);
+  matches.match15 = await matches_targets(tournament_id, round, date, team2, team8, time);
+  matches.match16 = await matches_targets(tournament_id, round, date, team3, team4, time);
+  round = 5;
+  matches.match17 = await matches_targets(tournament_id, round, date, team1, team3, time);
+  matches.match18 = await matches_targets(tournament_id, round, date, team4, team2, time);
+  matches.match19 = await matches_targets(tournament_id, round, date, team8, team5, time);
+  matches.match20 = await matches_targets(tournament_id, round, date, team7, team6, time);
+  round = 6;
+  matches.match21 = await matches_targets(tournament_id, round, date, team7, team1, time);
+  matches.match22 = await matches_targets(tournament_id, round, date, team6, team8, time);
+  matches.match23 = await matches_targets(tournament_id, round, date, team5, team4, time);
+  matches.match24 = await matches_targets(tournament_id, round, date, team2, team3, time);
+  round = 7;
+  matches.match25 = await matches_targets(tournament_id, round, date, team1, team2, time);
+  matches.match26 = await matches_targets(tournament_id, round, date, team3, team5, time);
+  matches.match27 = await matches_targets(tournament_id, round, date, team4, team6, time);
+  matches.match28 = await matches_targets(tournament_id, round, date, team8, team7, time);
+
+  // BACK
+  round = 8;
+  matches.match29 = await matches_targets(tournament_id, round, date, team8, team1, time);
+  matches.match30 = await matches_targets(tournament_id, round, date, team4, team7, time);
+  matches.match31 = await matches_targets(tournament_id, round, date, team3, team6, time);
+  matches.match32 = await matches_targets(tournament_id, round, date, team2, team5, time);
+  round = 9;
+  matches.match33 = await matches_targets(tournament_id, round, date, team1, team5, time);
+  matches.match34 = await matches_targets(tournament_id, round, date, team6, team2, time);
+  matches.match35 = await matches_targets(tournament_id, round, date, team7, team3, time);
+  matches.match36 = await matches_targets(tournament_id, round, date, team8, team4, time);
+  round = 10;
+  matches.match37 = await matches_targets(tournament_id, round, date, team4, team1, time);
+  matches.match38 = await matches_targets(tournament_id, round, date, team3, team8, time);
+  matches.match39 = await matches_targets(tournament_id, round, date, team2, team7, time);
+  matches.match40 = await matches_targets(tournament_id, round, date, team5, team6, time);
+  round = 11;
+  matches.match41 = await matches_targets(tournament_id, round, date, team1, team6, time);
+  matches.match42 = await matches_targets(tournament_id, round, date, team7, team5, time);
+  matches.match43 = await matches_targets(tournament_id, round, date, team8, team2, time);
+  matches.match44 = await matches_targets(tournament_id, round, date, team4, team3, time);
+  round = 12;
+  matches.match45 = await matches_targets(tournament_id, round, date, team3, team1, time);
+  matches.match46 = await matches_targets(tournament_id, round, date, team2, team4, time);
+  matches.match47 = await matches_targets(tournament_id, round, date, team5, team8, time);
+  matches.match48 = await matches_targets(tournament_id, round, date, team6, team7, time);
+  round = 13;
+  matches.match49 = await matches_targets(tournament_id, round, date, team1, team7, time);
+  matches.match50 = await matches_targets(tournament_id, round, date, team8, team6, time);
+  matches.match51 = await matches_targets(tournament_id, round, date, team4, team5, time);
+  matches.match52 = await matches_targets(tournament_id, round, date, team3, team2, time);
+  round = 14;
+  matches.match53 = await matches_targets(tournament_id, round, date, team2, team1, time);
+  matches.match54 = await matches_targets(tournament_id, round, date, team5, team3, time);
+  matches.match55 = await matches_targets(tournament_id, round, date, team6, team4, time);
+  matches.match56 = await matches_targets(tournament_id, round, date, team7, team8, time);
+
+  return {...matches}
 }
 
 async function create9teamsMatches(tournament_id, date, time, team1, team2, team3, team4, team5, team6, team7, team8, team9) {
@@ -677,17 +954,27 @@ async function create14teamsMatches(tournament_id, date, time, team1, team2, tea
     return {...matches}
 }
 
-export async function createMatches(teams_quantity, tournament_id, date, time, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10, team11, team12, team13, team14) {
+export async function createMatches(teams_quantity, tournament_id, date, time, turns, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10, team11, team12, team13, team14) {
   if (teams_quantity == 4) 
-    return await create4teamsMatches(tournament_id, date, time, team1, team2, team3, team4);
+    return turns === 'go' 
+      ? await create4teamsMatchesGo(tournament_id, date, time, team1, team2, team3, team4)
+      : await create4teamsMatchesGoAndBack(tournament_id, date, time, team1, team2, team3, team4)
   if (teams_quantity == 5) 
-    return await create5teamsMatches(tournament_id, date, time, team1, team2, team3, team4, team5);
+    return turns === 'go'
+      ? await create5teamsMatchesGo(tournament_id, date, time, team1, team2, team3, team4, team5)
+      : await create5teamsMatchesGoAndBack(tournament_id, date, time, team1, team2, team3, team4, team5)
   if (teams_quantity == 6)
-    return await create6teamsMatches(tournament_id, date, time, team1, team2, team3, team4, team5, team6);
+    return turns === 'go'
+      ? await create6teamsMatchesGo(tournament_id, date, time, team1, team2, team3, team4, team5, team6)
+      : await create6teamsMatchesGoAndBack(tournament_id, date, time, team1, team2, team3, team4, team5, team6)
   if (teams_quantity === 7)
-    return await create7teamsMatches(tournament_id, date, time, team1, team2, team3, team4, team5, team6, team7);
+    return turns === 'go'
+      ? await create7teamsMatchesGo(tournament_id, date, time, team1, team2, team3, team4, team5, team6, team7)
+      : await create7teamsMatchesGoAndBack(tournament_id, date, time, team1, team2, team3, team4, team5, team6, team7)
   if (teams_quantity === 8)
-    return await create8teamsMatches(tournament_id, date, time, team1, team2, team3, team4, team5, team6, team7, team8);
+    return turns === 'go'
+      ? await create8teamsMatchesGo(tournament_id, date, time, team1, team2, team3, team4, team5, team6, team7, team8)
+      : await create8teamsMatchesGoAndBack(tournament_id, date, time, team1, team2, team3, team4, team5, team6, team7, team8)
   if (teams_quantity === 9)
     return await create9teamsMatches(tournament_id, date, time, team1, team2, team3, team4, team5, team6, team7, team8, team9);
   if (teams_quantity === 10)

@@ -33,6 +33,7 @@ export default class TournamentsRouter extends MyRouter {
           tournament.response,
           data.date,
           data.time,
+          data.turns,
           data.team_1,
           data.team_2,
           data.team_3,
