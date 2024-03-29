@@ -20,7 +20,7 @@ export default class MatchesRouter extends MyRouter {
 
         const data = Object.entries(query).reduce((acc, [key, value]) => {
           if (key === "date") {
-            acc[key] = new Date(value+"T03:00:00.000+00:00");
+            acc[key] = new Date(value + "T03:00:00.000+00:00");
           } else if (value !== "") {
             acc[key] = value;
           }
@@ -28,6 +28,68 @@ export default class MatchesRouter extends MyRouter {
         }, {});
 
         const response = await controller.readAll(data);
+
+        return res.sendSuccess(response);
+      } catch (error) {
+        next(error);
+      }
+    });
+
+    this.get("/paginate", ["PUBLIC"], async (req, res, next) => {
+      try {
+        const { page, date } = req.query;
+
+        const data = {
+          date: new Date(date + "T03:00:00.000+00:00"),
+        };
+        // const data = Object.entries(query).reduce((acc, [key, value]) => {
+        //   if (key === "date") {
+        //     acc[key] = new Date(value + "T03:00:00.000+00:00");
+        //   } else if (value !== "") {
+        //     acc[key] = value;
+        //   }
+        //   return acc;
+        // }, {});
+
+        const response = await controller.readWithPagination(data, {
+          populate: [
+            {
+              path: "tournament_id",
+              select: "name",
+            },
+            {
+              path: "local",
+              populate: [
+                {
+                  path: "team_id",
+                  model: "teams",
+                  populate: [
+                    { path: "country_id" },
+                    { path: "category_id" },
+                    { path: "manager" },
+                  ],
+                },
+              ],
+            },
+            {
+              path: "visit",
+              populate: [
+                {
+                  path: "team_id",
+                  model: "teams",
+                  populate: [
+                    { path: "country_id" },
+                    { path: "category_id" },
+                    { path: "manager" },
+                  ],
+                },
+              ],
+            },
+          ],
+          lean: true,
+          limit: 10,
+          page: page ? page : 1,
+        });
 
         return res.sendSuccess(response);
       } catch (error) {
@@ -173,27 +235,28 @@ export default class MatchesRouter extends MyRouter {
           // Contar la frecuencia de cada ID
           let mostRepeatedId = null;
           let maxFrequency = 0;
-  
+
           for (const id in frequencyMap) {
             if (frequencyMap[id] > maxFrequency) {
               mostRepeatedId = id;
               maxFrequency = frequencyMap[id];
             }
           }
-          
-          if(mostRepeatedId) {
-            const { response: player } = await players_controller.readById(mostRepeatedId.toString());
+
+          if (mostRepeatedId) {
+            const { response: player } = await players_controller.readById(
+              mostRepeatedId.toString()
+            );
             // Crear el objeto final
             const mostPlayer = {
               player,
               cantidad: maxFrequency,
             };
-    
+
             return mostPlayer;
           } else {
             return null;
           }
-
         }
 
         const fair_play = await getMost(fair_play_arr);
@@ -226,10 +289,12 @@ export default class MatchesRouter extends MyRouter {
           });
           for (let i = 0; i < playerWRC.length; i++) {
             const element = playerWRC[i];
-            const { response: player } = await players_controller.readById(element.id);
-            element.player = player
+            const { response: player } = await players_controller.readById(
+              element.id
+            );
+            element.player = player;
           }
-          return playerWRC
+          return playerWRC;
         }
 
         const red_cards_players = await createPlayersWithRedCards(matches);
@@ -285,7 +350,7 @@ export default class MatchesRouter extends MyRouter {
         const { id } = req.params;
         const body = req.body;
 
-        body.date = moment(body.date)
+        body.date = moment(body.date);
 
         const response = await controller.updateById(id, body);
 
@@ -296,55 +361,62 @@ export default class MatchesRouter extends MyRouter {
     });
 
     // actualiza el resultado del partido
-    this.put("/results/:id", ["ADMIN", "JUEZ"], suspended_match, async (req, res, next) => {
-      try {
-        const { id } = req.params;
-        const {
-          res_local,
-          res_visit,
-          targetLocal_id,
-          targetVisit_id,
-          targetLocal,
-          targetVisit,
-          redCards,
-          fair_play,
-          best_player,
-        } = req.body;
+    this.put(
+      "/results/:id",
+      ["ADMIN", "JUEZ"],
+      suspended_match,
+      async (req, res, next) => {
+        try {
+          const { id } = req.params;
+          const {
+            res_local,
+            res_visit,
+            targetLocal_id,
+            targetVisit_id,
+            targetLocal,
+            targetVisit,
+            redCards,
+            fair_play,
+            best_player,
+          } = req.body;
 
-        const data = {
-          played: 'true',
-          res_local,
-          res_visit,
-          fair_play,
-          best_player,
-        };
+          const data = {
+            played: "true",
+            res_local,
+            res_visit,
+            fair_play,
+            best_player,
+          };
 
-        targetLocal.red_cards = redCards.localPlayersWithRedCards;
+          targetLocal.red_cards = redCards.localPlayersWithRedCards;
 
-        const target_local_response = await target_controller.update(
-          targetLocal_id,
-          targetLocal
-        );
+          const target_local_response = await target_controller.update(
+            targetLocal_id,
+            targetLocal
+          );
 
-        targetVisit.red_cards = redCards.visitPlayersWithRedCards;
+          targetVisit.red_cards = redCards.visitPlayersWithRedCards;
 
-        const target_visit_response = await target_controller.update(
-          targetVisit_id,
-          targetVisit
-        );
+          const target_visit_response = await target_controller.update(
+            targetVisit_id,
+            targetVisit
+          );
 
-        const match_response = await controller.updateById(id, data);
+          const match_response = await controller.updateById(id, data);
 
-        return match_response && target_local_response && target_visit_response
-          ? res.sendSuccess({
-              match_response,
-              target_local_response,
-              target_visit_response,
-            })
-          : res.sendNotFound("match");
-      } catch (error) {
-        next(error);
+          return match_response &&
+            target_local_response &&
+            target_visit_response
+            ? res.sendSuccess({
+                match_response,
+                target_local_response,
+                target_visit_response,
+              })
+            : res.sendNotFound("match");
+        } catch (error) {
+          next(error);
+        }
       }
-    });
+    );
   }
 }

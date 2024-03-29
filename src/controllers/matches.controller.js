@@ -7,6 +7,7 @@ export default class MatchesController {
 
   create = (data) => this.service.create(data);
   readAll = (query) => this.service.readAll(query);
+  readWithPagination = (query, data) => this.service.readWithPagination(query, data); 
   readById = (id) => this.service.readById(id);
   updateById = (id, data) => this.service.updateById(id, data);
   delete = (id) => this.service.delete(id);

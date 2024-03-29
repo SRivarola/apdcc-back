@@ -57,6 +57,32 @@ export default class MatchesMongo {
         }
     }
 
+    async readWithPagination(query, data) {
+      let all = await Match.paginate(query, data);
+      if(all.docs.length > 0) {
+        return {
+          message: 'Matches found',
+          response: all
+        }
+      } else {
+        return {
+          message: "Matches not found",
+          response: {
+            docs: [],
+            totalDocs: 0,
+            limit: 10,
+            totalPages: 0,
+            page: 0,
+            pagingCounter: 0,
+            hasPrevPage: false,
+            hasNextPage: false,
+            prevPage: null,
+            nextPage: null,
+          },
+        };
+      }
+    }
+
     async readById(id){
       let one = await Match.findById(id)
         .populate({

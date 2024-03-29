@@ -1,4 +1,5 @@
 import { model, Schema, Types } from 'mongoose';
+import mongoosePaginate from "mongoose-paginate-v2";
 
 const collection = 'matches';
 
@@ -25,5 +26,6 @@ const schema = new Schema({
   time: { type: String, required: true },
 });
 
+schema.plugin(mongoosePaginate);
 const Match = model(collection, schema);
 export default Match

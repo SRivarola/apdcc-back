@@ -50,39 +50,30 @@ export default class PublicationsRouter extends MyRouter {
       }
     });
 
-    this.get(
-      '/all',
-      ['PUBLIC'],
-      async (req, res, next) => {
-        try {
-          const response = await controller.readAll();
-
-          return res.sendSuccess(response);
-        } catch (error) {
-          next(error);
-        }
+    this.get("/all", ["PUBLIC"], async (req, res, next) => {
+      try {
+        const { sport } = req.query;
+        const response = await controller.readAll({ sport: sport });
+        return res.sendSuccess(response);
+      } catch (error) {
+        next(error);
       }
-    );
-    
-    this.delete(
-      '/:id',
-      ["ADMIN"],
-      async (req, res, next) => {
-        try {
-          const { id } = req.params;
+    });
 
-          console.log('first')
-          
-          const response = await controller.delete(id);
+    this.delete("/:id", ["ADMIN"], async (req, res, next) => {
+      try {
+        const { id } = req.params;
 
-          return response
-            ? res.sendSuccess(response)
-            : res.sendNotFound('publication');
-        } catch (error) {
-          next(error);
-        }
+        console.log("first");
+
+        const response = await controller.delete(id);
+
+        return response
+          ? res.sendSuccess(response)
+          : res.sendNotFound("publication");
+      } catch (error) {
+        next(error);
       }
-    )
+    });
   }
-
 }
