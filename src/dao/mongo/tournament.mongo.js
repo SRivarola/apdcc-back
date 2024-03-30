@@ -194,6 +194,21 @@ export default class TournamentsMongo {
         return null;
     }
 
+    async update(id, data) {
+      let one = await Tournament.findByIdAndUpdate(id, data, { new: true });
+      if(one){
+        return {
+          message: "Tournament found",
+          response: one
+        }
+      } else {
+        return {
+          message: "Tournament not found",
+          response: null
+        }
+      }
+    }
+
     async delete(id) {
       const one = await Tournament.findByIdAndDelete(id);
       if(one) {

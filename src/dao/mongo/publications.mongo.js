@@ -14,7 +14,8 @@ export default class PublicatiosMongo {
   async readAll(query) {
     let all = await Publication.find(query)
       .populate('location')
-      .populate('list');
+      .populate('list')
+      .populate('category_id');
     if(all.length > 0) {
       return {
         message: 'Publications found',

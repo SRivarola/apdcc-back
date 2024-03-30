@@ -99,6 +99,25 @@ export default class TournamentsRouter extends MyRouter {
       }
     });
 
+    this.put(
+      "/:id",
+      ["ADMIN"],
+      async(req, res, next) => {
+        try {
+          let id = req.params.id;
+          let data = req.body;
+          
+          let response = await tournament_controller.update(id, data);
+
+          return response
+            ? res.sendSuccess(response)
+            : res.sendNotFound("tournament");
+        } catch (error) {
+          next(error);
+        }
+      }
+    )
+
     this.delete("/:id", ["ADMIN"], async (req, res, next) => {
       try {
 

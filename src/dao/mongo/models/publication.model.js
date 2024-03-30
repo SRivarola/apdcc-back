@@ -8,7 +8,8 @@ const schema = new Schema({
     location: { type: Types.ObjectId, ref: 'countries', required: true },
     list: [{ type: Types.ObjectId, ref: 'teams', required: true }],
     sport: { type: String, enum: ['HOCKEY', 'F7'], required: true },
-    category_id: { type: Types.ObjectId, ref: 'categories', required: true }
+    category_id: { type: Types.ObjectId, ref: 'categories', required: true },
+    date: { type: Date, required: true }
 },
 {
     timestamps: true,
