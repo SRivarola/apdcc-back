@@ -42,14 +42,6 @@ export default class MatchesRouter extends MyRouter {
         const data = {
           date: new Date(date + "T03:00:00.000+00:00"),
         };
-        // const data = Object.entries(query).reduce((acc, [key, value]) => {
-        //   if (key === "date") {
-        //     acc[key] = new Date(value + "T03:00:00.000+00:00");
-        //   } else if (value !== "") {
-        //     acc[key] = value;
-        //   }
-        //   return acc;
-        // }, {});
 
         const response = await controller.readWithPagination(data, {
           populate: [

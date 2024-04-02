@@ -64,8 +64,6 @@ export default class PublicationsRouter extends MyRouter {
       try {
         const { id } = req.params;
 
-        console.log("first");
-
         const response = await controller.delete(id);
 
         return response
