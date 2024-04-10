@@ -1,0 +1,1 @@
+import{j as o,l as r}from"./index-zsI5OImO.js";import{i as s}from"./chunk-TC4QW7OA-smmxgv9d.js";const m=({date:a,setDate:e})=>o.jsx(s,{type:"date",label:"Fecha",className:"max-w-[150px]",variant:"underlined",value:a,onValueChange:t=>e(r(t).format("YYYY-MM-DD"))});export{m as I};
