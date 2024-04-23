@@ -136,8 +136,12 @@ export default class MatchesRouter extends MyRouter {
               target.points = target.points + 3;
               target.wins++;
             } else if (element.res_local == element.res_visit) {
-              target.points++;
-              target.ties++;
+              if(element?.both_lose) {
+                target.losses++;
+              } else {
+                target.points++;
+                target.ties++;
+              }
             } else if (element.res_local < element.res_visit) {
               target.losses++;
             }
@@ -161,8 +165,12 @@ export default class MatchesRouter extends MyRouter {
               target.points = target.points + 3;
               target.wins++;
             } else if (element.res_visit == element.res_local) {
-              target.points++;
-              target.ties++;
+              if(element?.both_lose) {
+                target.losses++;
+              } else {
+                target.points++;
+                target.ties++;
+              }
             } else if (element.res_visit < element.res_local) {
               target.losses++;
             }
@@ -410,5 +418,64 @@ export default class MatchesRouter extends MyRouter {
         }
       }
     );
+
+    //actualiza resultado de partido para AMBOS PIERDEN
+    this.put(
+      "/bothloose/:id",
+      ["ADMIN"],
+      async (req, res, next) => {
+        try {
+          const { id } = req.params;
+          const {
+            targetLocal_id,
+            targetVisit_id,
+            redCards,
+            targetLocal,
+            targetVisit,
+          } = req.body;
+
+          const data = {
+            played: "true",
+            both_lose: true,
+            res_local: 0,
+            res_visit: 0, 
+          }
+          
+          if (redCards?.localPlayersWithRedCards) {
+            targetLocal.red_cards = redCards.localPlayersWithRedCards;
+          }
+
+          const target_local_response = await target_controller.update(
+            targetLocal_id,
+            targetLocal
+          );
+
+          if (redCards?.visitPlayersWithRedCards) {
+            targetVisit.red_cards = redCards.visitPlayersWithRedCards;
+          }
+
+          const target_visit_response = await target_controller.update(
+            targetVisit_id,
+            targetVisit
+          );
+
+          const match_response = await controller.updateById(id, data);
+
+
+          return match_response &&
+            target_local_response &&
+            target_visit_response
+            ? res.sendSuccess({
+                match_response,
+                target_local_response,
+                target_visit_response,
+              })
+            : res.sendNotFound("match");
+
+        } catch (error) {
+          next(error)
+        }
+      }
+    )
   }
 }
