@@ -87,6 +87,22 @@ export default class TournamentsRouter extends MyRouter {
       }
     });
 
+    this.get(
+      "/all",
+      ["ADMIN"],
+      async (req, res, next) => {
+        try {
+          const response = await tournament_controller.readAll();
+
+          return response 
+            ? res.sendSuccess(response)
+            : res.sendNotFound('tournament')
+        } catch (error) {
+          next(error);
+        }
+      }
+    )
+
     this.get("/tournament/:id", ["PUBLIC"], async (req, res, next) => {
       try {
         const response = await tournament_controller.readById(req.params.id);

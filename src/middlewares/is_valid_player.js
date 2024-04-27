@@ -12,7 +12,8 @@ export default async function (req, res, next) {
                 method: req.method,
                 path: req.url,
                 message: 'Invalid player dni',
-                response: null
+                code: 1,
+                response: one
             })
         }
     } catch (error) {

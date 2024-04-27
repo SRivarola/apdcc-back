@@ -37,6 +37,21 @@ export default class TournamentsMongo {
         }
     }
 
+    async readAll(query) {
+      let all = await Tournament.find(query);
+      if(all.length) {
+        return {
+          message: 'Tournaments found',
+          response: all 
+        }
+      } else {
+        return {
+          message: 'Tournaments not found',
+          response: []
+        }
+      }
+    }
+
     async readById(id) {
         const one = await Tournament.findById(id).populate([
           { path: "category_id" },
