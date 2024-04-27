@@ -57,8 +57,6 @@ export default class AuthRouter extends MyRouter {
 
           let userData = new loginDto(req.user);
 
-          console.log(userData);
-
           return res
             .status(200)
             .cookie("apdcc_token", req.session.token, {
