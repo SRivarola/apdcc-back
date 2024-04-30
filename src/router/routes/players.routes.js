@@ -130,10 +130,7 @@ export default class PlayersRouter extends MyRouter {
 
           let response = await controller.read(data, {
             populate: { path: "country_id", select: "name" },
-            sort:
-              req.user.role === "ADMIN"
-                ? { state: 1, last_name: 1 }
-                : { last_name: 1 },
+            sort: { state: 1, last_name: 1 },
             lean: true,
             limit: 10,
             page: page ? page : 1,
