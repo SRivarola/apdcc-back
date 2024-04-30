@@ -60,6 +60,34 @@ export default class PublicationsRouter extends MyRouter {
       }
     });
 
+    this.put(
+      '/:id',
+      ['ADMIN'],
+      async (req, res, next) => {
+        const { id } = req.params;
+        const body = req.body;
+
+        console.log(body);
+
+        const data = Object.entries(body).reduce((acc, [key, value]) => {
+          if (key === "list") {
+            if(value.length) {
+              acc[key] = value;
+            }
+          } else if (value !== "") {
+            acc[key] = value;
+          }
+          return acc;
+        }, {});
+
+        const response = await controller.update(id, data);
+
+        return response 
+          ? res.sendSuccess(response)
+          : res.sendNotFound('publication');
+      }
+    )
+
     this.delete("/:id", ["ADMIN"], async (req, res, next) => {
       try {
         const { id } = req.params;

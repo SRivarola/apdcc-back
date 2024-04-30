@@ -9,5 +9,6 @@ export default class PublicationsController {
   readAll = (query) => this.service.readAll(query);
   readAllWithPaginate = (query, data) => this.service.readAllWithPaginate(query, data);
   readById = (id) => this.service.readById(id);
+  update = (id, data) => this.service.update(id, data);
   delete = (id) => this.service.delete(id);
 }

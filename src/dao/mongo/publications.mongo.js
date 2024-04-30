@@ -1,3 +1,4 @@
+import { response } from "express";
 import Publication from "./models/publication.model.js";
 
 export default class PublicatiosMongo {
@@ -67,6 +68,17 @@ export default class PublicatiosMongo {
     } else {
       return null
     }
+  }
+
+  async update(id, data) {
+    let one = await Publication.findByIdAndUpdate(id, data, { new: true });
+    if(one) {
+      return {
+        message: "Publication updated",
+        response: one
+      }
+    }
+    return null
   }
 
   async delete(id) {
