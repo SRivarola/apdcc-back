@@ -369,6 +369,7 @@ export default class MatchesRouter extends MyRouter {
         try {
           const { id } = req.params;
           const {
+            both_lose,
             res_local,
             res_visit,
             targetLocal_id,
@@ -382,6 +383,7 @@ export default class MatchesRouter extends MyRouter {
 
           const data = {
             played: "true",
+            both_lose,
             res_local,
             res_visit,
             fair_play,
