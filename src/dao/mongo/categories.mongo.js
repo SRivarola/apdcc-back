@@ -13,7 +13,7 @@ export default class CategoriesMongo {
     };
 
     async readAll(query) {
-        const all = await Category.find(query);
+        const all = await Category.find(query).sort({ name: 1 });
         if(all.length > 0) {
             return {
                 message: "Categories found",

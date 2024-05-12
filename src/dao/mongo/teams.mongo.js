@@ -47,7 +47,7 @@ export default class TeamsMongo {
         path: 'manager',
         model: 'users'
       }
-    ]);
+    ]).sort({ name: 1 });
     if (all.length > 0) {
       return {
         message: "Teams found",
