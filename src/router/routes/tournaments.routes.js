@@ -89,7 +89,7 @@ export default class TournamentsRouter extends MyRouter {
 
     this.get(
       "/all",
-      ["ADMIN"],
+      ["ADMIN", "JUEZ"],
       async (req, res, next) => {
         try {
           const response = await tournament_controller.readAll();
