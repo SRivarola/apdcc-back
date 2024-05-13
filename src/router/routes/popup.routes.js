@@ -34,7 +34,7 @@ export default class PopupsRouter extends MyRouter {
 
     this.get("/", ["PUBLIC"], async (req, res, next) => {
       try {
-        const response = await controller.readById("65970367237c9ea284380054");
+        const response = await controller.readById("66424dce2f64d7f8d1e155f7");
 
         return response ? res.sendSuccess(response) : res.sendNotFound("popup");
       } catch (error) {
@@ -48,9 +48,9 @@ export default class PopupsRouter extends MyRouter {
         const data = {};
 
         if (body.image) {
-          const lastPic = await controller.readById("65970367237c9ea284380054");
+          const lastPic = await controller.readById("66424dce2f64d7f8d1e155f7");
           if (lastPic?.response?.image?.public_id) await cloudinary.uploader.destroy(lastPic.response.image.public_id);
-
+          
           const img_response = await cloudinary.uploader.upload(body.image, {
             folder: "photos",
           });
@@ -62,7 +62,7 @@ export default class PopupsRouter extends MyRouter {
         if (body.active == "true") data.active = true;
         if (body.active == "false") data.active = false;
 
-        const response = await controller.update("65970367237c9ea284380054", data);
+        const response = await controller.update("66424dce2f64d7f8d1e155f7", data);
 
         return response
             ? res.sendSuccess(response)

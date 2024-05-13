@@ -24,7 +24,8 @@ const schema = new Schema({
   round: { type: Number, required: true },
   date: { type: Date, required: true },
   time: { type: String, required: true },
-  both_lose: { type: Boolean }
+  both_lose: { type: Boolean },
+  rescheduled: { type: Boolean }
 });
 
 schema.plugin(mongoosePaginate);
