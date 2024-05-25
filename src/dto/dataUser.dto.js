@@ -6,5 +6,6 @@ export default class {
         this.mail = obj.mail;
         this.role = obj.role;
         this.country = obj.country;
+        this.phone = obj.phone;
     }
 }

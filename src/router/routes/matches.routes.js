@@ -128,59 +128,63 @@ export default class MatchesRouter extends MyRouter {
 
         async function matchesLocalTargets(teamMatchesLocal, target, team) {
           for (let i = 0; i < teamMatchesLocal.length; i++) {
-            const element = teamMatchesLocal[i];
-            if (typeof element?.res_local !== "number") {
-              continue;
-            }
-            if (element.res_local > element.res_visit) {
-              target.points = target.points + 3;
-              target.wins++;
-            } else if (element.res_local == element.res_visit) {
-              if(element?.both_lose) {
-                target.losses++;
-              } else {
-                target.points++;
-                target.ties++;
+            if(teamMatchesLocal[i].played === 'true') {
+              const element = teamMatchesLocal[i];
+              if (typeof element?.res_local !== "number") {
+                continue;
               }
-            } else if (element.res_local < element.res_visit) {
-              target.losses++;
+              if (element.res_local > element.res_visit) {
+                target.points = target.points + 3;
+                target.wins++;
+              } else if (element.res_local == element.res_visit) {
+                if(element?.both_lose) {
+                  target.losses++;
+                } else {
+                  target.points++;
+                  target.ties++;
+                }
+              } else if (element.res_local < element.res_visit) {
+                target.losses++;
+              }
+              target.played_matches++;
+              const { response } = await target_controller.read({
+                team_id: team,
+                match_id: element._id,
+              });
+              target.yellow_cards = target.yellow_cards + response[0].yellow_card;
+              target.red_cards = target.red_cards + response[0].red_cards.length;
             }
-            target.played_matches++;
-            const { response } = await target_controller.read({
-              team_id: team,
-              match_id: element._id,
-            });
-            target.yellow_cards = target.yellow_cards + response[0].yellow_card;
-            target.red_cards = target.red_cards + response[0].red_cards.length;
           }
         }
 
         async function matchesVisitTargets(teamMatchesVisit, target, team) {
           for (let i = 0; i < teamMatchesVisit.length; i++) {
-            const element = teamMatchesVisit[i];
-            if (typeof element?.res_visit !== "number") {
-              continue;
-            }
-            if (element.res_visit > element.res_local) {
-              target.points = target.points + 3;
-              target.wins++;
-            } else if (element.res_visit == element.res_local) {
-              if(element?.both_lose) {
-                target.losses++;
-              } else {
-                target.points++;
-                target.ties++;
+            if(teamMatchesVisit[i].played === 'true') {
+              const element = teamMatchesVisit[i];
+              if (typeof element?.res_visit !== "number") {
+                continue;
               }
-            } else if (element.res_visit < element.res_local) {
-              target.losses++;
+              if (element.res_visit > element.res_local) {
+                target.points = target.points + 3;
+                target.wins++;
+              } else if (element.res_visit == element.res_local) {
+                if(element?.both_lose) {
+                  target.losses++;
+                } else {
+                  target.points++;
+                  target.ties++;
+                }
+              } else if (element.res_visit < element.res_local) {
+                target.losses++;
+              }
+              target.played_matches++;
+              const { response } = await target_controller.read({
+                team_id: team,
+                match_id: element._id,
+              });
+              target.yellow_cards = target.yellow_cards + response[0].yellow_card;
+              target.red_cards = target.red_cards + response[0].red_cards.length;
             }
-            target.played_matches++;
-            const { response } = await target_controller.read({
-              team_id: team,
-              match_id: element._id,
-            });
-            target.yellow_cards = target.yellow_cards + response[0].yellow_card;
-            target.red_cards = target.red_cards + response[0].red_cards.length;
           }
         }
 
