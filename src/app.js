@@ -45,6 +45,7 @@ const corsOptions = {
     "http://apdcc.com.ar",
     "https://apdcc.com.ar",
     "http://localhost:5173",
+    "https://apdcc.vercel.app",
   ],
   preflightContinue: false,
 };
