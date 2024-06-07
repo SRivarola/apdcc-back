@@ -106,6 +106,7 @@ export default class MatchesRouter extends MyRouter {
         const { response: matches } = await controller.readAll({
           tournament_id,
         });
+
         const matchsresults = [];
         const teams = [];
         const fair_play_arr = [];
@@ -114,8 +115,10 @@ export default class MatchesRouter extends MyRouter {
         async function createTeamsArray(teams, matches) {
           for (let i = 0; i < matches.length; i++) {
             const match = matches[i];
-            if (!teams.includes(match.local?.team_id?._id)) {
-              teams.push(match.local.team_id._id);
+            if (match.local?.team_id) {
+              if (!teams.includes(match.local?.team_id?._id)) {
+                teams.push(match.local.team_id._id);
+              }
             }
             if (match?.fair_play) {
               fair_play_arr.push(match.fair_play);
@@ -190,12 +193,14 @@ export default class MatchesRouter extends MyRouter {
 
         async function createMatchResults(teams, matches) {
           await createTeamsArray(teams, matches);
+
+          const filteredMatches = matches.filter((match) => match.local?.team_id && match.visit?.team_id)
           for (let i = 0; i < teams.length; i++) {
             const team = teams[i].toString();
-            const teamMatchesLocal = matches.filter(
+            const teamMatchesLocal = filteredMatches.filter(
               (match) => match.local?.team_id?._id.toString() == team
             );
-            const teamMatchesVisit = matches.filter(
+            const teamMatchesVisit = filteredMatches.filter(
               (match) => match.visit?.team_id?._id.toString() == team
             );
 
@@ -217,7 +222,7 @@ export default class MatchesRouter extends MyRouter {
               local: {
                 team_id: { _id, name },
               },
-            } = matches.find((m) => m.local.team_id._id == team);
+            } = filteredMatches.find((m) => m.local?.team_id?._id == team);
 
             matchsresults.push({
               _id,
