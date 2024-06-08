@@ -1,0 +1,1 @@
+import{ad as t}from"./index-YN4tTNn8.js";var i=(r,e)=>t(r)?r instanceof Array?[...r]:r[e]:r;export{i as g};
