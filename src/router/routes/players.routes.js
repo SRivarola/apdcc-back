@@ -109,6 +109,7 @@ export default class PlayersRouter extends MyRouter {
             }
             return acc;
           }, {});
+          
           if (queries.category_id) {
             const {
               response: { name },
@@ -259,6 +260,27 @@ export default class PlayersRouter extends MyRouter {
         }
       }
     );
+
+    this.put(
+      "/tolowercase",
+      ["ADMIN"],
+      async (req, res , next) => {
+        try {
+          const { response } = await controller.readAll();
+
+          for (let i = 0; i < response.length; i++) {
+            const element = response[i];
+            const last_name = element.last_name.toLowerCase().trim();
+            await controller.update(element._id, { last_name })
+          }
+
+          const players = await controller.readAll();
+
+          res.sendSuccess(players);
+        } catch (error) {
+          next(error);
+        }
+    })
 
     this.put(
       "/playerteam/:id",
