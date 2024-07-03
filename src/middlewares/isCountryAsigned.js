@@ -3,7 +3,7 @@ import User from "../dao/mongo/models/user.model.js";
 export default async function (req, res, next) {
     let { country_id, role } = req.body;
 
-    if(role === "ADMIN"){
+    if(role === "ADMIN" || role === "JUEZ"){
         return next();
     }
     const one = await User.find({ country_id });
